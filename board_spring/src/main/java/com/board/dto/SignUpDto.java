@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignUpDto {
+public class SignUpDto {    // 회원 가입 시에 필요한 정보들 Dto
 
     private String userEmail;
     private String userPassword;

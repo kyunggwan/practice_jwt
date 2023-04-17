@@ -28,10 +28,12 @@ public class AuthService {
         String userPassword = dto.getUserPassword();
         String userPasswordCheck = dto.getUserPasswordCheck();
 
+        // (검사 부분)
+        // Repository로 DB 접근하는 부분은 try/catch문으로 처리할 것
         try {
             // email 중복 확인
             if (userRepository.existsById(userEmail))
-                return ResponseDto.setFailed("Existed email");
+                return ResponseDto.setFailed("Existed email"); // 중복한다면 ResponseDto에 있는 setFailed메서드 실행
         } catch (Exception error) {
             return ResponseDto.setFailed("Data Base Error!!!");
         }
@@ -48,6 +50,7 @@ public class AuthService {
         String encodedPassword = passwordEncoder.encode(userPassword);
         userEntity.setUserPassword(passwordEncoder.encode(userPassword));
 
+        // (저장부분)
         // UserRepository를 이용해서 데이터베이스 Entity 저장
         try {
             userRepository.save(userEntity);
@@ -82,8 +85,8 @@ public class AuthService {
         String token = tokenProvider.create(userEmail);
         int exprTime = 3600000;
 
-        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
-        return ResponseDto.setSuccess("Sign In Success", signInResponseDto);
+        SignInResponseDto loginSuccess = new SignInResponseDto(token, exprTime, userEntity);
+        return ResponseDto.setSuccess("Sign In Success", loginSuccess);
 
     }
 }

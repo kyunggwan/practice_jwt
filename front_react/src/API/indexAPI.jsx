@@ -38,7 +38,7 @@ const axiosAuthAPI = (url, options) => {
         try {
           const { data } = await axios({
             method: "post",
-            url: "http://localhost:8080/data/auth/reissue",
+            url: "http://localhost:8080/api/auth/reissue",
             data: { accessToken: accessToken, refreshToken: refreshToken },
           });
           console.log(data);

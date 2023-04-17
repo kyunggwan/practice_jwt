@@ -184,7 +184,12 @@ export default function SignUp(props) {
         >
           <Link to={"/"}>이미 계정이 있으신가요?</Link>
 
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={() => signUpHandler()}
+            variant="contained"
+          >
             Submit
           </Button>
         </Form.Item>

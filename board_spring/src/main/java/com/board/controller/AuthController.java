@@ -16,7 +16,7 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-    @PostMapping("/signUp")
+    @PostMapping("/signUp") // signUp 메서드, SignUpDto 형태의 data를 받아와서 authService의 signUp메소드에 넣으면 result를 받아온다.
     public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody) {
         ResponseDto<?> result = authService.signUp(requestBody);
         return result;

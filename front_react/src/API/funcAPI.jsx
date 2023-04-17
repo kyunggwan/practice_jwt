@@ -5,7 +5,7 @@ import { NotAuthInstance, authInstance } from "./indexAPI";
 export const signupAPI = async (requestBody) => {
   try {
     const { data } = await NotAuthInstance.post(
-        "/auth/signup",
+        "api/auth/signup",
         requestBody
       )
     return data
@@ -18,7 +18,7 @@ export const signupAPI = async (requestBody) => {
 export const loginAPI = async (requestBody) => {
   try {
     const { data } = await NotAuthInstance.post(
-        "/auth/login",
+        "api/auth/signin",
         requestBody
       )
     return data
