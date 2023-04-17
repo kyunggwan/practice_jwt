@@ -2,7 +2,7 @@ import { NotAuthInstance, authInstance } from "./indexAPI";
 //생성된 axios인스턴스를 사용해 API호출
 
 //회원가입
-export const signup = async (requestBody) => {
+export const signupAPI = async (requestBody) => {
   try {
     const { data } = await NotAuthInstance.post(
         "/auth/signup",
@@ -15,7 +15,7 @@ export const signup = async (requestBody) => {
 }
 
 //login
-export const login = async (requestBody) => {
+export const loginAPI = async (requestBody) => {
   try {
     const { data } = await NotAuthInstance.post(
         "/auth/login",

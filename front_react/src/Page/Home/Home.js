@@ -1,4 +1,7 @@
 import "./index.css";
+import { Link } from "react-router-dom";
+import { useUserStore } from "../../Stores";
+
 import {
   Breadcrumb,
   Layout,
@@ -10,6 +13,9 @@ import {
   Input,
 } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import SignIn from "../Authentication/SignIn/SignIn";
+import Authentication from "../Authentication/Authentication";
+
 
 const { Header, Content, Footer } = Layout;
 const onFinish = (values) => {
@@ -20,6 +26,8 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const Home = () => {
+
+  const { user } = useUserStore();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -62,8 +70,8 @@ const Home = () => {
           }}
           items={[
             { key: "home", content: "Home", link: "/" },
-            { key: "list", content: "List", link: "/list" },
-            { key: "app", content: "App" },
+            // { key: "list", content: "List", link: "/list" },
+            // { key: "app", content: "App" },
           ]}
         />
 
@@ -73,76 +81,8 @@ const Home = () => {
             background: colorBgContainer,
           }}
         >
-          <div className="LoginForm">
-            <Form
-              name="basic"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
-              style={{
-                maxWidth: 600,
-              }}
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item
-                allowClear
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                allowClear
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
+          {user ? <Home /> : <Authentication />}
+          <Authentication />
         </div>
       </Content>
       <Footer
