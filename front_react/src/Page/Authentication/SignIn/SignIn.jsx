@@ -1,26 +1,46 @@
 import { useState } from "react";
-import { signupAPI } from "../../../API/funcAPI";
-import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  theme,
   Button,
   Checkbox,
   Form,
   Input,
+  Typography
 } from "antd";
+import { signInApi } from "../../../API/Index";
+const { Text, Link } = Typography;
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 
-export default function SignIn() {
+export default function SignIn(props) {
+  const [userEmail, setUserEmail] = useState();
+  const [userPassword, setuserPassword] = useState();
+  const { setAuthView } = props;
+
+  const onFinish = (values) => {
+    console.log("Success:", values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  const signUpHandler = async () => {
+    const data = {
+      userEmail: userEmail,
+      userPassword: userPassword,
+    };
+
+    const signUpResponse = await signInApi(data);
+    if (!signUpResponse) {
+      alert("로그인에 실패했습니다.");
+      return;
+    }
+    if (!signUpResponse.result) {
+      alert("로그인에 실패했습니다.");
+      return;
+    }
+    alert("로그인에 성공했습니다.");
+
+    setAuthView(false);
+  };
   return (
     <>
       <div className="LoginForm">
@@ -85,10 +105,16 @@ export default function SignIn() {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
-              Submit
+            <Button
+              type="primary"
+              htmlType="submit"
+              onClick={() => signUpHandler()}
+            >
+              로그인
             </Button>
-            Or <Link to={"/signup"}>register now</Link>
+            <Text type="secondary"  >      등록 하시겠습니까? </Text>
+            <Text strong onClick={() => setAuthView(true)} >      회원가입 </Text>
+            
           </Form.Item>
         </Form>
       </div>

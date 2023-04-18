@@ -27,7 +27,6 @@ public class TokenProvider {
                 .setIssuedAt(new Date())  // jwt 생성일
                 .setExpiration(exprTime)    // JWT 만료일
                 .compact();     // 생성
-
     }
 
     // JWT 검증, 복호화
@@ -36,6 +35,6 @@ public class TokenProvider {
         Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
 
         // 복호화된 토큰의 payload에서 제목을 가져옴
-        return claims.getSubject(); // 지정된 subject를 받아 올 수 있다.(지금은 userEmail이군)
+        return claims.getSubject(); // 지정된 subject를 받아 올 수 있다.(지금은 userEmail)
     }
 }

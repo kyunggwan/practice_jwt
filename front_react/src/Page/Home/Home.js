@@ -18,16 +18,17 @@ import Authentication from "../Authentication/Authentication";
 
 
 const { Header, Content, Footer } = Layout;
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+// const onFinish = (values) => {
+//   console.log("Success:", values);
+// };
+// const onFinishFailed = (errorInfo) => {
+//   console.log("Failed:", errorInfo);
+// };
 
 const Home = () => {
 
   const { user } = useUserStore();
+  
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -55,15 +56,6 @@ const Home = () => {
           padding: "0 50px",
         }}
       >
-        {/* <Breadcrumb
-          style={{
-            margin: "16px 0",
-          }}
-        >
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb> */}
         <Breadcrumb
           style={{
             margin: "16px 0",
@@ -82,7 +74,7 @@ const Home = () => {
           }}
         >
           {user ? <Home /> : <Authentication />}
-          <Authentication />
+          
         </div>
       </Content>
       <Footer

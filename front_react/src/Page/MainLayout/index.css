@@ -1,0 +1,12 @@
+.loginform{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.loginIcon{
+    float: right;
+    padding: 3px;
+    
+
+}

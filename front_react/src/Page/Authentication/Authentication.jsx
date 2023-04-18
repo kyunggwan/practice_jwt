@@ -14,11 +14,6 @@ export default function Authentication() {
       ) : (
         <SignIn setAuthView={setAuthView} />
       )}
-         {/* {authView ? (
-        <SignIn setAuthView={setAuthView} />
-      ) : (
-        <SignUp setAuthView={setAuthView} />
-      )} */}
     </>
   );
 }

@@ -1,21 +1,19 @@
 import { useState } from "react";
-import { signupAPI } from "../../../API/funcAPI";
+import { signUpApi } from "../../../API/Index";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  theme,
   Button,
-  Checkbox,
   Form,
   Input,
+  Typography
 } from "antd";
+const { Text } = Typography;
 
 export default function SignUp(props) {
-  const [userEmail, setUserEmail] = useState ();
+  const { setAuthView } = props;
+  const [userEmail, setUserEmail] = useState();
   const [userPassword, setuserPassword] = useState();
   const [userPasswordCheck, setuserPasswordCheck] = useState();
   const [userNickname, setuserNickname] = useState();
@@ -41,7 +39,7 @@ export default function SignUp(props) {
       userAddressDetail: userAddressDetail,
     };
 
-    const signUpResponse = await signupAPI(data);
+    const signUpResponse = await signUpApi(data);
     if (!signUpResponse) {
       alert("회원가입에 실패했습니다.");
       return;
@@ -54,8 +52,6 @@ export default function SignUp(props) {
 
     setAuthView(false);
   };
-
-  const { setAuthView } = props;
 
   return (
     <>
@@ -182,16 +178,17 @@ export default function SignUp(props) {
             span: 16,
           }}
         >
-          <Link to={"/"}>이미 계정이 있으신가요?</Link>
-
           <Button
             type="primary"
             htmlType="submit"
             onClick={() => signUpHandler()}
             variant="contained"
           >
-            Submit
+            회원가입
           </Button>
+
+          <Text type="secondary">      이미 계정이 있으신가요? </Text>
+          <Text strong onClick={() => setAuthView(false)}>   로그인</Text>
         </Form.Item>
       </Form>
       {/* 

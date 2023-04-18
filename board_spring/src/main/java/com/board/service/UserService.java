@@ -24,7 +24,7 @@
 //                return ResponseDto.setFailed("Does Not Exist User");
 //
 //            userEntity.setUserNickname(userNickname);
-//            userEntity.setUserProfile(userProfile);
+////            userEntity.setUserProfile(userProfile);
 //
 //            userRepository.save(userEntity);
 //        } catch (Exception exception) {
