@@ -1,18 +1,27 @@
-import { useEffect, useState } from 'react'
-import { useUserStore } from '../../Stores'
-import { useCookies } from 'react-cookie'
-import axios from 'axios'
-import View1 from '../View1/View1'
-import Authentication from '../Authentication/Authentication'
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { LoginOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
-import './index.css'
+import { useEffect, useState } from "react";
+import { useUserStore } from "../../Stores";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { Layout, Menu, theme } from "antd";
+import {
+  LoginOutlined,
+  LogoutOutlined,
+  UserOutlined,
+  HomeOutlined,
+  DashboardOutlined,
+  UnorderedListOutlined,
+  PoweroffOutlined,
+} from "@ant-design/icons";
+import "./index.css";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Column from "antd/es/table/Column";
 
-
-export default function MainLayout() {
+function MainLayout() {
   const [boardResponse, setBoardResponse] = useState("");
-  const [cookies] = useCookies();
-  const { user } = useUserStore();
+  const [cookies, setCookies] = useCookies();
+  const { user, removeUser } = useUserStore();
+
+
 
   const getBoard = async (token) => {
     const requestOption = {
@@ -28,6 +37,7 @@ export default function MainLayout() {
       })
       .catch((error) => "");
   };
+  
 
   useEffect(() => {
     const token = cookies.token;
@@ -42,80 +52,128 @@ export default function MainLayout() {
   } = theme.useToken();
 
   return (
+    <div style={{ flexDirection: Column, flex: 1, height: "2000vh" }}>
+      <Header1 />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <SideMenu />
+        <Content1 />
+
+      </div>
+      <Footer1 />
+
+      {/* <div className="loginIcon">
+        <UserOutlined style={{ color: "#e0e0e0", fontSize: "30px" }} />
+
+        {user ? (
+          <LogoutOutlined style={{ color: "#e0e0e0", fontSize: "30px" }} />
+        ) : (
+          <LoginOutlined style={{ color: "#e0e0e0", fontSize: "30px" }} />
+        )}
+      </div> */}
+    </div>
+  );
+}
+
+function Header1() {
+  return (
     <>
-      <Layout>
-        <Header
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              float: "left",
-              width: 120,
-              height: 31,
-              margin: "16px 24px 16px 0",
-              background: "rgba(255, 255, 255, 0.2)",
-            }}
-          />
-
-          <div className="loginIcon">
-            <UserOutlined style={{ color: "#e0e0e0", fontSize: "30px" }} />
-            
-            {user ? (
-              <LogoutOutlined style={{ color: "#e0e0e0", fontSize: "30px" }} />
-            ) : (
-              <LoginOutlined style={{ color: "#e0e0e0", fontSize: "30px" }} />
-            )}
-          </div>
-
-           <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["2"]}
-            items={new Array(2).fill(null).map((_, index) => ({
-              key: String(index + 1),
-              label: `메뉴 ${index + 1}`,
-            }))}
-          ></Menu> 
-        </Header>
-        <Content
-          className="site-layout"
-          style={{
-            padding: "0 50px",
-          }}
-        >
-          <Breadcrumb
-            style={{
-              margin: "16px 0",
-            }}
-          >
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <div
-            className="loginform"
-            style={{
-              padding: 24,
-              minHeight: 380,
-              background: colorBgContainer,
-            }}
-          >
-            {user ? <View1 /> : <Authentication />}
-          </div>
-        </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
-      </Layout>
+      <div
+        style={{
+          height: 60,
+          backgroundColor: "lightskyblue",
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight:"bold"
+        }}
+      >
+        Header
+      </div>
     </>
   );
 }
+
+function Footer1() {
+  return (
+    <>
+      <div
+        style={{
+          height: 60,
+          backgroundColor: "lightgrey",
+          color: "black",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontWeight: "bold",
+        }}
+      >
+        Footer
+      </div>
+    </>
+  );
+}
+
+function SideMenu() {
+  const navigate = useNavigate();
+  const [cookies, setCookies] = useCookies();
+   const { user, removeUser } = useUserStore();
+  // 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화
+  const SignOutHandler = () => {
+    setCookies('token', '', {expires: new Date()});
+    removeUser();
+  }
+
+  return (
+    <>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <Menu
+          onClick={({ key }) => {
+            if (key === "signout") {
+            } else {
+              navigate(key);
+            }
+          }}
+          defaultSelectedKeys={[window.location.pathname]}
+          items={[
+            { label: "Home", key: "/", icon: <HomeOutlined /> },
+            {
+              label: "DashBoard",
+              key: "/dashboard",
+              icon: <DashboardOutlined />,
+            },
+            {
+              label: "UserList",
+              key: "/userlist",
+              icon: <UnorderedListOutlined />,
+              children:[{
+                label:"Active Users", key:"/activeUsers"},
+                {label:"Disabled users", key:"/disabledUsers"
+              }]
+            },
+            { label: "Profile", key: "/profile", icon: <UserOutlined /> },
+            { label: "SignOut", key: "/signout", icon: <PoweroffOutlined onClick={() => SignOutHandler()} /> },
+          ]}
+        ></Menu>
+      </div>
+    </>
+  );
+}
+
+function Content1() {
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<div>Home</div>} />
+        <Route path="/dashboard" element={<div>dashboard</div>} />
+        <Route path="/userlist" element={<div>userlist</div>} />
+        <Route path="/activeUsers" element={<div>activeUsers</div>} />
+        <Route path="/disabledUsers" element={<div>disabledUsers</div>} />
+        <Route path="/profile" element={<div>profile</div>} />
+        <Route path="/signout" element={<div>signout</div>} />
+      </Routes>
+    </div>
+  );
+}
+
+export default MainLayout;

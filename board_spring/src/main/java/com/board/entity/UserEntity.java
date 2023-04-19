@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "User") // 해당 클래스를 Entity 클래스로 지정하고, 이름 User
-@Table(name = "User")  // Table 이름 (User = DB의 테이블 명) 매핑해줌
+@Entity(name = "user") // 해당 클래스를 Entity 클래스로 지정하고, 이름 User
+@Table(name = "user")  // Table 이름 (User = DB의 테이블 명) 매핑해줌
 @Builder
 public class UserEntity {
 

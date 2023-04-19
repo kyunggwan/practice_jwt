@@ -48,7 +48,7 @@ public class AuthService {
 
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(userPassword);
-        userEntity.setUserPassword(passwordEncoder.encode(userPassword));
+        userEntity.setUserPassword(encodedPassword);
 
         // (저장부분)
         // UserRepository를 이용해서 데이터베이스 Entity 저장
@@ -68,20 +68,21 @@ public class AuthService {
         String userPassword = dto.getUserPassword();
 
         UserEntity userEntity = null;
+
         try {
             userEntity = userRepository.findByUserEmail(userEmail);
             // 잘못된 이메일
             if (userEntity == null)
-                return ResponseDto.setFailed("Sign In Failed");
+                return ResponseDto.setFailed("Sign In Failed, email is null");
             // 잘못된 비밀번호
             if (!passwordEncoder.matches(userPassword, userEntity.getUserPassword()))
-                return ResponseDto.setFailed("Sign In Failed");
+                return ResponseDto.setFailed("Sign In Failed, wrong password");
         } catch (Exception error) {
             return ResponseDto.setFailed("Database Error");
         }
 
         userEntity.setUserPassword("");
-        // userEmail로 토큰 생성
+        // 로그인 시 userEmail로 토큰 생성
         String token = tokenProvider.create(userEmail);
         int exprTime = 3600000;
 

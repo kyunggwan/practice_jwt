@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/signIn")
-    public ResponseDto<SignInResponseDto> sigin(@RequestBody SignInDto requesetBody) {
+    public ResponseDto<SignInResponseDto> sigIn(@RequestBody SignInDto requesetBody) {
         ResponseDto<SignInResponseDto> result = authService.signIn(requesetBody);
         return result;
     }

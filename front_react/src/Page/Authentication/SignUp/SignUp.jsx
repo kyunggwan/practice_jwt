@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { signUpApi } from "../../../API/Index";
-import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { MailOutlined} from "@ant-design/icons";
 
 import {
   Button,
@@ -191,27 +190,7 @@ export default function SignUp(props) {
           <Text strong onClick={() => setAuthView(false)}>   로그인</Text>
         </Form.Item>
       </Form>
-      {/* 
-      <Card sx={{ minWidth: 275, maxWidth: "50vw", padding: 5 }}>
-        <Box>
-          <Typography variant="h5">회원가입</Typography>
-        </Box>
-        <Box>
-          <Button fullWidth onClick={() => signUpHandler()} variant="contained">
-            회원가입
-          </Button>
-        </Box>
-        <Box component="div" display="flex" mt={2}>
-          <Typography>이미 계정이 있으신가요?</Typography>
-          <Typography
-            fontWeight={800}
-            ml={1}
-            onClick={() => setAuthView(false)}
-          >
-            로그인
-          </Typography>
-        </Box>
-      </Card> */}
+
     </>
   );
 }

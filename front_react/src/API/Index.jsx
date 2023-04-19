@@ -1,8 +1,11 @@
 import axios from "axios";
 
 export const signInApi = async (data) => {
-const response = await axios.post('http://localhost:4000/api/auth/signIn', data).catch((error) => null);
+const response = await axios
+  .post("http://localhost:4000/api/auth/signIn", data)
+  .catch((error) => null);
 if (!response) return null;
+
 const result = response.data;
 return result;
 };
@@ -10,6 +13,7 @@ return result;
 export const signUpApi = async (data) => {
 const response = await axios.post('http://localhost:4000/api/auth/signUp', data).catch((error) => null);
 if (!response) return null;
+
 const result = response.data;
 return result;
 };

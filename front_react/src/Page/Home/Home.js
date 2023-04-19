@@ -1,90 +1,45 @@
 import "./index.css";
-import { Link } from "react-router-dom";
 import { useUserStore } from "../../Stores";
-
-import {
-  Breadcrumb,
-  Layout,
-  Menu,
-  theme,
-  Button,
-  Checkbox,
-  Form,
-  Input,
-} from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import SignIn from "../Authentication/SignIn/SignIn";
 import Authentication from "../Authentication/Authentication";
+import MainLayout from "../MainLayout/MainLayout";
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
-
-const { Header, Content, Footer } = Layout;
-// const onFinish = (values) => {
-//   console.log("Success:", values);
-// };
-// const onFinishFailed = (errorInfo) => {
-//   console.log("Failed:", errorInfo);
-// };
 
 const Home = () => {
-
+  const [boardResponse, setBoardResponse] = useState('');
+  const [cookies] = useCookies();
   const { user } = useUserStore();
+
+
+  // axios 함수에도 headers 부분에 Authorization 필드에 Bearer 토큰 값을 붙혀서 보냄
+  const getBoard = async(token) => {
+    console.log(token);
+    await axios.get("http://localhost:4000/api/board", {
+    Headers: {
+      Authorization : `Bearer ${token}`}
+    }).then((response) => {
+      setBoardResponse(response.data);
+    }).catch((error) => '');
+  }
+
+
+  // user가 바뀌면 토큰이 바뀌므로 그럴 때마다 랜더링
+  useEffect(() => {
+    const token = cookies.token;
+    if (token) {
+      getBoard(token);
+    } else {
+      setBoardResponse('');
+    }
+  }, [cookies.token]);
   
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
   return (
-    <Layout className="layout">
-      <Header>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={new Array(15).fill(null).map((_, index) => {
-            const key = index + 1;
-            return {
-              key,
-              label: `nav ${key}`,
-            };
-          })}
-        />
-      </Header>
-
-      <Content
-        className="content"
-        style={{
-          padding: "0 50px",
-        }}
-      >
-        <Breadcrumb
-          style={{
-            margin: "16px 0",
-          }}
-          items={[
-            { key: "home", content: "Home", link: "/" },
-            // { key: "list", content: "List", link: "/list" },
-            // { key: "app", content: "App" },
-          ]}
-        />
-
-        <div
-          className="site-layout-content"
-          style={{
-            background: colorBgContainer,
-          }}
-        >
-          {user ? <Home /> : <Authentication />}
+    <div>
+          {user ? <MainLayout /> : <Authentication />}
           
-        </div>
-      </Content>
-      <Footer
-        style={{
-          textAlign: "center",
-        }}
-      >
-        Ant Design ©2023 Created by Ant UED
-      </Footer>
-    </Layout>
+     </div>
   );
 };
 export default Home;

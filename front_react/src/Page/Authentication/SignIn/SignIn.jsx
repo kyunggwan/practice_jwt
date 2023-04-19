@@ -1,20 +1,22 @@
 import { useState } from "react";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Typography
-} from "antd";
+import { Button, Checkbox, Form, Input, Typography } from "antd";
 import { signInApi } from "../../../API/Index";
-const { Text, Link } = Typography;
+import { useCookies } from "react-cookie";
+import { useUserStore } from "../../../Stores";
+
+const { Text } = Typography;
 
 
 export default function SignIn(props) {
   const [userEmail, setUserEmail] = useState();
-  const [userPassword, setuserPassword] = useState();
+  const [userPassword, setUserPassword] = useState();
+  const [cookies, setCookies] = useCookies();
+  const {user, setUser, removeUser} = useUserStore();
+
+
   const { setAuthView } = props;
 
+  // 콘솔 출력용
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -22,25 +24,36 @@ export default function SignIn(props) {
     console.log("Failed:", errorInfo);
   };
 
-  const signUpHandler = async () => {
+  // 로그인 버튼 클릭 시, 값 axios로 넘어가서 반응
+  const signInHandler = async () => {
     const data = {
-      userEmail: userEmail,
-      userPassword: userPassword,
+      userEmail,
+      userPassword,
     };
 
-    const signUpResponse = await signInApi(data);
-    if (!signUpResponse) {
+    const signInResponse = await signInApi(data);
+    if (!signInResponse) {
       alert("로그인에 실패했습니다.");
       return;
     }
-    if (!signUpResponse.result) {
+    if (!signInResponse.result) {
       alert("로그인에 실패했습니다.");
       return;
     }
     alert("로그인에 성공했습니다.");
 
-    setAuthView(false);
+    const { token, exprTime, user } = signInResponse.data; // 쿠키에 토큰, exprTime을 저장하고, user정보를 저장한다.(리덕스, zustand등 많으며 이번엔 zustand)
+    
+    // 쿠키에 토큰 정보 저장
+    const expires = new Date(); // 쿠키 옵션 세팅
+    expires.setMilliseconds(expires.getMilliseconds() + exprTime);
+    setCookies("token", token, { expires }); // 쿠키에 입력
+    // alert(cookies.token) 쿠키에 들어갔는지 확인
+
+    // 유저 정보 저장
+    setUser(user);
   };
+
   return (
     <>
       <div className="LoginForm">
@@ -63,12 +76,13 @@ export default function SignIn(props) {
           autoComplete="off"
         >
           <Form.Item
+            onChange={(e) => setUserEmail(e.target.value)}
             label="Username"
             name="username"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input your useremail!",
               },
             ]}
           >
@@ -76,6 +90,7 @@ export default function SignIn(props) {
           </Form.Item>
 
           <Form.Item
+            onChange={(e) => setUserPassword(e.target.value)}
             label="Password"
             name="password"
             rules={[
@@ -108,13 +123,15 @@ export default function SignIn(props) {
             <Button
               type="primary"
               htmlType="submit"
-              onClick={() => signUpHandler()}
+              onClick={() => signInHandler()}
             >
               로그인
             </Button>
-            <Text type="secondary"  >      등록 하시겠습니까? </Text>
-            <Text strong onClick={() => setAuthView(true)} >      회원가입 </Text>
-            
+            <Text type="secondary"> 등록 하시겠습니까? </Text>
+            <Text strong onClick={() => setAuthView(true)}>
+              {" "}
+              회원가입{" "}
+            </Text>
           </Form.Item>
         </Form>
       </div>
