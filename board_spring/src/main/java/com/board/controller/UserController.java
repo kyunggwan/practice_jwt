@@ -14,4 +14,13 @@ public class UserController {
 //        return null;
 //    }
 
+//    @Autowired
+//    UserService userService;
+//
+//    @GetMapping("/info")
+//    public ResponseDto<?> userInfo(@AuthenticationPrincipal String userEmail) {
+//        ResponseDto<?> result = userService.userInfo(userEmail);
+//        return result;
+//    }
+
 }

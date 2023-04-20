@@ -11,14 +11,4 @@ public class BoardApplication {
 		SpringApplication.run(BoardApplication.class, args);
 	}
 
-//	@Bean
-//	public WebMvcConfigurer coresConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-////				registry.addMapping("/**").allowedOriginPatterns();
-//				registry.addMapping("/localhost:3000").allowedOrigins("http://localhost:4000");
-//			}
-//		};
-//	}
 }

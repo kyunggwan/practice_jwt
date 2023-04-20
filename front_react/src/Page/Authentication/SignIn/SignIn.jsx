@@ -10,8 +10,8 @@ const { Text } = Typography;
 export default function SignIn(props) {
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
-  const [cookies, setCookies] = useCookies();
-  const {user, setUser, removeUser} = useUserStore();
+  const [ cookies, setCookies] = useCookies();
+  const { setUser } = useUserStore();
 
 
   const { setAuthView } = props;

@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity  // Spring Security를 사용하여 웹 보안을 활성화
@@ -45,7 +44,10 @@ public class WebSecurityConfig {
                 // 세션 기반 인증 사용않음(현재는 Session 기반 인증을 사용하지 않기 때문에 상태를 없앰) STATELESS한 서버를 만듦
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // '/', '/api/auth' 모듈에 대해서는 모두 허용 (인증을 하지 않고 사용 가능하게 함)
-                .authorizeHttpRequests().requestMatchers("/", "/api/auth/**").permitAll()
+                .authorizeHttpRequests().requestMatchers("/", "/api/auth/**").permitAll().and()
+                // admin 권한있는 유저 경로
+                .authorizeHttpRequests().requestMatchers("/api/admin/**").hasRole("ROLE_ADMIN").and()
+                .authorizeHttpRequests().requestMatchers("/api/admin/**").hasRole("ROLE_ADMIN")
                 // 나머지 Request(anyRequest)에 대해서는 모두 인증된 사용자만 사용가능하게 함
                 .anyRequest().authenticated();
 

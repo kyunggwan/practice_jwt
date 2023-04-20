@@ -30,8 +30,11 @@ public class AuthController {
         return result;
     }
 
-//    public ResponseDto<SignInResponseDto reissue(@RequestBody >{
-//        return ResponseDto
+    //TokenRequestDto == 재발급을 위한 AccessToken / RefreshToken String
+//    @PostMapping("/data/auth/reissue")
+//    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
+//        System.out.println(tokenRequestDto.getRefreshToken());
+//        return ResponseEntity.ok(authService.reissue(tokenRequestDto));
 //    }
 
 }
