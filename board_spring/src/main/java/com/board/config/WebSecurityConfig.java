@@ -1,5 +1,7 @@
 package com.board.config;
 
+import com.board.filter.JwtAccessDeniedHandler;
+import com.board.filter.JwtAuthenticationEntryPoint;
 import com.board.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class WebSecurityConfig {
 
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpsecurity) throws Exception {
@@ -30,6 +34,11 @@ public class WebSecurityConfig {
 //                .addFilter(corsFilter)
                 // csrf 대책 (현재는 CSRF에 대한 대책을 비활성화)
                 .csrf().disable()
+                // exception handling 할 때 우리가 만든 클래스를 추가
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
                 // basic 인증 (현재는 bearer token 인증방법을 사용하기 때문에 비활성화)
                 .httpBasic().disable()
                 // 세션 기반 인증 사용않음(현재는 Session 기반 인증을 사용하지 않기 때문에 상태를 없앰) STATELESS한 서버를 만듦

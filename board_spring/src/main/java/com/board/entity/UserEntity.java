@@ -33,5 +33,5 @@ public class UserEntity {
         this.userPhoneNumber = dto.getUserPhoneNumber();
         this.userAddress = dto.getUserAddress() + " " + dto.getUserAddressDetail();
     }
-
+    
 }
