@@ -12,18 +12,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity  // Spring Security를 사용하여 웹 보안을 활성화
 @RequiredArgsConstructor    // 모든 final 필드를 초기화 하는 생성자 생성
 public class WebSecurityConfig {
 
-//    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpsecurity) throws Exception {
