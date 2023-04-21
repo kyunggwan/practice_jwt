@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SignIn from "./SignIn/SignIn";
 import SignUp from "./SignUp/SignUp";
+import "./index.css";
 
 export default function Authentication() {
   // authView가 true면 signUp을 실행
@@ -9,11 +10,13 @@ export default function Authentication() {
 
   return (
     <>
-      {authView ? (
-        <SignUp setAuthView={setAuthView} />
-      ) : (
-        <SignIn setAuthView={setAuthView} />
-      )}
+      <div className="loginForm">
+        {authView ? (
+          <SignUp setAuthView={setAuthView} />
+        ) : (
+          <SignIn setAuthView={setAuthView} />
+        )}
+      </div>
     </>
   );
 }

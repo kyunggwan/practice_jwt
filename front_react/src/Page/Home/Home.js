@@ -2,14 +2,17 @@ import "./index.css";
 import { useUserStore } from "../../Stores";
 import Authentication from "../Authentication/Authentication";
 import MainLayout from "../MainLayout/MainLayout";
-import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import axios from "axios";
+// import { useState, useEffect } from "react";
+// import { useCookies } from "react-cookie";
+import Column from "antd/es/table/Column";
+import Footer1 from "../MainLayout/Footer1";
+import Header1 from "../MainLayout/Header1";
+// import axios from "axios";
 
 
 const Home = () => {
-  const [boardResponse, setBoardResponse] = useState('');
-  const [cookies, setCookies] = useCookies();
+  // const [boardResponse, setBoardResponse] = useState('');
+  // const [cookies, setCookies] = useCookies();
   const { user } = useUserStore();
 
 
@@ -37,9 +40,16 @@ const Home = () => {
   
   return (
     <div>
-          {user ? <MainLayout /> : <Authentication />}
-          
-     </div>
+        <div style={{ flexDirection: Column, flex: 1 }}>
+            <Header1 />
+          <div style={{ display: "flex", flexDirection: "row" }}>
+
+            {user ? <MainLayout /> : <Authentication />}
+
+          </div>
+            <Footer1 />
+          </div>
+    </div>
   );
 };
 export default Home;

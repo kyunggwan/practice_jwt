@@ -20,7 +20,7 @@ return result;
 
 export const boardApi = async (data) => {
   const response = await axios
-    .get("http://localhost:4000/api/board", data)
+    .get("http://localhost:4000/api/board/", data)
     .catch((error) => null);
   if (!response) return null;
 
@@ -28,7 +28,15 @@ export const boardApi = async (data) => {
   return result;
 };
 
+export const userInfoApi = async (data) => {
+  const response = await axios
+    .get("http://localhost:4000/api/user/test", data)
+    .catch((error) => null);
+  if (!response) return null;
 
+  const result = response.data;
+  return result;
+};
 
 
 

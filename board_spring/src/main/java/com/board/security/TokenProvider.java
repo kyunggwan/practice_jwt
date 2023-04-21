@@ -40,6 +40,7 @@ public class TokenProvider {
     // JWT 검증, 복호화
     public String validate(String token) {
         // 매개변수로 받은 token을 키를 사용해서 복호화 (디코딩)
+        System.out.println(token);
         Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
 
         // 복호화된 토큰의 payload에서 제목을 가져옴

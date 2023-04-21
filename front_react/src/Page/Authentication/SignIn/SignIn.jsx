@@ -127,6 +127,7 @@ export default function SignIn(props) {
             >
               로그인
             </Button>
+            <br />
             <Text type="secondary"> 등록 하시겠습니까? </Text>
             <Text strong onClick={() => setAuthView(true)}>
               {" "}
@@ -135,11 +136,7 @@ export default function SignIn(props) {
           </Form.Item>
         </Form>
       </div>
-      {/* <Input
-            prefix={<LockOutlined className={"site-form-item-icon"} />}
-            type={"password"}
-            placeholder={"Password"}
-          />/>; */}
+
     </>
   );
 }

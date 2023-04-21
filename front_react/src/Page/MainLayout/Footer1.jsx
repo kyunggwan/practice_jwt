@@ -4,7 +4,7 @@ export default function Footer1() {
       <div
         style={{
           height: 60,
-          backgroundColor: "lightgrey",
+          backgroundColor: "#B1A8B9",
           color: "black",
           display: "flex",
           justifyContent: "center",
@@ -12,7 +12,7 @@ export default function Footer1() {
           fontWeight: "bold",
         }}
       >
-        Footer
+        Footer, 디자인 너무 어렵습니다
       </div>
     </>
   );

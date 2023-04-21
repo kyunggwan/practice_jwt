@@ -1,7 +1,7 @@
 // import axios from "axios";
 
 // //axios 인스턴스 생성
-// const BASE_URL = "http://localhost:8080/";
+// const BASE_URL = "http://localhost:4000/";
 
 // //비인가 통신
 // const axiosAPI = (url, options) => {

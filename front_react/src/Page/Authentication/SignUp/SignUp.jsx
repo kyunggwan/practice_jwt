@@ -185,6 +185,7 @@ export default function SignUp(props) {
           >
             회원가입
           </Button>
+          <br />
 
           <Text type="secondary">      이미 계정이 있으신가요? </Text>
           <Text strong onClick={() => setAuthView(false)}>   로그인</Text>
