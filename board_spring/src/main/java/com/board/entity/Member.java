@@ -2,9 +2,6 @@ package com.board.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.security.Timestamp;
 
 @Data
 @Entity
@@ -19,7 +16,5 @@ public class Member {
     private String email;
     private String role; //ROLE_USER, ROLE_ADMIN
 
-    @CreationTimestamp
-    private Timestamp createDate;
 
 }

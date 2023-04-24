@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     // filter, filterchain, requestDispatcher, GenericFilterBean 공부 필요
 
@@ -26,6 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 // 가져온 토큰을 검증하고 검증 결과를 SecurityContext에 추가(여기서는 userEmail이 되겠다.)
     @Autowired
     private TokenProvider tokenProvider;
+
+//    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName, null, List.of(new SimpleGrantedAuthority(ROLE_USER)))
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

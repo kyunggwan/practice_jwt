@@ -37,6 +37,30 @@ public class TokenProvider {
                 .compact();     // 생성
     }
 
+
+//    public Authentication getAuthentication(String accessToken) {
+//        // 토큰 복호화
+//
+//        Claims claims = parseClaims(accessToken);
+//
+//        if (claims.get(AUTHORITIES_KEY) == null) {
+//            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+//        }
+//
+//        // 클레임에서 권한 정보 가져오기
+//        Collection<? extends GrantedAuthority> authorities =
+//                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+//                        .map(SimpleGrantedAuthority::new)
+//                        .collect(Collectors.toList());
+//
+//        // UserDetails 객체를 만들어서 Authentication 리턴
+//        //claims.getSubject == email정보, authorities == 권한 정보(ROLE_~~)
+//        UserDetails principal = new User(claims.getSubject(), "", authorities);
+//
+//        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+//    }
+
+
     // JWT 검증, 복호화
     public String validate(String token) {
         // 매개변수로 받은 token을 키를 사용해서 복호화 (디코딩)
