@@ -43,25 +43,24 @@ public class WebSecurityConfig {
                 .httpBasic().disable()
                 // 세션 기반 인증 사용않음(현재는 Session 기반 인증을 사용하지 않기 때문에 상태를 없앰) STATELESS한 서버를 만듦
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                // '/', '/api/auth' 모듈에 대해서는 모두 허용 (인증을 하지 않고 사용 가능하게 함)
-                .authorizeHttpRequests().requestMatchers("/", "/api/auth/**").permitAll().and()
-                // admin 권한있는 유저 경로
-                .authorizeHttpRequests().requestMatchers("/api/admin/**").hasRole("ROLE_ADMIN").and()
-                .authorizeHttpRequests().requestMatchers("/api/admin/**").hasRole("ROLE_ADMIN")
-                // 나머지 Request(anyRequest)에 대해서는 모두 인증된 사용자만 사용가능하게 함
-                .anyRequest().authenticated();
 
-        // URL에 따라 권한 설정 가능
-        // 버전에 따라서 authorizaeHttpRequest() 또는 authorizeRequests() 골라써야함
-        // 버전에 따라서 requestMatchers() 또는 antMatchers() 골라써야함
-//        .authorizeRequests()
-//        .antMatchers("/api/auth/user/**")
-//        .access("hasRole('ROLE_USER') or hasROLE('ROLE_MANAGER) or hasROLE('ROLE_ADMIN')")
-//        .antMatchers("/api/auth/manager/**")
-//        .access("hasROLE('ROLE_MANAGER) or hasROLE('ROLE_ADMIN')")
-//        .antMatchers("/api/auth/admin/**")
-//        .access("hasROLE('ROLE_ADMIN')")
-//        .anyRequest().permitAll(); // 다른 요청은 권한 없이 들어갈 수 있다.
+                // SignUp, SignIn 페이지의 auth URL은 인증않고 허용
+                .authorizeHttpRequests()
+                // '/', '/api/auth' 모듈에 대해서는 모두 허용 (인증을 하지 않고 사용 가능하게 함)
+                .requestMatchers("/", "/api/auth/**").permitAll().and()
+
+                // 권한 부여에 따른 URL 허용
+                .authorizeRequests()
+                .requestMatchers("/api/admin/**").access("hasRole('ROLE_ADMIN')")
+                .requestMatchers("/api/manager/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+//                .requestMatchers("/api/user/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER')")
+                .requestMatchers("/api/user/**").authenticated() // 바로 위의 줄과 다른것 비교해보려고 작성
+                .anyRequest().authenticated(); // 위의 경우를 제외한 URL은 인증해야함
+
+
+                // URL에 따라 권한 설정 가능
+                // 버전에 따라서 authorizaeHttpRequest() 또는 authorizeRequests() 골라써야함
+                // 버전에 따라서 requestMatchers() 또는 antMatchers() 골라써야함
 
         // 필터에 추가한다.
         httpsecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
