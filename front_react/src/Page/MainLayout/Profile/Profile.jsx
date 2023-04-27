@@ -6,7 +6,7 @@ export default function Profile() {
   return (
     <> 
 
-      <div>Profile Page</div>
+      <div>My Profile</div>
       <br />
       <div>userEmail:       {user.userEmail}</div>
       <div>userNickname: {user.userNickname}</div>

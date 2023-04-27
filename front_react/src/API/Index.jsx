@@ -1,21 +1,23 @@
 import axios from "axios";
 
 export const signInApi = async (data) => {
-const response = await axios
-  .post("http://localhost:4000/api/auth/signIn", data)
-  .catch((error) => null);
-if (!response) return null;
+  const response = await axios
+    .post("http://localhost:4000/api/auth/signIn", data)
+    .catch((error) => null);
+  if (!response) return null;
 
-const result = response.data;
-return result;
+  const result = response.data;
+  return result;
 };
 
 export const signUpApi = async (data) => {
-const response = await axios.post('http://localhost:4000/api/auth/signUp', data).catch((error) => null);
-if (!response) return null;
+  const response = await axios
+    .post("http://localhost:4000/api/auth/signUp", data)
+    .catch((error) => null);
+  if (!response) return null;
 
-const result = response.data;
-return result;
+  const result = response.data;
+  return result;
 };
 
 export const boardApi = async (data) => {
@@ -28,9 +30,9 @@ export const boardApi = async (data) => {
   return result;
 };
 
-export const userInfoApi = async (data) => {
+export const boardListApi = async (data) => {
   const response = await axios
-    .get("http://localhost:4000/api/user/test", data)
+    .get("http://localhost:4000/api/user/list", data)
     .catch((error) => null);
   if (!response) return null;
 
@@ -38,7 +40,25 @@ export const userInfoApi = async (data) => {
   return result;
 };
 
+export const userListApi = async (data) => {
+  const response = await axios
+    .get("http://localhost:4000/api/user/", data)
+    .catch((error) => null);
+  if (!response) return null;
 
+  const result = response.data;
+  return result;
+};
+
+export const userPatchApi = async (data) => {
+  const response = await axios
+    .get("http://localhost:4000/api/user/patch", data)
+    .catch((error) => null);
+  if (!response) return null;
+
+  const result = response.data;
+  return result;
+};
 
 //   // 토큰이 만료되었을 때 자동으로 토큰 갱신
 //   instance.interceptors.response.use(
@@ -60,7 +80,7 @@ export const userInfoApi = async (data) => {
 //         try {
 //           const { data } = await axios({
 //             method: "post",
-//             url: "http://localhost:4000/api/auth/reissue",
+//             url: "http://localhost:4000/api/auth/reIssue",
 //             data: { accessToken: accessToken, refreshToken: refreshToken },
 //           });
 //           console.log(data);

@@ -28,6 +28,10 @@ function SideMenu() {
     console.log(user);
   };
 
+  const AcriveUsersHandler = () => {
+    console.log(user);
+  }
+
 
   return (
     <>
@@ -54,7 +58,8 @@ function SideMenu() {
               children: [
                 {
                   label: "Active Users",
-                  key: "/activeUsers",
+                  key: "/api/userlist",
+                  onClick: () => AcriveUsersHandler(),
                 },
                 { label: "Disabled users", key: "/disabledUsers" },
               ],
@@ -73,9 +78,6 @@ function SideMenu() {
             },
           ]}
         ></Menu>
-        <div>
-          <div>SideMenu 출력 </div>
-        </div>
       </div>
     </>
   );
