@@ -1,9 +1,8 @@
 package com.board.entity;
 
+import com.board.domain.Authority;
 import com.board.dto.SignUpDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +24,9 @@ public class UserEntity {
     private String userPhoneNumber;// 휴대폰번호
     private String userAddress; // 주소
     private String userAddressDetail;// 상세주소
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority;		//권한
 
     public UserEntity(SignUpDto dto) {
         this.userEmail = dto.getUserEmail();
