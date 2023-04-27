@@ -37,8 +37,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
 	// QueryDSL 설정
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
 	implementation "com.querydsl:querydsl-core"
@@ -58,19 +58,33 @@ tasks.named('test') {
 // == QueryDSL 추가 설정 == //
 // QueryDSL 생성 파일 위치 -> 이를 설정해주지 않으면 build 디렉토리에 생성되는데, 인텔리제이에서 문제가 될수도 있음
 // IntelliJ 빌드 시 스캔하는 영역과 Gradle 빌드 시 스캔하는 영역이 달라서 발생하는 오류 해결
-def generated = 'src/main/generated'
+//def generated = 'src/main/generated'
+//
+//tasks.withType(JavaCompile) {
+//	options.getGeneratedSourceOutputDirectory().set(file(generated))
+//}
+//
+//// java source set 에 QueryDSL Q class 위치 추가
+//sourceSets {
+//	main.java.srcDirs += [ generated ]
+//}
+//
+//
+//// gradle clean 시에 QClass 디렉토리 삭제
+//clean {
+//	delete file(generated)
+//}
+// === ⭐ QueryDsl 빌드 옵션 (선택) ===
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
 
 tasks.withType(JavaCompile) {
-	options.getGeneratedSourceOutputDirectory().set(file(generated))
+	options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
 }
 
-// java source set 에 QueryDSL Q class 위치 추가
-sourceSets {
-	main.java.srcDirs += [ generated ]
-}
-
-
-// gradle clean 시에 QClass 디렉토리 삭제
-clean {
-	delete file(generated)
+clean.doLast {
+	file(querydslDir).deleteDir()
 }
