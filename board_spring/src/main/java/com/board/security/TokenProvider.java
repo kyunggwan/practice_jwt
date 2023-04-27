@@ -34,6 +34,7 @@ public class TokenProvider {
                 .setSubject(userEmail)  // JWT 제목, 필요한 데이터 더 추가 가능
                 .setIssuedAt(new Date())  // jwt 생성일
                 .setExpiration(exprTime)    // JWT 만료일
+                .claim("auth", "ROLE_ADMIN")
                 .compact();     // 생성
     }
 
