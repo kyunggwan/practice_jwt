@@ -1,13 +1,28 @@
-// import axios from "axios";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 // //axios 인스턴스 생성
-// const BASE_URL = "http://localhost:4000/";
+const BASE_URL = "http://localhost:4000/";
 
 // //비인가 통신
-// const axiosAPI = (url, options) => {
-//   const instance = axios.create({ baseURL: url, ...options });
-//   return instance;
-// };
+const AxiosAPI = (url, options) => {
+      
+  const instance = axios.create({ baseURL: url, ...options });
+  return instance;
+};
+
+
+// //인가 통신
+const AxiosAuthAPI = (url, options) => {
+  const [cookies, setCookies] = useCookies();  
+  const token = cookies.token || "";
+  const instance = axios.create({
+    baseURL: url,
+    headers: { Authorization: `Bearer ${token}` }, //bearer를 사용하는건 암묵적 약속
+    ...options,
+  });
+  return instance;
+}
 
 // //인가 통신
 // const axiosAuthAPI = (url, options) => {
@@ -62,5 +77,5 @@
 //   return instance;
 // };
 
-// export const NotAuthInstance = axiosAPI(BASE_URL);
-// export const authInstance = axiosAuthAPI(BASE_URL);
+export const NotAuthInstance = AxiosAPI(BASE_URL);
+export const authInstance = AxiosAuthAPI(BASE_URL);

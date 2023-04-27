@@ -25,13 +25,19 @@ public class UserService {
     }
 
     // 일부분 출력
-    public List<UserEntity> searchUser() {
+    public void changeUser(UserEntity userEntity) {
         try {
-            List<UserEntity> userList = userRepository.findAll();
-            return userList;
+            UserEntity userEntity2 = userRepository.findByUserEmail(userEntity.getUserEmail());
+            userEntity2.setUserNickname(userEntity.getUserNickname());
+
+            userRepository.save(userEntity2);
+
+            System.out.println(userEntity.getUserEmail());
+
+
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+
         }
     }
 

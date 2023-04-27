@@ -3,9 +3,7 @@ package com.board.controller;
 import com.board.entity.UserEntity;
 import com.board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +25,15 @@ public class UserController {
         System.out.println("get user is worked?");
         return result;
     }
+
+    @PutMapping("/patch")
+    public void getUser(@RequestBody UserEntity userEntity) {
+        System.out.println(userEntity);
+        userService.changeUser(userEntity);
+        System.out.println("change user is worked?");
+
+    }
+
 
 
 }

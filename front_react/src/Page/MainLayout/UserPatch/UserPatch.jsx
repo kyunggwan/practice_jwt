@@ -1,14 +1,13 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { MailOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import { userPatchApi } from '../../../API/Index';
+import { useCookies } from "react-cookie";
 const { Text } = Typography;
 
-
-
 export default function UserPatch() {
-const usenavigate = useNavigate();
+  const usenavigate = useNavigate();
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setuserPassword] = useState();
   const [userPasswordCheck, setuserPasswordCheck] = useState();
@@ -16,10 +15,19 @@ const usenavigate = useNavigate();
   const [userPhoneNumber, setuserPhoneNumber] = useState();
   const [userAddress, setuserAddress] = useState();
   const [userAddressDetail, setuserAddressDetail] = useState();
+  const[token, setToken] = useState("");
+  const [cookies] = useCookies();
 
-const userListHandler = () => {
-    usenavigate("/api/userlist")
-}
+  useEffect(() => {
+    const token = cookies.token;
+    setToken(token);
+  }, [cookies.token]);
+
+
+
+  const userListHandler = () => {
+    usenavigate("/api/userlist");
+  };
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -28,8 +36,10 @@ const userListHandler = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const userPatchHandler = async () => {
-    const data = {
+  const userPatchHandler = async (token) => {
+    const data = { headers: {
+        Authorization: `Bearer ${token}`,
+    },
       userEmail: userEmail,
       userPassword: userPassword,
       userPasswordCheck: userPasswordCheck,
@@ -49,7 +59,19 @@ const userListHandler = () => {
       return;
     }
     alert("회원가입에 성공했습니다.");
-  }
+  };
+
+  // const getBoard = async (token) => {
+  //   const requestOption = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  
+  //   };
+
+  //   const boardResponse = await boardListApi(requestOption);
+ 
+
 
   return (
     <>
@@ -74,6 +96,20 @@ const userListHandler = () => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
+          <Form.Item
+            label="userEmail"
+            name="userEmail"
+            onChange={(e) => setUserEmail(e.target.value)}
+            rules={[
+              {
+                required: true,
+                message: "Please input your userNickname!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="비밀번호"
             name="password"
@@ -158,26 +194,32 @@ const userListHandler = () => {
             <Input />
           </Form.Item>
 
-<div style={{display:'flex', justifyContent:'center', alignItems:'column'}}>
-          <Form.Item 
-            wrapperCol={{
-              offset: 8,
-              span: 16,
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "column",
             }}
           >
-            <Button
-              type="primary"
-              htmlType="submit"
-              onClick={() => userPatchHandler()}
-              variant="contained"
+            <Form.Item
+              wrapperCol={{
+                offset: 8,
+                span: 16,
+              }}
             >
-              회원 정보 수정
-            </Button>
-            <Button type="primary" onClick={() => userListHandler()}>
-              회원 목록
-            </Button>
-            <br />
-          </Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => userPatchHandler()}
+                variant="contained"
+              >
+                회원 정보 수정
+              </Button>
+              <Button type="primary" onClick={() => userListHandler()}>
+                회원 목록
+              </Button>
+              <br />
+            </Form.Item>
           </div>
         </Form>
       </>

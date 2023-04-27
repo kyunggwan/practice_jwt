@@ -52,7 +52,7 @@ export const userListApi = async (data) => {
 
 export const userPatchApi = async (data) => {
   const response = await axios
-    .get("http://localhost:4000/api/user/patch", data)
+    .put(`http://localhost:4000/api/user/patch/${data.userEmail}`, data)
     .catch((error) => null);
   if (!response) return null;
 
