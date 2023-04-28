@@ -2,24 +2,24 @@ import { NotAuthInstance, AuthInstance } from "./indexAPI";
 //생성된 axios인스턴스를 사용해 API호출
 
 //회원가입
-export const signupAPI = async (requestBody) => {
+export const signUpApi = async (requestBody) => {
   try {
     const { data } = await NotAuthInstance.post("api/auth/signUp", requestBody);
-    return data
+    return data;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
 //login
-export const signInAPI = async (requestBody) => {
+export const signInApi = async (requestBody) => {
   try {
     const { data } = await NotAuthInstance.post("api/auth/signIn", requestBody);
-    return data
+    return data;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
 //login - return yes
 export const getSearchResults = async (requestBody) => {
@@ -31,15 +31,14 @@ export const getSearchResults = async (requestBody) => {
   }
 }
 
-// //login - return no
-// export const addBasket = async (requestBody) => {
+
+// api/user// 검색
+
+// export const findUserApi = async (requestBody) => {
 //   try {
-//     const { data } = await authInstance.post(
-//         "addbasket",
-//         requestBody
-//       )
+//     const { data } = await AuthInstance.get("api/user/", requestBody);
 //     return data
 //   } catch (error) {
-//     console.error(error)
+//     console.error(error);
 //   }
-// }
+// };

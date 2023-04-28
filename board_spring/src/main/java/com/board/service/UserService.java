@@ -13,11 +13,22 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    // 모든 정보 출력
+    // 모든 유저 출력
     public List<UserEntity> getUser() {
         try {
             List<UserEntity> userList = userRepository.findAll();
             return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 검색 유저 출력
+    public List<UserEntity> findUser(String keyword) {
+        try {
+           List <UserEntity> user = userRepository.findByUserEmailContaining(keyword);
+            return user;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -29,7 +40,9 @@ public class UserService {
         try {
             UserEntity userEntity2 = userRepository.findByUserEmail(userEntity.getUserEmail());
             userEntity2.setUserNickname(userEntity.getUserNickname());
-
+            userEntity2.setUserPhoneNumber(userEntity.getUserPhoneNumber());
+            userEntity2.setUserAddress(userEntity.getUserAddress());
+            userEntity2.setUserAddressDetail(userEntity.getUserAddressDetail());
             userRepository.save(userEntity2);
 
             System.out.println(userEntity.getUserEmail());
@@ -39,6 +52,15 @@ public class UserService {
             e.printStackTrace();
 
         }
+    }
+
+    public void deleteUser(String userEmail) {
+        try {
+            userRepository.deleteById(userEmail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("deleteUser success");
     }
 
 //    public ResponseDto<PatchUserResponseDto> patchUser(PatchUserDto dto,  String userEmail){

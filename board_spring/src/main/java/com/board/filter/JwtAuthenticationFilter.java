@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -17,6 +17,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Component
 
@@ -37,14 +39,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String token = parseBearerToken(request); // 아래 메소드로 Bearer 토큰을 가져온다
 
+//            if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+//                Authentication authentication = tokenProvider.getAuthentication(token);
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+
             if (token != null && !token.equalsIgnoreCase("null")) { // 토큰이 있다면(equalsIgnoreCase: 대소문자 구분 안함)
                 // 토큰을 검증해서 payload의 userEmail을 가져옴
                 String userEmail = tokenProvider.validate(token);
 
+                Collection<SimpleGrantedAuthority> authorities;
+                authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+
                 // AbstractAuthenticationToken은 SecurityContext에 추가할 객체 ( 그래야 해당 thread가 지속적으로 누구인지 알 수있음)
                 // Bearer 토큰에서 가져온 userEmail을 추가한다
                 AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userEmail, null,
-                        AuthorityUtils.NO_AUTHORITIES);
+                        authorities);
                 // 디테일 값도 넣어준다.. 잘 모르겠음
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

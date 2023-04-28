@@ -28,9 +28,9 @@ function SideMenu() {
     console.log(user);
   };
 
-  const AcriveUsersHandler = () => {
+  const UserListHandler = () => {
     console.log(user);
-  }
+  };
 
 
   return (
@@ -59,7 +59,7 @@ function SideMenu() {
                 {
                   label: "Active Users",
                   key: "/api/userlist",
-                  onClick: () => AcriveUsersHandler(),
+                  onClick: () => UserListHandler(),
                 },
                 { label: "Disabled users", key: "/disabledUsers" },
               ],

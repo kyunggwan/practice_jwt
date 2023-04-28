@@ -60,6 +60,9 @@ export const userPatchApi = async (data) => {
   return result;
 };
 
+
+
+
 //   // 토큰이 만료되었을 때 자동으로 토큰 갱신
 //   instance.interceptors.response.use(
 //     (response) => {

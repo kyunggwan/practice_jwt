@@ -49,11 +49,8 @@ public class WebSecurityConfig {
                 // '/', '/api/auth' 모듈에 대해서는 모두 허용 (인증을 하지 않고 사용 가능하게 함)
                 .requestMatchers("/", "/api/auth/**").permitAll()
                 // 권한 부여에 따른 URL 허용, 수정 필요
-//                .authorizeRequests()
-//                .requestMatchers("/api/admin/**").access("hasRole('ROLE_ADMIN')")
-//                .requestMatchers("/api/manager/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-////                .requestMatchers("/api/user/**").access("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER')")
-//                .requestMatchers("/api/user/**").authenticated() // 바로 위의 줄과 다른것 비교해보려고 작성
+//                .requestMatchers("/api/admin/**", "/api/board/**").hasRole("ROLE_ADMIN")
+//                .requestMatchers("/api/manager/**").hasAnyRole("ROLE_ADMIN", "ROLE_MANAGER")
                 .anyRequest().authenticated(); // 위의 경우를 제외한 URL은 인증해야함
 
 

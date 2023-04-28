@@ -15,6 +15,7 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService) {
+
         this.userService = userService;
     }
     // 모든 유져 보기
@@ -26,14 +27,27 @@ public class UserController {
         return result;
     }
 
-    @PutMapping("/patch")
-    public void getUser(@RequestBody UserEntity userEntity) {
+    @GetMapping("/{keyword}")
+    public List<UserEntity> findUser(@PathVariable String keyword) {
+        List<UserEntity> result = userService.findUser(keyword);
+        System.out.println("찾기 기능 실행되긴 했냐?");
+        return result;
+    }
+
+    @PutMapping("/")
+    public void changeUser(@RequestBody UserEntity userEntity) {
         System.out.println(userEntity);
         userService.changeUser(userEntity);
         System.out.println("change user is worked?");
 
     }
 
+    @DeleteMapping("/{userEmail}")
+    public void deleteUser(@PathVariable String userEmail){
+        userService.deleteUser(userEmail);
+        System.out.println("deleteUser");
+
+    }
 
 
 }

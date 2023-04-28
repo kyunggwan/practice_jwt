@@ -4,6 +4,7 @@ import { MailOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import { userPatchApi } from '../../../API/Index';
 import { useCookies } from "react-cookie";
+import { findUserApi } from '../../../API/funcAPI';
 const { Text } = Typography;
 
 export default function UserPatch() {
@@ -15,6 +16,8 @@ export default function UserPatch() {
   const [userPhoneNumber, setuserPhoneNumber] = useState();
   const [userAddress, setuserAddress] = useState();
   const [userAddressDetail, setuserAddressDetail] = useState();
+  const [keyword, setKeyword] = useState();
+  const [findList, setFindList] = useState();
   const[token, setToken] = useState("");
   const [cookies] = useCookies();
 
@@ -61,24 +64,65 @@ export default function UserPatch() {
     alert("회원가입에 성공했습니다.");
   };
 
-  // const getBoard = async (token) => {
-  //   const requestOption = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  
-  //   };
-
-  //   const boardResponse = await boardListApi(requestOption);
- 
-
+// const findUserHandler = async (keyword) => {
+//     const data = {
+//         keyword: keyword,
+//     };
+//  const findUserResponse = await findUserApi(data);
+//         if (!findUserResponse) {
+//           alert(" findUserList리턴값이 없습니다.");
+//           return;
+//         } else {
+//           setFindList(findUserResponse);
+//         }
+//   };
 
   return (
     <>
-      <div>수정하는 페이지를 만들고 싶은데...</div>
-
+      <div>회원 정보 수정, 삭제 페이지</div>
+      {findList}
       <>
         <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          style={{
+            maxWidth: 600,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="on"
+        >
+          <Form.Item
+            label="userEmail"
+            name="userEmail"
+            onChange={(e) => setKeyword(e.target.value)}
+            rules={[
+              {
+                message: "Please input keyword!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            // onClick={() => findUserHandler()}
+            variant="contained"
+          >
+            Email 검색
+          </Button>
+        </Form>
+
+        {/* <Form
           name="basic"
           labelCol={{
             span: 8,
@@ -221,7 +265,7 @@ export default function UserPatch() {
               <br />
             </Form.Item>
           </div>
-        </Form>
+        </Form> */}
       </>
     </>
   );

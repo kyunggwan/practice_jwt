@@ -7,13 +7,18 @@ import com.board.dto.SignUpDto;
 import com.board.entity.UserEntity;
 import com.board.repository.UserRepository;
 import com.board.security.TokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.board.domain.Authority.ROLE_ADMIN;
+
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     @Autowired
     UserRepository userRepository;
@@ -22,6 +27,7 @@ public class AuthService {
     TokenProvider tokenProvider;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     public ResponseDto<?> signUp(SignUpDto dto) {
         String userEmail = dto.getUserEmail();
@@ -45,6 +51,7 @@ public class AuthService {
 
         // UserEntity 생성
         UserEntity userEntity = new UserEntity(dto);
+        userEntity.setAuthority(ROLE_ADMIN);
 
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(userPassword);
@@ -69,6 +76,14 @@ public class AuthService {
 
         UserEntity userEntity = null;
 
+//        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+//        UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
+//
+//        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+//        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+//        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+
         try {
             userEntity = userRepository.findByUserEmail(userEmail);
             // 잘못된 이메일
@@ -82,8 +97,13 @@ public class AuthService {
         }
 
         userEntity.setUserPassword("");
-        // 로그인 시 userEmail로 토큰 생성
+
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+//      TokenDto tokenDto = tokenProvider.generateToken(authentication);
+
+// 로그인 시 userEmail로 토큰 생성
         String token = tokenProvider.create(userEmail);
+
         int exprTime = 3600000;
 
         SignInResponseDto loginSuccess = new SignInResponseDto(token, exprTime, userEntity);
