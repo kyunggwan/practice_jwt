@@ -1,4 +1,4 @@
-import { NotAuthInstance, authInstance } from "./indexAPI";
+import { NotAuthInstance, AuthInstance } from "./indexAPI";
 //생성된 axios인스턴스를 사용해 API호출
 
 //회원가입
@@ -24,10 +24,7 @@ export const signInAPI = async (requestBody) => {
 //login - return yes
 export const getSearchResults = async (requestBody) => {
   try {
-    const { data } = await authInstance.post(
-        "search",
-        requestBody
-      )
+    const { data } = await AuthInstance.post("search", requestBody);
     return data
   } catch (error) {
     console.error(error)

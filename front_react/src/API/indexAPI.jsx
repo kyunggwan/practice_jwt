@@ -78,4 +78,4 @@ const AxiosAuthAPI = (url, options) => {
 // };
 
 export const NotAuthInstance = AxiosAPI(BASE_URL);
-export const authInstance = AxiosAuthAPI(BASE_URL);
+export const AuthInstance = AxiosAuthAPI(BASE_URL);
