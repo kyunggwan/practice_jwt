@@ -2,7 +2,7 @@ package com.board.controller;
 
 import com.board.dto.BoardDto;
 import com.board.entity.BoardEntity;
-import com.board.service.boardService;
+import com.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/board")
 public class BoardController {
 
-    private final boardService boardService;
+    private final BoardService boardService;
 
     @GetMapping("/list")
     public List<BoardDto> boardList() {
