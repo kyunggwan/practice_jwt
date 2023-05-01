@@ -33,6 +33,10 @@ export default function SideMenu() {
 //   const UserListHandler = () => {
 //     console.log(user);
 //   };
+
+const BoardHandler = () => {
+  
+}
   return (
     <div>
 
@@ -51,6 +55,7 @@ export default function SideMenu() {
                 label: "Board",
                 key: "/api/board",
                 icon: <DashboardOutlined />,
+                onClick: () => BoardHandler(),
                 },
            
                 {

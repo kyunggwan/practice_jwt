@@ -1,0 +1,16 @@
+.search-Form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.write-button {
+  position: relative;
+}
+
+.write-button button {
+  position: right;
+  right: 0;
+  bottom: 8px;
+  margin-left: 30px;
+}
