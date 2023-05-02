@@ -2,7 +2,7 @@
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 import SideMenu from './SideMenu/SideMenu'
-import {Navigate,Router, Route, Routes} from 'react-router';
+import { Route, Routes} from 'react-router';
 import Home from './Home/Home';
 import Board from '../Board/Board';
 import Profile from '../Profile/Profile';

@@ -23,4 +23,5 @@ public class BoardEntity {
     private String boardContent;
     private String boardWriter;
     private LocalDateTime boardCreateTime;
+
 }
