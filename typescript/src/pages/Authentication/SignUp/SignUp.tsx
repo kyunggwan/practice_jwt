@@ -9,9 +9,9 @@ interface Props {
 }
 
 export default function SignUp(props: Props) {
-  const [userEmail, setUserEmail] = useState<String>("");
-  const [userPassword, setuserPassword] = useState<String>("");
-  const [userPasswordCheck, setuserPasswordCheck] = useState<String>("");
+  const [email, setEmail] = useState<String>("");
+  const [password, setPassword] = useState<String>("");
+  // const [userPasswordCheck, setuserPasswordCheck] = useState<String>("");
   // const [userNickname, setuserNickname] = useState<String>("");
   // const [userPhoneNumber, setuserPhoneNumber] = useState<String>("");
   // const [userAddress, setuserAddress] = useState<String>("");
@@ -28,9 +28,9 @@ export default function SignUp(props: Props) {
 
   const signUpHandler = async () => {
     const data = {
-      userEmail: userEmail,
-      userPassword: userPassword,
-      userPasswordCheck: userPasswordCheck,
+      email: email,
+      password: password,
+      // userPasswordCheck: userPasswordCheck,
       // userNickname: userNickname,
       // userPhoneNumber: userPhoneNumber,
       // userAddress: userAddress,
@@ -43,7 +43,7 @@ export default function SignUp(props: Props) {
       return;
     }
     if (!signUpResponse.result) {
-      alert("회원가입에 실패했습니다.");
+      alert("회원가입 결과 불러오기에 실패했습니다.");
       return;
     }
     alert("회원가입에 성공했습니다.");
@@ -83,7 +83,7 @@ export default function SignUp(props: Props) {
         >
           <Input
             type="email"
-            onChange={(e) => setUserEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             prefix={<MailOutlined placeholder={"email"} />}
           />
         </Form.Item>
@@ -98,10 +98,10 @@ export default function SignUp(props: Props) {
             },
           ]}
         >
-          <Input.Password onChange={(e) => setuserPassword(e.target.value)} />
+          <Input.Password onChange={(e) => setPassword(e.target.value)} />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="비밀번호 확인"
           name="userPasswordCheck"
           rules={[
@@ -114,7 +114,7 @@ export default function SignUp(props: Props) {
           <Input.Password
             onChange={(e) => setuserPasswordCheck(e.target.value)}
           />
-        </Form.Item>
+        </Form.Item> */}
 
         {/* <Form.Item
           label="닉네임"

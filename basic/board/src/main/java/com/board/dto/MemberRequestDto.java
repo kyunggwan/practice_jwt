@@ -16,11 +16,14 @@ public class MemberRequestDto {
     private String email;
     private String password;
 
-    public MemberEntity toMember(PasswordEncoder passwordEncoder) {
+    public MemberEntity toMember(PasswordEncoder passwordEncoder, Authority auth) {
+        if (password == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
         return MemberEntity.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
-                .authority(Authority.ROLE_USER)	//.authority(auth)
+                .authority(auth)
                 .build();
     }
 

@@ -4,6 +4,7 @@ import com.board.dto.MemberRequestDto;
 import com.board.dto.MemberResponseDto;
 import com.board.dto.TokenDto;
 import com.board.dto.TokenRequestDto;
+import com.board.entity.Authority;
 import com.board.entity.MemberEntity;
 import com.board.entity.RefreshToken;
 import com.board.jwt.TokenProvider;
@@ -26,12 +27,12 @@ public class AuthService { private final AuthenticationManagerBuilder authentica
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public MemberResponseDto signup(MemberRequestDto memberRequestDto) {
+    public MemberResponseDto signup(MemberRequestDto memberRequestDto, Authority auth) {
         if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
 
-        MemberEntity member = memberRequestDto.toMember(passwordEncoder);
+        MemberEntity member = memberRequestDto.toMember(passwordEncoder, auth);
         return MemberResponseDto.of(memberRepository.save(member));
     }
 
