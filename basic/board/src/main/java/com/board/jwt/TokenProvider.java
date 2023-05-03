@@ -31,7 +31,7 @@ import com.board.repository.MemberRepository;
 
 @Slf4j
 @Component
-public class TokenProvider {	//JWT 토큰에 관련된 암호화, 복호화, 검증 로직
+public class TokenProvider {    //JWT 토큰에 관련된 암호화, 복호화, 검증 로직
 
     @Autowired
     private MemberRepository memberRepo;
@@ -58,6 +58,7 @@ public class TokenProvider {	//JWT 토큰에 관련된 암호화, 복호화, 검
         long now = (new Date()).getTime();
 
         System.out.println("hihi" + memberRepo.findById(Long.parseLong(authentication.getName())).get().getEmail());
+        System.out.println(memberRepo.findById(Long.parseLong(authentication.getName())).get().getAuthority());
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()

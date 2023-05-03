@@ -10,8 +10,8 @@ interface Props {
 }
 
 export default function SignIn(props: Props) {
-  const [userEmail, setUserEmail] = useState<String>("");
-  const [userPassword, setUserPassword] = useState<String>("");
+  const [email, setEmail] = useState<String>("");
+  const [password, setPassword] = useState<String>("");
   const [cookies, setCookies] = useCookies();
   const { user, setUser } = useUserStore();
   const { setAuthView } = props;
@@ -27,36 +27,33 @@ export default function SignIn(props: Props) {
   // 로그인 버튼 클릭 시, 값 axios로 넘어가서 반응
   const signInHandler = async () => {
     const data = {
-      userEmail,
-      userPassword,
+      email,
+      password,
     };
 
     const signInResponse = await signInApi(data);
+    console.log(signInResponse);
     if (!signInResponse) {
       alert("로그인에 실패했습니다.");
       return;
     }
-    if (!signInResponse.result) {
-      alert("로그인에 실패했습니다.");
-      return;
-    }
-    alert("로그인에 성공했습니다.");
+      alert("로그인에 성공했습니다.");
 
-    const { grantType, accessToken, refreshToken, accessTokenExpiresIn, user } = signInResponse.data; // 쿠키에 토큰, exprTime을 저장하고, user정보를 저장한다.(리덕스, zustand등 많으며 이번엔 zustand)
+    const { grantType, accessToken, refreshToken, accessTokenExpiresIn } = signInResponse; // 쿠키에 토큰, exprTime을 저장하고, user정보를 저장한다.(리덕스, zustand등 많으며 이번엔 zustand)
 
     // 쿠키에 토큰 정보 저장
     const expires = new Date(); // 쿠키 옵션 세팅
     expires.setMilliseconds(expires.getMilliseconds() + accessTokenExpiresIn);
-    // setCookies("grantType", grantType, "accessToken", accessToken, "refreshToken", refreshToken,  { expires }); // 쿠키에 입력
-    setCookies("grantType", grantType, { expires });
+    
+    setCookies("grantType", grantType);
 
     setCookies("accessToken", accessToken, { expires });
 
     setCookies("refreshToken", refreshToken, { expires });
-    // alert(cookies.token) 쿠키에 들어갔는지 확인
+    // alert(cookies.accessToken); //쿠키에 들어갔는지 확인
 
-    // 유저 정보 저장
-    setUser(user);
+    // 유저 권한 정보 저장
+    setUser(grantType);
   };
   return (
     <>
@@ -91,7 +88,7 @@ export default function SignIn(props: Props) {
           >
             <Input
               onChange={(e) =>
-                setUserEmail(e.target.value)
+                setEmail(e.target.value)
               }
             />
           </Form.Item>
@@ -106,7 +103,7 @@ export default function SignIn(props: Props) {
               },
             ]}
           >
-            <Input.Password onChange={(e) => setUserPassword(e.target.value)} />
+            <Input.Password onChange={(e) => setPassword(e.target.value)} />
           </Form.Item>
 
           <Form.Item

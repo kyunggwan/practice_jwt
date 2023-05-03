@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from "react-router-dom";
-// import { useCookies } from "react-cookie";
-
+import { useCookies } from "react-cookie";
+import { useUserStore } from '../../../stores';
 import { Menu } from "antd";
 import {
   UserOutlined,
@@ -14,16 +14,19 @@ import {
 
 export default function SideMenu() {
       const navigate = useNavigate();
-//   const [cookies, setCookies] = useCookies();
-//   const { user, removeUser } = useUserStore();
+  const [cookies, setCookies] = useCookies();
+  const { user, removeUser } = useUserStore();
 
   // 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화
-//   const SignOutHandler = () => {
-//     setCookies("token", "", { expires: new Date() });
-//     removeUser();
-//     console.log(cookies);
-//     console.log("로그아웃 success");
-//   };
+  const SignOutHandler = () => {
+    setCookies("accessToken", "", { expires: new Date() });
+    setCookies("refreshToken", "", { expires: new Date() });
+    setCookies("grantType", "", { expires: new Date() });
+    removeUser();
+    console.log(cookies);
+    console.log("로그아웃 success");
+    navigate('/api/home')
+  };
 
 // Store에 저장된 값 콘솔에 찍어봄
 //   const ProfileInfoHandler = () => {
@@ -68,7 +71,7 @@ const BoardHandler = () => {
                 label: "SignOut",
                 key: "/api/signout",
                 icon: <PoweroffOutlined />,
-                //   onClick: () => SignOutHandler(),
+                  onClick: () => SignOutHandler(),
                 },
             ]}
             >
