@@ -6,6 +6,6 @@ export const userListApi = async () => {
     console.log(data);
     return data;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 };

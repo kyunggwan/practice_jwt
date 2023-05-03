@@ -9,6 +9,7 @@ import Profile from '../Profile/Profile';
 import './index.css'
 import BoardDetail from '../Board/BoardDetail/BoardDetail';
 import BoardWrite from '../Board/BoardWrite.tsx/BoardWrite';
+import BoardContent from '../Board/BoardContent/BoardContent';
 
 
 export default function Main() {
@@ -22,6 +23,7 @@ export default function Main() {
           <Route path="/api/board" element={<Board />} />
           <Route path="/api/boardDetail" element={<BoardDetail />} />
           <Route path="/api/boardWrite" element={<BoardWrite />} />
+          <Route path="/api/boardContent" element={<BoardContent />} />
           <Route path="/api/profile" element={<Profile />} />
           <Route path="/api/signout" element={<div>signout</div>} />
         </Routes>

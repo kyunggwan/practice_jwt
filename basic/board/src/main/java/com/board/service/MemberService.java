@@ -25,7 +25,7 @@ public class MemberService {
     // 검색 유저 출력
     public List<MemberEntity> findUser(String keyword) {
         try {
-            List <MemberEntity> user = memberRepo.findByUserEmailContaining(keyword);
+            List <MemberEntity> user = memberRepo.findByEmailContaining(keyword);
             return user;
         } catch (Exception e) {
             e.printStackTrace();

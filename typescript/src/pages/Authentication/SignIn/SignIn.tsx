@@ -53,7 +53,8 @@ export default function SignIn(props: Props) {
     // alert(cookies.accessToken); //쿠키에 들어갔는지 확인
 
     // 유저 권한 정보 저장
-    setUser(grantType);
+    setUser([grantType, accessToken]);
+    // setUser(accessToken);
   };
   return (
     <>

@@ -6,11 +6,14 @@ import './index.css';
 import { Button, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
+import { useNavigate } from 'react-router-dom';
+
 import { BoardListApi } from '../../api/BoardApi/BoardApi';
 import { Link } from 'react-router-dom';
 
 
 export default function Board() {
+  const navigate = useNavigate();
   // useState
   const [boardList, setBoardList] = useState<Array<any>>([]);
   const [searchText, setSearchText] = useState<String>("");
@@ -57,10 +60,10 @@ export default function Board() {
   };
 
   // 검색 부분의 필터에 searchText로 필터링함
-  const filteredBoardList =
-    boardList?.filter((board) =>
-      board.boardTitle?.toLowerCase().includes(searchText?.toLowerCase())
-    ) || [];
+  // const filteredBoardList =
+  //   boardList?.filter((board) =>
+  //     board.boardTitle?.toLowerCase().includes(searchText?.toLowerCase())
+  //   ) || [];
 
 
 // Grid 세부 설정
@@ -73,21 +76,34 @@ const pageOptions = {
 };
 
 // 값 가져오기
-  useEffect(() => {
-    console.log(selectedRows);
-  }, [selectedRows]);
+  // useEffect(() => {
+  //   console.log(selectedRows);
+  // }, [selectedRows]);
 
-  const onCheck = (ev: any) => {
-    const { checked, rowKey } = ev;
-    const rowIndex = boardList.findIndex((board) => board.id === rowKey);
-    const updatedRow = { ...boardList[rowIndex], checked };
+  // const onCheck = (ev: any) => {
+  //   const { checked, rowKey } = ev;
+  //   const rowIndex = boardList.findIndex((board) => board.id === rowKey);
+  //   const updatedRow = { ...boardList[rowIndex], checked };
 
-    const updatedSelectedRows = checked
-      ? [...selectedRows, updatedRow]
-      : selectedRows.filter((row) => row.id !== rowKey);
+  //   const updatedSelectedRows = checked
+  //     ? [...selectedRows, updatedRow]
+  //     : selectedRows.filter((row) => row.id !== rowKey);
 
-    setSelectedRows(updatedSelectedRows);
-  };
+  //   setSelectedRows(updatedSelectedRows);
+  // };
+
+const handleClick = (e: any) => {
+  const boardContent = boardList[e.rowKey];
+  console.log(boardContent);
+  
+  navigate('/api/boardContent', { state: { boardContent } });
+};
+  
+
+    // console.log(e);
+    // console.log(e.rowKey);
+
+  // }
 
   return (
     <div>
@@ -107,13 +123,14 @@ const pageOptions = {
       </div>
 
       <Grid
-        data={filteredBoardList}
+        data={boardList}
         columns={columns}
         rowHeight={35}
         width={500}
         heightResizable={true}
         rowHeaders={["checkbox"]}
-        onCheck={onCheck}
+       
+        onClick={handleClick}
         pageOptions={pageOptions}
       />
     </div>

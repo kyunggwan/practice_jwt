@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 const BASE_URL = "http://localhost:4000/api";
 
 //비인가 통신
-const axiosAPI = (url: String, options?: any) => {
+const axiosAPI = (url: string, options?: any) => {
   const instance = axios.create({ baseURL: url, ...options });
   return instance;
 };
 
 //인가 통신
-const AxiosAuthAPI = (url: String, accessToken?: String, options?: any) => {
+const AxiosAuthAPI = (url: string, accessToken?: string, options?: any) => {
   const instance = axios.create({
     baseURL: url,
     headers: { Authorization: `Bearer ${accessToken}` }, 
@@ -64,7 +64,7 @@ const AxiosAuthAPI = (url: String, accessToken?: String, options?: any) => {
 
 export const NotAuthInstance = axiosAPI(BASE_URL);
 const AuthInstance = () => {
-  const [accessToken, setAccessToken] = useState<String>("");
+  const [accessToken, setAccessToken] = useState<string>("");
   const [cookies] = useCookies(["accessToken"]);
 
   useEffect(() => {

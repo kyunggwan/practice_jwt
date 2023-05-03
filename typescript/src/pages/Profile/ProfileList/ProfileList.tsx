@@ -14,6 +14,7 @@ export default function ProfileList() {
   useEffect(() => {
     const getUserList = async (token: String) => {
       const userListResponse = await userListApi();
+      console.log(userListResponse);
       if (!userListResponse) {
         alert(" 리턴값이 없습니다.");
         return;
