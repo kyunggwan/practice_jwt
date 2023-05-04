@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useUserStore } from '../../../stores';
-import { Menu } from "antd";
+import { Menu, Switch } from "antd";
+import type { MenuProps, MenuTheme } from "antd";
 import {
   UserOutlined,
   HomeOutlined,
@@ -17,6 +18,9 @@ export default function SideMenu() {
   const [cookies, setCookies] = useCookies();
   const { user, removeUser } = useUserStore();
 
+  const [theme, setTheme] = useState<MenuTheme>("dark");
+ 
+
   // 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화
   const SignOutHandler = () => {
     setCookies("accessToken", "", { expires: new Date() });
@@ -28,57 +32,51 @@ export default function SideMenu() {
     navigate('/api/home')
   };
 
-// Store에 저장된 값 콘솔에 찍어봄
-//   const ProfileInfoHandler = () => {
-//     console.log(user);
-//   };
+    const changeTheme = (value: boolean) => {
+      setTheme(value ? "dark" : "light");
+    };
 
-//   const UserListHandler = () => {
-//     console.log(user);
-//   };
 
-const BoardHandler = () => {
-  
-}
   return (
     <div>
-
-        <div style={{ display: "flex", flexDirection: "row" }}>
-            <Menu
-            onClick={({ key }) => {
-                if (key === "signout") {
-                } else {
-                navigate(key);
-                }
-            }}
-            defaultSelectedKeys={[window.location.pathname]}
-            items={[
-                { label: "Home", key: "/api/home", icon: <HomeOutlined /> },
-                {
-                label: "Board",
-                key: "/api/board",
-                icon: <DashboardOutlined />,
-                onClick: () => BoardHandler(),
-                },
-           
-                {
-                label: "Profile",
-                key: "/api/profile",
-                icon: <UnorderedListOutlined />,
-                //   onClick: () => ProfileInfoHandler(),
-                },
-                {
-                label: "SignOut",
-                key: "/api/signout",
-                icon: <PoweroffOutlined />,
-                  onClick: () => SignOutHandler(),
-                },
-            ]}
-            >
-
-            </Menu>
-        </div>
-
+      <div style={{ display: "flex", flexDirection: "row", flexGrow: 1 } }>
+        <Menu mode='inline'
+        
+          theme={theme}
+          onClick={({ key }) => {
+            if (key === "signout") {
+            } else {
+              navigate(key);
+            }
+          }}
+          defaultSelectedKeys={[window.location.pathname]}
+          items={[
+            { label: "Home", key: "/api/home", icon: <HomeOutlined /> },
+            {
+              label: "Board",
+              key: "/api/board",
+              icon: <DashboardOutlined />,
+            },
+            {
+              label: "Profile",
+              key: "/api/profile",
+              icon: <UnorderedListOutlined />,
+            },
+            {
+              label: "SignOut",
+              key: "/api/signout",
+              icon: <PoweroffOutlined />,
+              onClick: () => SignOutHandler(),
+            },
+          ]}
+        ></Menu>
+      </div>
+      <Switch
+        checked={theme === "dark"}
+        onChange={changeTheme}
+        checkedChildren="Dark"
+        unCheckedChildren="Light"
+      />
     </div>
-  )
+  );
 }

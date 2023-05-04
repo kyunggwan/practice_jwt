@@ -1,13 +1,46 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: 100vh;
+    /* background-color: red; */
+    
 }
 
 .contentWrapper {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    flex-direction: row;
+    
+    
+    font-weight: bold;
+    
+}
+
+.sideMenu {
+  position: fixed;
+  top: 60px; /* 헤더 높이만큼 떨어뜨립니다. */
+  left: 0;
+  width: 200px;
+  
+  /* border-right: 1px solid gray; */
+  
+}
+.content {
+    margin-left: 200px;
+    /* background-color: green; */
+    padding: 20%;
+
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999; /* 다른 요소보다 우선 순위를 높게 설정합니다. */
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }

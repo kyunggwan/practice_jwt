@@ -15,20 +15,28 @@ import BoardContent from '../Board/BoardContent/BoardContent';
 export default function Main() {
   return (
     <div className="wrapper">
-      <Header />
-      <div className="contentWrapper">
-        <SideMenu />
-        <Routes>
-          <Route path="/api/home" element={<Home />} />
-          <Route path="/api/board" element={<Board />} />
-          <Route path="/api/boardDetail" element={<BoardDetail />} />
-          <Route path="/api/boardWrite" element={<BoardWrite />} />
-          <Route path="/api/boardContent" element={<BoardContent />} />
-          <Route path="/api/profile" element={<Profile />} />
-          <Route path="/api/signout" element={<div>signout</div>} />
-        </Routes>
+      <div className="header">
+        <Header />
       </div>
-      <Footer />
+      <div className="contentWrapper">
+        <div className="sideMenu">
+          <SideMenu />
+        </div>
+        <div className="content">
+          <Routes>
+            <Route path="/api/home" element={<Home />} />
+            <Route path="/api/board" element={<Board />} />
+            <Route path="/api/boardDetail" element={<BoardDetail />} />
+            <Route path="/api/boardWrite" element={<BoardWrite />} />
+            <Route path="/api/boardContent" element={<BoardContent />} />
+            <Route path="/api/profile" element={<Profile />} />
+            <Route path="/api/signout" element={<div>signout</div>} />
+          </Routes>
+        </div>
+      </div>
+      <div className="footer">
+        <Footer />
+      </div>
     </div>
   );
 }

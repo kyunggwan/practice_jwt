@@ -1,17 +1,23 @@
 import React, {useState, useEffect} from 'react'
+import { Link, useNavigate } from "react-router-dom";
+import { BoardListApi } from "../../api/BoardApi/BoardApi";
+import "./index.css";
+
 import 'tui-grid/dist/tui-grid.css';
 import  Grid  from '@toast-ui/react-grid';
-import './index.css';
 
 import { Button, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-import { useNavigate } from 'react-router-dom';
-
-import { BoardListApi } from '../../api/BoardApi/BoardApi';
-import { Link } from 'react-router-dom';
+type SortingType = "asc" | "desc" | undefined;
 
 
+interface OptColumn {
+  name: string;
+  header: string;
+  sortingType?: SortingType;
+  sortable?: boolean;
+}
 export default function Board() {
   const navigate = useNavigate();
   // useState
@@ -39,17 +45,20 @@ export default function Board() {
     BoardList();
   }, []);
 
+  // console.log(boardList);
   // 칼럼
   const columns = [
-    { name: "id", header: "ID", },
+    { name: "id", header: "ID" },
     {
       name: "boardTitle",
       header: "제목",
+
     },
-    { name: "boardWriter", header: "작성자", },
+    { name: "boardWriter", header: "작성자" },
     {
       name: "boardCreateTime",
       header: "등록일시",
+ 
     },
   ];
 
@@ -98,41 +107,35 @@ const handleClick = (e: any) => {
   
   navigate('/api/boardContent', { state: { boardContent } });
 };
-  
-
-    // console.log(e);
-    // console.log(e.rowKey);
-
-  // }
 
   return (
     <div>
-      <div className="search-Form">
-        <Input
-          placeholder="검색어를 입력하세요"
-          suffix={<SearchOutlined />}
-          onChange={(e) => onSearch(e.target.value)}
-          style={{ width: 300, marginBottom: 16 }}
-        />
-
-        <div className="write-button">
-          <Link to="/api/boardWrite">
-            <Button>작성</Button>
-          </Link>
+      <div className="board-Form">
+        <div className="search-Form">
+          <Input
+            placeholder="검색어를 입력하세요"
+            suffix={<SearchOutlined />}
+            onChange={(e) => onSearch(e.target.value)}
+            style={{ width: 300, marginBottom: 16 }}
+          />
+          <div className="write-button">
+            <Link to="/api/boardWrite">
+              <Button>작성</Button>
+            </Link>
+          </div>
         </div>
-      </div>
 
-      <Grid
-        data={boardList}
-        columns={columns}
-        rowHeight={35}
-        width={500}
-        heightResizable={true}
-        rowHeaders={["checkbox"]}
-       
-        onClick={handleClick}
-        pageOptions={pageOptions}
-      />
+        <Grid
+          data={boardList}
+          columns={columns}
+          rowHeight={35}
+          width={500}
+          heightResizable={true}
+          onClick={handleClick}
+          pageOptions={pageOptions}
+        />
+      
+      </div>
     </div>
   );
   }

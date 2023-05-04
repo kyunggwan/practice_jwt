@@ -30,4 +30,7 @@ public class MemberEntity {
         this.password = password;
         this.authority = authority;
     }
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
 }

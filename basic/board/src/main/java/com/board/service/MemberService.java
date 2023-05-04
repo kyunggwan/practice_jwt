@@ -9,7 +9,11 @@ import java.util.List;
 @Service
 public class MemberService {
 
-    MemberRepository memberRepo;
+    private MemberRepository memberRepo;
+
+    public MemberService(MemberRepository memberRepo) {
+        this.memberRepo = memberRepo;
+    }
 
     // 모든 유저 출력
     public List<MemberEntity> getUser() {

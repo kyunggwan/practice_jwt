@@ -30,6 +30,7 @@ interface IBoardContent {
     _relationListItemMap: Record<string, boolean>;
   };
 }
+
 export default function BoardContent(props: IBoardContent) {
   const { TextArea } = Input;
   const [boardTitle, setBoardTitle] = useState<string>("");
