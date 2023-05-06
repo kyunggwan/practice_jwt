@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useUserStore } from '../../../stores';
+import { useUserStore } from '../../stores';
 import { Menu, Switch } from "antd";
 import type { MenuProps, MenuTheme } from "antd";
 import {
@@ -10,6 +10,10 @@ import {
   DashboardOutlined,
   UnorderedListOutlined,
   PoweroffOutlined,
+  ShopOutlined,
+  ShoppingCartOutlined,
+  AppstoreAddOutlined,
+  AppstoreFilled,
 } from "@ant-design/icons";
 
 
@@ -39,9 +43,9 @@ export default function SideMenu() {
 
   return (
     <div>
-      <div style={{ display: "flex", flexDirection: "row", flexGrow: 1 } }>
-        <Menu mode='inline'
-        
+      <div style={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
+        <Menu
+          mode="inline"
           theme={theme}
           onClick={({ key }) => {
             if (key === "signout") {
@@ -61,6 +65,21 @@ export default function SideMenu() {
               label: "Profile",
               key: "/api/profile",
               icon: <UnorderedListOutlined />,
+            },
+            {
+              label: "ShoppingBoard",
+              key: "/api/shoppingBoard",
+              icon: <AppstoreFilled />,
+            },
+            {
+              label: "Inventory",
+              key: "/api/inventory",
+              icon: <ShopOutlined />,
+            },
+            {
+              label: "Orders",
+              key: "/api/orders",
+              icon: <ShoppingCartOutlined />,
             },
             {
               label: "SignOut",

@@ -4,7 +4,8 @@ import { BoardListApi } from "../../api/BoardApi/BoardApi";
 import "./index.css";
 
 import 'tui-grid/dist/tui-grid.css';
-import  Grid  from '@toast-ui/react-grid';
+import Grid from "@toast-ui/react-grid";
+
 
 import { Button, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -18,6 +19,7 @@ interface OptColumn {
   sortingType?: SortingType;
   sortable?: boolean;
 }
+
 export default function Board() {
   const navigate = useNavigate();
   // useState
@@ -47,18 +49,16 @@ export default function Board() {
 
   // console.log(boardList);
   // 칼럼
-  const columns = [
+  const columns: OptColumn[] = [
     { name: "id", header: "ID" },
     {
       name: "boardTitle",
       header: "제목",
-
     },
     { name: "boardWriter", header: "작성자" },
     {
       name: "boardCreateTime",
       header: "등록일시",
- 
     },
   ];
 

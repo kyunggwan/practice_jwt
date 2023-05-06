@@ -1,5 +1,5 @@
 
-import Main from './pages/Main/Main';
+import Main from './Main/Main';
 
 import './App.css';
 
