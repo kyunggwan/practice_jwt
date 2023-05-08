@@ -1,30 +1,35 @@
-import React,{useState} from 'react'
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect} from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useUserStore } from '../../stores';
 import { Menu, Switch } from "antd";
-import type { MenuProps, MenuTheme } from "antd";
+import './index.css';
+import type { MenuTheme } from "antd";
 import {
-  UserOutlined,
   HomeOutlined,
   DashboardOutlined,
   UnorderedListOutlined,
   PoweroffOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
-  AppstoreAddOutlined,
   AppstoreFilled,
 } from "@ant-design/icons";
 
 
 export default function SideMenu() {
-      const navigate = useNavigate();
+  const location = useLocation()
+  const navigate = useNavigate();
+  const [selectedKeys, setSelectedKeys] = useState<string>('/');
   const [cookies, setCookies] = useCookies();
   const { user, removeUser } = useUserStore();
-
   const [theme, setTheme] = useState<MenuTheme>("dark");
- 
 
+  useEffect(() => {
+ const pathName = location.pathname
+ setSelectedKeys(pathName)
+  }, [location.pathname])
+  
+ 
   // 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화
   const SignOutHandler = () => {
     setCookies("accessToken", "", { expires: new Date() });
@@ -36,15 +41,15 @@ export default function SideMenu() {
     navigate('/api/home')
   };
 
-    const changeTheme = (value: boolean) => {
-      setTheme(value ? "dark" : "light");
-    };
-
+  // 다크모드 설정
+  const changeTheme = (value: boolean) => {
+    setTheme(value ? "dark" : "light");
+  };
 
   return (
     <div>
-      <div style={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
-        <Menu
+      <div style={{ display: "flex", flexDirection: "row", flexGrow: 1, height: "100%", }}>
+        <Menu className='sideMenuVertical'
           mode="inline"
           theme={theme}
           onClick={({ key }) => {
@@ -54,6 +59,7 @@ export default function SideMenu() {
             }
           }}
           defaultSelectedKeys={[window.location.pathname]}
+          selectedKeys={[selectedKeys]}
           items={[
             { label: "Home", key: "/api/home", icon: <HomeOutlined /> },
             {

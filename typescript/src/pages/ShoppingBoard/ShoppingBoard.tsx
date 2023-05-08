@@ -2,8 +2,28 @@ import React,{useState, useEffect} from 'react'
 import './index.css';
 import { Space, Card, Typography, Statistic, Table } from 'antd';
 import { DollarCircleOutlined, ShoppingCartOutlined, UserOutlined, ShoppingOutlined } from '@ant-design/icons';
-import getOrders from '../../api/Dummy/getOrders';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import getOrders from '../../api/Dummy/getDummyApi';
+import { getRevenue } from '../../api/Dummy/getDummyApi';
+import { getInventory } from "../../api/Dummy/getDummyApi";
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 interface DashBoardCardProps {
     icon: any;
     title: string;
@@ -11,6 +31,22 @@ interface DashBoardCardProps {
 }
 
 export default function ShoppingBoard() {
+  const [orders, setOrders] = useState<number>(0);
+  const [inventory, setInventory] = useState<number>(0);
+  const [revenue, setRevenue] = useState<number>(0);
+
+useEffect(()=>{
+  getOrders().then((res) => {
+    setOrders(res.total);
+    setRevenue(res.discountedTotal);
+  });
+  getInventory().then((res) => {
+    setInventory(res.total);
+  });
+
+},[])
+
+
   return (
     <Space size={20} direction={"vertical"}>
       <Typography.Title level={4}>ShoppingBoard</Typography.Title>
@@ -28,7 +64,7 @@ export default function ShoppingBoard() {
             />
           }
           title={"Orders"}
-          value={1234}
+          value={orders}
         />
         <DashBoardCard
           icon={
@@ -43,7 +79,7 @@ export default function ShoppingBoard() {
             />
           }
           title={"Inventory"}
-          value={1234}
+          value={inventory}
         />
         <DashBoardCard
           icon={
@@ -58,7 +94,7 @@ export default function ShoppingBoard() {
             />
           }
           title={"Customer"}
-          value={1234}
+          value={100}
         />
         <DashBoardCard
           icon={
@@ -73,11 +109,12 @@ export default function ShoppingBoard() {
             />
           }
           title={"Revenue"}
-          value={1234}
+          value={revenue}
         />
       </Space>
       <Space>
         <RecentOrders />
+        <ShoppingBoardChart />
       </Space>
     </Space>
   );
@@ -95,30 +132,82 @@ function DashBoardCard({ icon, title, value }: DashBoardCardProps) {
 }
 
 function RecentOrders () {
-    const [dataSource, setDataSource] = useState<any>();
+    const [dataSource, setDataSource] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect (() => {
         setLoading(true);
-        getOrders().then((res)=> {
-            setDataSource(res.carts[0].products.splice(0, 3));
-            console.log(dataSource);
+        getOrders().then((res: any)=> {
+            setDataSource(res.products.splice(0, 3));
             setLoading(false);
         });
     },[])
     return (
       <>
-      <Typography.Text>Recent Orders</Typography.Text>
+        <Typography.Text>Recent Orders</Typography.Text>
         <Table
           columns={[
-            { title: "Title", dataIndex: "title" },
-            { title: "Quantity", dataIndex: "quantity" },
-            { title: "Price", dataIndex: "discountedPrice" },
+            { title: "Title", dataIndex: "title", key: "title" },
+            { title: "Quantity", dataIndex: "quantity", key: "quantity" },
+            { title: "Price", dataIndex: "discountedPrice", key: "price" },
           ]}
           loading={loading}
-          dataSource={dataSource}
+          dataSource={dataSource.map((data: any) => ({
+            ...data,
+            key: data.id,
+          }))}
           pagination={false}
         />
       </>
     );
+}
+
+function ShoppingBoardChart(){
+  const [revenueData, setRevenueData] = useState<any>();
+
+    useEffect(() => {
+      getRevenue().then((res) => {
+        const labels = res.carts.map((cart: any) => {
+          return `User-${cart.userId}`;
+        });
+        const data = res.carts.map((cart: any) => {
+          return cart.discountedTotal;
+        });
+
+        const dataSource: any = {
+    labels,
+    datasets: [
+      {
+        label: "Revenue",
+        data: data,
+        backgroundColor: "rgba(255, 0, 0, 1)",
+      },
+    ],
+  };
+   setRevenueData(dataSource);
+      });
+    }, []);
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom" as const,
+      },
+      title: {
+        display: true,
+        text: "Order Revenue",
+      },
+    },
+  };
+
+  if (!revenueData) {
+    return null; // revenueData가 undefined일 때는 null을 반환하여 Bar 컴포넌트를 렌더링하지 않습니다.
+  }
+
+  return (
+    <Card style={{width: 500, height: 250}}>
+      <Bar options={options} data={revenueData} />
+    </Card>
+  );
 }

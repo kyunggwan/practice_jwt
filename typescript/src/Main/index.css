@@ -9,8 +9,9 @@
 }
 
 .contentWrapper {
-    
-    
+  display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
     
 }
@@ -20,6 +21,7 @@
   top: 60px; /* 헤더 높이만큼 떨어뜨립니다. */
   left: 0;
   width: 200px;
+  
   
   
 }
@@ -35,7 +37,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 9999; /* 다른 요소보다 우선 순위를 높게 설정합니다. */
+  /* z-index: 9999; 다른 요소보다 우선 순위를 높게 설정합니다. */
 }
 
 .footer {
