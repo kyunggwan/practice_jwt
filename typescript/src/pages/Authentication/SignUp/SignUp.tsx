@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import {useState} from 'react'
 import { signUpApi } from '../../../api/SignApi/SignApi';
 import { MailOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";

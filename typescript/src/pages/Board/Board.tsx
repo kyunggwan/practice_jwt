@@ -6,12 +6,10 @@ import "./index.css";
 import 'tui-grid/dist/tui-grid.css';
 import Grid from "@toast-ui/react-grid";
 
-
 import { Button, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 type SortingType = "asc" | "desc" | undefined;
-
 
 interface OptColumn {
   name: string;
@@ -80,7 +78,7 @@ export default function Board() {
 const pageOptions = {
   perPage: 5, // 한 페이지에 표시할 데이터 수
   page: 1, // 초기 페이지 번호
-  // totalCount: 100, // 총 데이터 수 (옵션)
+  totalCount: 100, // 총 데이터 수 (옵션)
   useClient: true, // 클라이언트 측 페이징 사용 여부 (기본값은 false로, 서버 측 페이징)
 };
 

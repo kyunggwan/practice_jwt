@@ -12,6 +12,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+
 import getOrders from '../../api/Dummy/getDummyApi';
 import { getRevenue } from '../../api/Dummy/getDummyApi';
 import { getInventory } from "../../api/Dummy/getDummyApi";
@@ -45,7 +46,6 @@ useEffect(()=>{
   });
 
 },[])
-
 
   return (
     <Space size={20} direction={"vertical"}>
@@ -131,6 +131,7 @@ function DashBoardCard({ icon, title, value }: DashBoardCardProps) {
   );
 }
 
+
 function RecentOrders () {
     const [dataSource, setDataSource] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -142,6 +143,7 @@ function RecentOrders () {
             setLoading(false);
         });
     },[])
+
     return (
       <>
         <Typography.Text>Recent Orders</Typography.Text>
