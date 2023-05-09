@@ -1,8 +1,12 @@
 package com.board.controller;
 
+import com.board.dto.ChangePasswordRequestDto;
+import com.board.dto.MemberRequestDto;
+import com.board.dto.MemberResponseDto;
 import com.board.entity.MemberEntity;
 import com.board.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +46,23 @@ public class MemberController {
         memberService.deleteUser(id);
         System.out.println("deleteUser");
 
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyInfoBySecurity(){
+        MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
+        System.out.println(myInfoBySecurity.getNickname());
+        return ResponseEntity.ok((myInfoBySecurity));
+    }
+
+    @PostMapping("/nickname")
+    public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody MemberRequestDto memberRequestDto){
+        return ResponseEntity.ok(memberService.changeMemberNickname(memberRequestDto.getEmail(), memberRequestDto.getNickname()));
+    }
+
+    @PostMapping("/password")
+    public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto dto){
+        return ResponseEntity.ok(memberService.changeMemberPassword(dto.getEmail(), dto.getExPassword(), dto.getNewPassword()));
     }
 
 }
