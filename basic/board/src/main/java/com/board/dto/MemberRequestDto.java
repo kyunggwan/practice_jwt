@@ -15,6 +15,7 @@ public class MemberRequestDto {
 
     private String email;
     private String password;
+    private String nickname;
 
     public MemberEntity toMember(PasswordEncoder passwordEncoder, Authority auth) {
         if (password == null) {
@@ -23,6 +24,7 @@ public class MemberRequestDto {
         return MemberEntity.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
+                .nickname(nickname)
                 .authority(auth)
                 .build();
     }
