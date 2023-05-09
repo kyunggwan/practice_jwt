@@ -84,7 +84,6 @@ public class TokenProvider {    //JWT 토큰에 관련된 암호화, 복호화, 
 
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
-
         Claims claims = parseClaims(accessToken);
 
         if (claims.get(AUTHORITIES_KEY) == null) {
