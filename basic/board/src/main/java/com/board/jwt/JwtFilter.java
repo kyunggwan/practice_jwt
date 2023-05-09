@@ -21,8 +21,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 
-    // 실제 필터링 로직은 doFilterInternal 에 들어감
-    // JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할 수행
+    // 토큰이 유효한지를 검사, SecurityContext에서 허가된 uri외의 모든 request는 이 필터를 거치게 되어,
+    // 토큰 정보가 없거나 유효하지 않으면 정상적으로 수행되지 않는다.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
