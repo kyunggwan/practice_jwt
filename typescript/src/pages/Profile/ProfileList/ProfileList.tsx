@@ -114,14 +114,15 @@ const columns = [
         body: [userList],
       };
 
-      const response = await userUpdateApi(requestOption);
-      console.log("profileList response :  " + response);
-      if (!response) {
-        alert("요청이 실패했습니다.");
-        return;
-      } else {
+      try {
+        const response = await userUpdateApi(requestOption);
+        console.log("userUpdateApi response :  " + response);
         alert("성공적으로 저장되었습니다.");
+      } catch (error) {
+        console.error(error);
+        alert("요청이 실패했습니다.");
       }
+
     }
   };
 
@@ -136,7 +137,7 @@ const columns = [
             <div key={user.id}>
               "{user.email}"님의 권한은 "{user.authority}"입니다."
             </div>
-          ))}
+          ))} 
         </div>
         <Button type="primary" onClick={handleSave}>
           권한변경저장

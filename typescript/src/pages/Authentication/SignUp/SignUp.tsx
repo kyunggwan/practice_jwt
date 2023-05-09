@@ -12,7 +12,7 @@ export default function SignUp(props: Props) {
   const [email, setEmail] = useState<String>("");
   const [password, setPassword] = useState<String>("");
   // const [userPasswordCheck, setuserPasswordCheck] = useState<String>("");
-  // const [userNickname, setuserNickname] = useState<String>("");
+  const [nickname, setNickname] = useState<String>("");
   // const [userPhoneNumber, setuserPhoneNumber] = useState<String>("");
   // const [userAddress, setuserAddress] = useState<String>("");
   // const [userAddressDetail, setuserAddressDetail] = useState<String>("");
@@ -31,7 +31,7 @@ export default function SignUp(props: Props) {
       email: email,
       password: password,
       // userPasswordCheck: userPasswordCheck,
-      // userNickname: userNickname,
+      nickname: nickname,
       // userPhoneNumber: userPhoneNumber,
       // userAddress: userAddress,
       // userAddressDetail: userAddressDetail,
@@ -42,11 +42,7 @@ export default function SignUp(props: Props) {
       alert("회원가입에 실패했습니다.");
       return;
     }
-    if (!signUpResponse.result) {
-      alert("회원가입 결과 불러오기에 실패했습니다.");
-      return;
-    }
-    alert("회원가입에 성공했습니다.");
+    alert(signUpResponse.email+"님의 회원가입에 성공했습니다.");
 
     setAuthView(false);
   };
@@ -99,6 +95,18 @@ export default function SignUp(props: Props) {
           ]}
         >
           <Input.Password onChange={(e) => setPassword(e.target.value)} />
+        </Form.Item>
+        <Form.Item
+          label="닉네임"
+          name="nickname"
+          rules={[
+            {
+              required: false,
+              message: "Please input your nickname!",
+            },
+          ]}
+        >
+          <Input.Password onChange={(e) => setNickname(e.target.value)} />
         </Form.Item>
 
         {/* <Form.Item

@@ -28,10 +28,12 @@ export const userUpdateApi = async (data: any) => {
   const response = await axios
     .put("http://localhost:4000/api/admin/updateuser", data)
     .catch((error) => null);
+    console.log(response);
   if (!response) return null;
 
   const result = response.data;
   console.log("userUpdateApi Response");
+  
   console.log(result);
   return result;
 };
