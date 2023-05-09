@@ -67,7 +67,6 @@ public class TokenProvider {    //JWT 토큰에 관련된 암호화, 복호화, 
                 .setExpiration(accessTokenExpiresIn)        // payload "exp": 1516239022 (예시)
                 .signWith(key, SignatureAlgorithm.HS512)    // header "alg": "HS512"
                 .compact();
-        //.setSubject(memberRepo.findById(Long.parseLong(authentication.getName())).get().getEmail())
 
         // Refresh Token 생성
         String refreshToken = Jwts.builder()
