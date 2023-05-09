@@ -40,18 +40,12 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // OPTIONS 요청 허용
-                .requestMatchers("/api/auth/**", "/api/board/**").permitAll()
-//                .requestMatchers("/api/admin/**").hasRole("ROLE_ADMIN")
-//                .requestMatchers("/api/user/**").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-                .anyRequest().authenticated()
+                .requestMatchers("/api/auth/**", "/api/board/**").permitAll()   // token 없이 통과 가능
+                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+//                .requestMatchers("/api/user/**").hasAnyRole("ADMIN", "USER")
+                .anyRequest().authenticated()   // 나머지는 토큰이 있어야 함
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
-
-        // 권한 부여에 따른 URL 허용
-//                .requestMatchers("/api/admin/**").hasRole("ROLE_ADMIN")
-//                .requestMatchers("/api/user/**").hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-//                // '/', '/api/auth' 모듈에 대해서는 모두 허용 (인증을 하지 않고 사용 가능하게 함)
-//                .requestMatchers("/api/auth/**").permitAll()
+                .apply(new JwtSecurityConfig(tokenProvider));   // JwtSecurityConfig에 적용시킴(Spring Security)
 
         return http.build();
     }
