@@ -20,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/signUp")
     public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto memberRequestDto) {
-        Authority authority = Authority.ROLE_ADMIN; // 회원 권한 설정
+        Authority authority = Authority.ROLE_USER; // 회원 권한 설정
         MemberResponseDto memberResponseDto = authService.signup(memberRequestDto, authority);
         return ResponseEntity.ok(memberResponseDto);
     }
