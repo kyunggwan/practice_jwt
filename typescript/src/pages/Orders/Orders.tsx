@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Typography, Table, Space, Avatar, Rate } from "antd";
+import { Typography, Table, Space, } from "antd";
 import "./index.css";
 import getOrders from "../../api/Dummy/getDummyApi";
 
