@@ -36,7 +36,6 @@ export default function SideMenu() {
     setCookies("refreshToken", "", { expires: new Date() });
     setCookies("grantType", "", { expires: new Date() });
     removeUser();
-    console.log(cookies);
     console.log("로그아웃 success");
     navigate('/api/home')
   };
@@ -48,8 +47,17 @@ export default function SideMenu() {
 
   return (
     <div>
-      <div style={{ display: "flex", flexDirection: "row", flexGrow: 1, height: "100%", }}>
-        <Menu className='sideMenuVertical'
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexGrow: 1,
+          height: "100%",
+        }}
+      >
+ 
+        <Menu
+          className="sideMenuVertical"
           mode="inline"
           theme={theme}
           onClick={({ key }) => {
@@ -60,41 +68,33 @@ export default function SideMenu() {
           }}
           defaultSelectedKeys={[window.location.pathname]}
           selectedKeys={[selectedKeys]}
-          items={[
-            { label: "Home", key: "/api/home", icon: <HomeOutlined /> },
-            {
-              label: "Board",
-              key: "/api/board",
-              icon: <DashboardOutlined />,
-            },
-            {
-              label: "Profile",
-              key: "/api/profile",
-              icon: <UnorderedListOutlined />,
-            },
-            {
-              label: "ShoppingBoard",
-              key: "/api/shoppingBoard",
-              icon: <AppstoreFilled />,
-            },
-            {
-              label: "Inventory",
-              key: "/api/inventory",
-              icon: <ShopOutlined />,
-            },
-            {
-              label: "Orders",
-              key: "/api/orders",
-              icon: <ShoppingCartOutlined />,
-            },
-            {
-              label: "SignOut",
-              key: "/api/signout",
-              icon: <PoweroffOutlined />,
-              onClick: () => SignOutHandler(),
-            },
-          ]}
-        ></Menu>
+        >
+          <Menu.Item key="/api/home" icon={<HomeOutlined />}>
+            Home
+          </Menu.Item>
+          <Menu.Item key="/api/board" icon={<DashboardOutlined />}>
+            Board
+          </Menu.Item>
+          <Menu.Item key="/api/profile" icon={<UnorderedListOutlined />}>
+            Profile
+          </Menu.Item>
+          <Menu.Item key="/api/shoppingBoard" icon={<AppstoreFilled />}>
+            ShoppingBoard
+          </Menu.Item>
+          <Menu.Item key="/api/inventory" icon={<ShopOutlined />}>
+            Inventory
+          </Menu.Item>
+          <Menu.Item key="/api/orders" icon={<ShoppingCartOutlined />}>
+            Orders
+          </Menu.Item>
+          <Menu.Item
+            key={user ? "/api/signout" : "/api/login"}
+            icon={<PoweroffOutlined />}
+            onClick={SignOutHandler}
+          >
+            {user ? "LogOut" : "LogIn"}
+          </Menu.Item>
+        </Menu>
       </div>
       <Switch
         checked={theme === "dark"}
