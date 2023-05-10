@@ -11,7 +11,7 @@ export default function Home(props: Props) {
        " 이거 재밌습니다."
      ],
      loop: true,
-     delaySpeed: 3000,
+     delaySpeed: 1000,
    });
 
   return (

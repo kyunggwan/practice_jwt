@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Table, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { userListApi } from "../../../api/UserApi/UserApi";
 import { userUpdateApi } from "../../../api/UserApi/UserApi";
+import { useUserStore } from "../../../stores";
 interface User {
   id: number;
   email: string;
@@ -15,6 +16,7 @@ export default function ProfileList() {
   const [userList, setUserList] = useState<User[]>([]);
   const [cookies] = useCookies();
   const [requestUser, setRequestUser] = useState<User[]>();
+  const { user } = useUserStore();
 
   // useEffect(() => {
   //   const getUserList = async (token: String) => {
@@ -128,22 +130,20 @@ const columns = [
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        
-        <h2>Profile Detail</h2>
-
-        <div>
-          {userList.map((user) => (
-            <div key={user.id}>
-              "{user.email}"님의 권한은 "{user.authority}"입니다."
-            </div>
-          ))} 
-        </div>
-        <Button type="primary" onClick={handleSave}>
-          권한변경저장
-        </Button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h2>Admin Page</h2>
       </div>
-      <Table columns={columns} dataSource={userList} />
+      <Table columns={columns} dataSource={userList}  />
+
+      <Button type="primary" onClick={handleSave} style={{}}>
+        권한변경저장
+      </Button>
     </div>
   );
 }
