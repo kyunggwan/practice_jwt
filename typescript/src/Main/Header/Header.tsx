@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores";
+import { useCookies } from "react-cookie";
 import { BellFilled, MailOutlined, SmileOutlined } from "@ant-design/icons";
 import { Badge, Space, Typography, Drawer, List, Dropdown } from "antd";
 import mainlogo from "../../img/mainlogo.png";
@@ -13,13 +14,22 @@ import type { MenuProps } from "antd";
 
 
 export default function Header() {
-  const { user } = useUserStore();
+  const { user, removeUser } = useUserStore();
+  const [cookies, setCookies] = useCookies();
   const navigate = useNavigate();
   const [comments, setComments] = useState<String[]>([]);
   const [orders, setOrders] = useState<String[]>([]);
   const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
 
+  const SignOutHandler = () => {
+    setCookies("accessToken", "", { expires: new Date() });
+    setCookies("refreshToken", "", { expires: new Date() });
+    setCookies("grantType", "", { expires: new Date() });
+    removeUser();
+    console.log("로그아웃 success");
+    navigate('/api/home')
+  };
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -35,7 +45,7 @@ export default function Header() {
     {
       key: "3",
       label: "logout",
-      onClick: () => navigate("/api/logout"),
+      onClick: () => SignOutHandler(),
     },
   ];
 
