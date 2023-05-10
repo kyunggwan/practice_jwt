@@ -17,7 +17,6 @@ export const userListApi = async (data: any) => {
     .catch((error) => null);
   if (!response) return null;
   
-
   const result = response.data;
   // console.log("userapi")
   // console.log(result);
@@ -35,5 +34,18 @@ export const userUpdateApi = async (data: any) => {
   console.log("userUpdateApi Response");
   
   console.log(result);
+  return result;
+};
+
+// 로그인한 유저의 본인 정보 확인 api
+export const myInfoApi = async (data: any) => {
+  const response = await axios
+    .get("http://localhost:4000/api/member/me", data)
+    .catch((error) => null);
+  if (!response) return null;
+
+  const result = response.data;
+  // console.log("userapi")
+  // console.log(result);
   return result;
 };
