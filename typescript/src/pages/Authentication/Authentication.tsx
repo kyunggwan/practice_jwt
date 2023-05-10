@@ -1,6 +1,7 @@
-import React,{useState} from 'react'
+import {useState} from 'react'
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
+import mainlogo_color from "../../img/mainlogo_color.png";
 
 export default function Authentication() {
   // authView가 true면 signUp을 실행
@@ -9,7 +10,9 @@ export default function Authentication() {
 
   return (
     <div>
+  
       <div className="loginForm">
+        
         {authView ? (
           <SignUp setAuthView={setAuthView} />
         ) : (

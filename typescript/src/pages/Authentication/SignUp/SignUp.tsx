@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import { signUpApi } from '../../../api/SignApi/SignApi';
-import { MailOutlined } from "@ant-design/icons";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 const { Text } = Typography;
 
@@ -48,7 +48,7 @@ export default function SignUp(props: Props) {
   };
 
   return (
-    <>
+    <div className="signUpForm">
       <Form
         name="basic"
         labelCol={{
@@ -67,8 +67,9 @@ export default function SignUp(props: Props) {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <Text className='description'> 이메일 </Text>
         <Form.Item
-          label="이메일 주소"
+          // label="이메일 주소"
           name="username"
           rules={[
             {
@@ -79,13 +80,18 @@ export default function SignUp(props: Props) {
         >
           <Input
             type="email"
+            size="large"
+            style={{ width: 400 }}
+            allowClear
             onChange={(e) => setEmail(e.target.value)}
-            prefix={<MailOutlined placeholder={"email"} />}
+            prefix={<MailOutlined />}
+            placeholder={"이메일"}
           />
         </Form.Item>
 
+<Text className='description'>비밀번호</Text>
         <Form.Item
-          label="비밀번호"
+          // label="비밀번호"
           name="password"
           rules={[
             {
@@ -94,10 +100,19 @@ export default function SignUp(props: Props) {
             },
           ]}
         >
-          <Input.Password onChange={(e) => setPassword(e.target.value)} />
+          <Input.Password
+            size="large"
+            style={{ width: 400 }}
+            allowClear
+            onChange={(e) => setPassword(e.target.value)}
+            prefix={<LockOutlined />}
+            placeholder={"비밀번호"}
+          />
         </Form.Item>
+
+        <Text className='description'>닉네임</Text>
         <Form.Item
-          label="닉네임"
+          // label="닉네임"
           name="nickname"
           rules={[
             {
@@ -106,8 +121,14 @@ export default function SignUp(props: Props) {
             },
           ]}
         >
-          <Input.Password onChange={(e) => setNickname(e.target.value)} />
+          <Input
+            size="large"
+            placeholder={"닉네임"}
+            style={{ width: 400 }}
+            onChange={(e) => setNickname(e.target.value)}
+          />
         </Form.Item>
+        
 
         {/* <Form.Item
           label="비밀번호 확인"
@@ -176,27 +197,29 @@ export default function SignUp(props: Props) {
           <Input onChange={(e) => setuserAddressDetail(e.target.value)} />
         </Form.Item> */}
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
+            style={{
+              width: 400,
+              height: 50,
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
             onClick={() => signUpHandler()}
           >
             회원가입
           </Button>
           <br />
-
-          <Text type="secondary"> 이미 계정이 있으신가요? </Text>
-          <Text strong onClick={() => setAuthView(false)}>
-            로그인
-          </Text>
+          <div style={{ display: "flex", justifyContent: "right" }}>
+            <Text type="secondary"> 이미 계정이 있으신가요? </Text>
+            <Text strong onClick={() => setAuthView(false)}>
+              로그인
+            </Text>
+          </div>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 }

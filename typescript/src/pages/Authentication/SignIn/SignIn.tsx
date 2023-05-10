@@ -1,9 +1,10 @@
-import React,{useState} from 'react'
+import {useState} from 'react'
 import { signInApi } from '../../../api/SignApi/SignApi';
 import { useCookies } from "react-cookie";
 import { useUserStore } from '../../../stores';
-
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Typography } from "antd";
+import './index.css';
 const { Text } = Typography;
 interface Props {
   setAuthView: (authView: boolean) => void;
@@ -54,11 +55,10 @@ export default function SignIn(props: Props) {
 
     // 유저 권한 정보 저장
     setUser([grantType, accessToken]);
-    // setUser(accessToken);
   };
   return (
     <>
-      <div className="LoginForm">
+      <div className="signInForm">
         <Form
           name="basic"
           labelCol={{
@@ -68,17 +68,17 @@ export default function SignIn(props: Props) {
             span: 16,
           }}
           style={{
-            maxWidth: 600,
+            maxWidth: 500,
           }}
           initialValues={{
             remember: true,
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          autoComplete="on"
         >
           <Form.Item
-            label="Username"
+            // label="ID"
             name="username"
             rules={[
               {
@@ -88,14 +88,17 @@ export default function SignIn(props: Props) {
             ]}
           >
             <Input
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
+              prefix={[<MailOutlined />]}
+              placeholder="이메일"
+              allowClear
+              onChange={(e) => setEmail(e.target.value)}
+              size="large"
+              style={{ width: 400 }}
             />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            // label="Password"
             name="password"
             rules={[
               {
@@ -103,39 +106,43 @@ export default function SignIn(props: Props) {
                 message: "Please input your password!",
               },
             ]}
-          >
-            <Input.Password onChange={(e) => setPassword(e.target.value)} />
+          > 
+            <Input.Password
+              prefix={[<LockOutlined />]}
+              placeholder="비밀번호"
+              allowClear
+              size="large"
+              style={{ width: 400 }}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </Form.Item>
 
-          <Form.Item
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
-            <Checkbox>Remember me</Checkbox>
+          <Form.Item name="remember" valuePropName="checked">
+            <Checkbox>로그인 상태 유지</Checkbox>
           </Form.Item>
 
-          <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
-          >
+          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
+              style={{
+                width: 400,
+                height: 50,
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
               onClick={() => signInHandler()}
             >
               로그인
             </Button>
+
             <br />
-            <Text type="secondary"> 등록 하시겠습니까? </Text>
-            <Text strong onClick={() => setAuthView(true)}>
-              회원가입
-            </Text>
+            <div style={{display: "flex", justifyContent:"right"}}>
+              <Text type="secondary"> 등록 하시겠습니까? </Text>
+              <Text strong onClick={() => setAuthView(true)}>
+                회원가입
+              </Text>
+            </div>
           </Form.Item>
         </Form>
       </div>
