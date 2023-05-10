@@ -1,35 +1,28 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     height: 100vh;
     width: 100vw;
     /* background-color: red; */
-    
 }
 
 .contentWrapper {
-  display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    
+
+  margin-left: 10%;   
+  
 }
 
 .sideMenu {
   position: fixed;
   top: 60px; /* 헤더 높이만큼 떨어뜨립니다. */
   left: 0;
-  width: 200px;
-  
-  
-  
+  width: 200px;  
+  font-weight: bold; 
 }
+
 .content {
     margin-left: 200px;
     /* background-color: green; */
-    
-
+    position: fixed;
+    top: 100px;
 }
 
 .header {
