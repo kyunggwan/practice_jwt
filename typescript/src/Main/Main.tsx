@@ -13,6 +13,7 @@ import BoardContent from '../pages/Board/BoardContent/BoardContent';
 import ShoppingBoard from '../pages/ShoppingBoard/ShoppingBoard';
 import Inventory from '../pages/Inventory/Inventory';
 import Orders from '../pages/Orders/Orders';
+import Login from '../pages/Login/Login';
 
 
 export default function Main() {
@@ -34,6 +35,7 @@ export default function Main() {
             <Route path="/api/boardContent" element={<BoardContent />} />
             <Route path="/api/profile" element={<Profile />} />
             <Route path="/api/signout" element={<Home />} />
+            <Route path="/api/login" element={<Login />} />
             <Route path="/api/shoppingBoard" element={<ShoppingBoard />} />
             <Route path="/api/orders" element={<Orders />} />
             <Route path="/api/inventory" element={<Inventory />} />
