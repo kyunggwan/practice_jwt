@@ -1,15 +1,43 @@
 import { useEffect, useState } from "react";
-import { BellFilled, MailOutlined } from "@ant-design/icons";
-import { Badge, Space, Typography, Drawer, List } from "antd";
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../stores";
+import { BellFilled, MailOutlined, SmileOutlined } from "@ant-design/icons";
+import { Badge, Space, Typography, Drawer, List, Dropdown } from "antd";
 import mainlogo from "../../img/mainlogo.png";
 import { getComments } from "../../api/Dummy/getDummyApi";
 import getOrders from "../../api/Dummy/getDummyApi";
+import type { MenuProps } from "antd";
+
+
+
+
 
 export default function Header() {
+  const { user } = useUserStore();
+  const navigate = useNavigate();
   const [comments, setComments] = useState<String[]>([]);
   const [orders, setOrders] = useState<String[]>([]);
   const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "account",
+      onClick: () => navigate("/api/profile"),
+    },
+    {
+      key: "2",
+      onClick: () => navigate("/api/admin"),
+      label: "admin",
+      disabled: user?.auth !== "ROLE_ADMIN",
+    },
+    {
+      key: "3",
+      label: "logout",
+      onClick: () => navigate("/api/logout"),
+    },
+  ];
 
   useEffect(()=>{
     getComments().then(res=>{
@@ -19,7 +47,6 @@ export default function Header() {
       setOrders(res.products);
     });
   },[])
-
 
   return (
     <div>
@@ -49,7 +76,20 @@ export default function Header() {
         >
           샘플 게시판
         </Typography.Title>
+
         <Space style={{ marginLeft: "auto", marginRight: "2%" }}>
+          {user ? (
+            <Badge>
+              <Dropdown
+                menu={{ items }}
+                placement="bottom"
+                arrow={{ pointAtCenter: true }}
+              >
+                <SmileOutlined style={{ fontSize: 24, color: "white" }} />
+              </Dropdown>
+            </Badge>
+          ) : null}
+
           <Badge count={comments.length} dot>
             <MailOutlined
               style={{ fontSize: 24, color: "white" }}
@@ -93,7 +133,8 @@ export default function Header() {
             dataSource={orders}
             renderItem={(item: any) => (
               <List.Item>
-                <Typography.Text strong>{item.title}</Typography.Text> has been ordered!
+                <Typography.Text strong>{item.title}</Typography.Text> has been
+                ordered!
               </List.Item>
             )}
           ></List>

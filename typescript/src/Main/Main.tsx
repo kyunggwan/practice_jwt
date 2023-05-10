@@ -14,6 +14,7 @@ import ShoppingBoard from '../pages/ShoppingBoard/ShoppingBoard';
 import Inventory from '../pages/Inventory/Inventory';
 import Orders from '../pages/Orders/Orders';
 import Login from '../pages/Login/Login';
+import Admin from '../pages/Admin/Admin';
 
 
 export default function Main() {
@@ -39,6 +40,7 @@ export default function Main() {
             <Route path="/api/shoppingBoard" element={<ShoppingBoard />} />
             <Route path="/api/orders" element={<Orders />} />
             <Route path="/api/inventory" element={<Inventory />} />
+            <Route path="/api/admin" element={<Admin />} />
           </Routes>
         </div>
       </div>
