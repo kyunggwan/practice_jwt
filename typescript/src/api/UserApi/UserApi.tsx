@@ -49,3 +49,16 @@ export const myInfoApi = async (data: any) => {
   // console.log(result);
   return result;
 };
+
+/* 회원 탈퇴 api */
+export const deleteUserApi = async (id: number, data: any) => {
+  const response = await axios
+    .delete(`http://localhost:4000/api/member/${id}`, data)
+    .catch((error) => null);
+  if (!response) return null;
+
+  const result = response.data;
+  // console.log("userapi")
+  // console.log(result);
+  return result;
+};
