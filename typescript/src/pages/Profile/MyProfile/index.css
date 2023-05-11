@@ -1,0 +1,19 @@
+.divider{
+    border-color: black;
+    border-width: 3px;
+    margin : 0,
+}
+
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-button{
+    width: 150px;
+}
+.edit-button:hover {
+  color: red;
+  border-color: red;
+}
