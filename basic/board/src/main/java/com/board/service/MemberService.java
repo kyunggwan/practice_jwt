@@ -88,6 +88,7 @@ public class MemberService {
     }
 
     // 유저 삭제
+    @Transactional
     public void deleteUser(Long id) {
         try {
             memberRepo.deleteById(id);

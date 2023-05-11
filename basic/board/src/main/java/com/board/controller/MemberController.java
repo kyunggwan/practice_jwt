@@ -42,10 +42,9 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id){
+    public String deleteUser(@PathVariable Long id){
         memberService.deleteUser(id);
-        System.out.println("deleteUser");
-
+        return "다음에 다시 이용해주세요";
     }
 
     @GetMapping("/me")
