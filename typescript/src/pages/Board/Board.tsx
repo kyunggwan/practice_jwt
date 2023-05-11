@@ -26,7 +26,7 @@ export default function Board() {
   const [selectedRows, setSelectedRows] = useState<Array<any>>([]);
 
   // 데이터 부분
-  // 맨 처음 렌더링 될 때 한번 실행되어 게시판 글을 가져온다
+  /*  맨 처음 렌더링 될 때 한번 실행되어 게시판 글을 가져온다*/
   useEffect(() => {
     async function BoardList() {
       try {
@@ -45,7 +45,6 @@ export default function Board() {
     BoardList();
   }, []);
 
-  // console.log(boardList);
   // 칼럼
   const columns: OptColumn[] = [
     { name: "id", header: "ID" },
@@ -72,17 +71,16 @@ export default function Board() {
   //     board.boardTitle?.toLowerCase().includes(searchText?.toLowerCase())
   //   ) || [];
 
+  // Grid 세부 설정
+  // 페이징
+  const pageOptions = {
+    perPage: 5, // 한 페이지에 표시할 데이터 수
+    page: 1, // 초기 페이지 번호
+    totalCount: 100, // 총 데이터 수 (옵션)
+    useClient: true, // 클라이언트 측 페이징 사용 여부 (기본값은 false로, 서버 측 페이징)
+  };
 
-// Grid 세부 설정
-// 페이징
-const pageOptions = {
-  perPage: 5, // 한 페이지에 표시할 데이터 수
-  page: 1, // 초기 페이지 번호
-  totalCount: 100, // 총 데이터 수 (옵션)
-  useClient: true, // 클라이언트 측 페이징 사용 여부 (기본값은 false로, 서버 측 페이징)
-};
-
-// 값 가져오기
+  // 값 가져오기
   // useEffect(() => {
   //   console.log(selectedRows);
   // }, [selectedRows]);
@@ -99,12 +97,12 @@ const pageOptions = {
   //   setSelectedRows(updatedSelectedRows);
   // };
 
-const handleClick = (e: any) => {
-  const boardContent = boardList[e.rowKey];
-  console.log(boardContent);
-  
-  navigate('/api/boardContent', { state: { boardContent } });
-};
+  const handleClick = (e: any) => {
+    const boardContent = boardList[e.rowKey];
+    console.log(boardContent);
+
+    navigate("/api/boardContent", { state: { boardContent } });
+  };
 
   return (
     <div>
@@ -132,8 +130,7 @@ const handleClick = (e: any) => {
           onClick={handleClick}
           pageOptions={pageOptions}
         />
-      
       </div>
     </div>
   );
-  }
+}

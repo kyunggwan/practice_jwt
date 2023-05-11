@@ -65,9 +65,9 @@ export default function Header(props: HeaderProps) {
   }, []);
 
   // 헤더 다크모드 설정
- useEffect(() => {
-   setTheme(darkMode ? "dark" : "light");
- }, [darkMode]);
+  useEffect(() => {
+    setTheme(darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   return (
     <div>
@@ -101,7 +101,12 @@ export default function Header(props: HeaderProps) {
                 placement="bottom"
                 arrow={{ pointAtCenter: true }}
               >
-                <SmileOutlined style={{ fontSize: 24, color: "white" }} />
+                <SmileOutlined
+                  style={{
+                    fontSize: 24,
+                    color: darkMode ? "white" : "#19284a",
+                  }}
+                />
               </Dropdown>
             </Badge>
           ) : null}

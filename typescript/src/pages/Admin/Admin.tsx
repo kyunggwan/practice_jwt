@@ -109,9 +109,9 @@ export default function Admin() {
       >
         <h2>Admin Page</h2>
       </div>
-      <Table columns={columns} dataSource={userList} />
+      <Table className="adminTable" columns={columns} dataSource={userList} />
 
-      <Button type="primary" onClick={handleSave} style={{}}>
+      <Button type="primary" onClick={handleSave} >
         권한변경저장
       </Button>
     </div>

@@ -14,7 +14,7 @@ interface Props {
 export default function SignIn(props: Props) {
   const [email, setEmail] = useState<String>("");
   const [password, setPassword] = useState<String>("");
-  const [tokenInfo, setTokenInfo] = useState<object>();
+  // const [tokenInfo, setTokenInfo] = useState<object>();
   const [cookies, setCookies] = useCookies();
   const { user, setUser } = useUserStore();
   const { setAuthView } = props;

@@ -1,15 +1,13 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: red;
+  min-height: 100%;
 }
 
 .contentWrapper {
   flex: 1;
   display: flex;
   flex-direction: row;
-  overflow: hidden;
 }
 
 .header {
@@ -26,19 +24,15 @@
   width: 200px;  
   font-weight: bold; 
   flex-shrink: 0;
-  height: calc(100vh - 130px);
-  background-color: aqua;
+  height: calc(100vh - 130px); /* 130px은 header와 footer의 높이 합 */
 }
 
 .content {
-  margin-left: 200px;
-  background-color: green;
-  position: fixed;
-  top: 70px;
+  flex: 1;
+  margin: 70px 0 60px 200px;
   width: 100vw;
   height: calc(100vh - 130px); /* 130px은 header와 footer의 높이 합 */
   overflow: auto;
-  flex: 1;
 }
 
 .footer {
