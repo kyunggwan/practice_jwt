@@ -15,8 +15,6 @@ import Inventory from '../pages/Inventory/Inventory';
 import Orders from '../pages/Orders/Orders';
 import Login from '../pages/Login/Login';
 import Admin from '../pages/Admin/Admin';
-import type { MenuTheme } from "antd";
-
 
 export default function Main() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
@@ -48,7 +46,7 @@ export default function Main() {
         </div>
       </div>
       <div className="footer">
-        <Footer />
+        <Footer darkMode={darkMode} />
       </div>
     </div>
   );

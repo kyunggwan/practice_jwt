@@ -1,25 +1,22 @@
+import { useState, useEffect } from "react";
+import { Menu, Typography } from "antd";
+import "./index.css";
+import type { MenuTheme } from "antd";
+interface HeaderProps {
+  darkMode: boolean;
+}
 
-import { Typography } from 'antd'
-import React from 'react'
-import './index.css';
+export default function Footer(props: HeaderProps) {
+  const { darkMode } = props;
+  const [theme, setTheme] = useState<MenuTheme>("dark");
 
-export default function Footer() {
+  // footer 다크모드 설정
+ useEffect(() => {
+   setTheme(darkMode ? "dark" : "light");
+ }, [darkMode]);
+
   return (
-    <div className="Footer">
-      {/* <div
-            style={{
-            height: 60,
-            backgroundColor: "#B1A8B9",
-            color: "black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontWeight: "bold",
-            }}
-        >
-        Footer, 디자인 너무 어렵습니다
-      </div> */}
-
+    <Menu className="Footer" theme={theme}>
       <Typography.Link href="tel:+123456789">+12345678</Typography.Link>
       <Typography.Link href="http://www.google.com" target={"_blank"}>
         Privacy Policy
@@ -27,6 +24,6 @@ export default function Footer() {
       <Typography.Link href="http://www.google.com">
         Terms Of Use
       </Typography.Link>
-    </div>
+    </Menu>
   );
 }
