@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 import Header from './Header/Header'
 import Footer from './Footer/Footer'
 import SideMenu from './SideMenu/SideMenu'
@@ -15,17 +15,20 @@ import Inventory from '../pages/Inventory/Inventory';
 import Orders from '../pages/Orders/Orders';
 import Login from '../pages/Login/Login';
 import Admin from '../pages/Admin/Admin';
+import type { MenuTheme } from "antd";
 
 
 export default function Main() {
+  const [darkMode, setDarkMode] = useState<boolean>(true);
+ 
   return (
     <div className="wrapper">
       <div className="header">
-        <Header />
+        <Header darkMode={darkMode} />
       </div>
       <div className="contentWrapper">
         <div className="sideMenu">
-          <SideMenu />
+          <SideMenu darkMode={darkMode} setDarkMode={setDarkMode} />
         </div>
         <div className="content">
           <Routes>

@@ -3,17 +3,21 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores";
 import { useCookies } from "react-cookie";
 import { BellFilled, MailOutlined, SmileOutlined } from "@ant-design/icons";
-import { Badge, Space, Typography, Drawer, List, Dropdown } from "antd";
+import { Badge, Space, Typography, Drawer, List, Dropdown, Switch, Menu } from "antd";
 import mainlogo from "../../img/mainlogo.png";
+import mainlogo_color from "../../img/mainlogo_color.png";
+import './index.css';
 import { getComments } from "../../api/Dummy/getDummyApi";
 import getOrders from "../../api/Dummy/getDummyApi";
 import type { MenuProps } from "antd";
+import type { MenuTheme } from "antd";
 
+interface HeaderProps {
+  darkMode: boolean;
+}
 
-
-
-
-export default function Header() {
+export default function Header(props: HeaderProps) {
+  const { darkMode } = props;
   const { user, removeUser } = useUserStore();
   const [cookies, setCookies] = useCookies();
   const navigate = useNavigate();
@@ -21,6 +25,7 @@ export default function Header() {
   const [orders, setOrders] = useState<String[]>([]);
   const [commentsOpen, setCommentsOpen] = useState<boolean>(false);
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
+  const [theme, setTheme] = useState<MenuTheme>("dark");
 
   const SignOutHandler = () => {
     setCookies("accessToken", "", { expires: new Date() });
@@ -28,8 +33,9 @@ export default function Header() {
     setCookies("grantType", "", { expires: new Date() });
     removeUser();
     console.log("로그아웃 success");
-    navigate('/api/home')
+    navigate("/api/home");
   };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -49,30 +55,29 @@ export default function Header() {
     },
   ];
 
-  useEffect(()=>{
-    getComments().then(res=>{
+  useEffect(() => {
+    getComments().then((res) => {
       setComments(res.comments);
     });
     getOrders().then((res) => {
       setOrders(res.products);
     });
-  },[])
+  }, []);
+
+  // 헤더 다크모드 설정
+ useEffect(() => {
+   setTheme(darkMode ? "dark" : "light");
+ }, [darkMode]);
 
   return (
     <div>
-      <div
-        style={{
-          height: 60,
-          backgroundColor: "#300A6D",
-          color: "white",
-          display: "flex",
-          alignItems: "center",
-          fontWeight: "bold",
-        }}
-      >
+      {/* <div style={{ background: darkMode ? "black" : "white" }}>
+        <h1 style={{ color: darkMode ? "white" : "black" }}>Header</h1>
+      </div> */}
+      <Menu className="headerForm" theme={theme}>
         <img
           alt="main"
-          src={mainlogo}
+          src={darkMode ? mainlogo : mainlogo_color}
           style={{
             height: "80%",
             width: "auto",
@@ -82,7 +87,11 @@ export default function Header() {
         />
         <Typography.Title
           level={3}
-          style={{ color: "white", flex: 1, textAlign: "center" }}
+          style={{
+            color: darkMode ? "white" : "#19284a",
+            flex: 1,
+            textAlign: "center",
+          }}
         >
           샘플 게시판
         </Typography.Title>
@@ -102,7 +111,7 @@ export default function Header() {
 
           <Badge count={comments.length} dot>
             <MailOutlined
-              style={{ fontSize: 24, color: "white" }}
+              style={{ fontSize: 24, color: darkMode ? "white" : "#19284a" }}
               onClick={() => {
                 setCommentsOpen(true);
               }}
@@ -110,7 +119,7 @@ export default function Header() {
           </Badge>
           <Badge count={orders.length}>
             <BellFilled
-              style={{ fontSize: 24, color: "white" }}
+              style={{ fontSize: 24, color: darkMode ? "white" : "#19284a" }}
               onClick={() => {
                 setNotificationsOpen(true);
               }}
@@ -149,7 +158,7 @@ export default function Header() {
             )}
           ></List>
         </Drawer>
-      </div>
+      </Menu>
     </div>
   );
 }
