@@ -5,9 +5,10 @@
 .homeText {
   position: absolute;
   top: 80%;
-  left: 40%;
+  left: 25%;
   transform: translate(-50%, -50%);
   z-index: 1;
   color: white;
   font-weight: bold;
+  font-size: 50px;
 }

@@ -1,28 +1,15 @@
 .wrapper {
-    height: 100vh;
-    width: 100vw;
-    /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: red;
 }
 
 .contentWrapper {
-
-  margin-left: 10%;   
-  
-}
-
-.sideMenu {
-  position: fixed;
-  top: 60px; /* 헤더 높이만큼 떨어뜨립니다. */
-  left: 0;
-  width: 200px;  
-  font-weight: bold; 
-}
-
-.content {
-    margin-left: 200px;
-    /* background-color: green; */
-    position: fixed;
-    top: 100px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }
 
 .header {
@@ -30,12 +17,33 @@
   top: 0;
   left: 0;
   right: 0;
-  /* z-index: 9999; 다른 요소보다 우선 순위를 높게 설정합니다. */
+}
+
+.sideMenu {
+  position: fixed;
+  top: 70px; /* 헤더 높이만큼 떨어뜨립니다. */
+  left: 0;
+  width: 200px;  
+  font-weight: bold; 
+  flex-shrink: 0;
+  height: calc(100vh - 130px);
+  background-color: aqua;
+}
+
+.content {
+  margin-left: 200px;
+  background-color: green;
+  position: fixed;
+  top: 70px;
+  width: 100vw;
+  height: calc(100vh - 130px); /* 130px은 header와 footer의 높이 합 */
+  overflow: auto;
+  flex: 1;
 }
 
 .footer {
+  flex-shrink: 0;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
 }

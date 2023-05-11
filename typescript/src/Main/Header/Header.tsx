@@ -71,9 +71,6 @@ export default function Header(props: HeaderProps) {
 
   return (
     <div>
-      {/* <div style={{ background: darkMode ? "black" : "white" }}>
-        <h1 style={{ color: darkMode ? "white" : "black" }}>Header</h1>
-      </div> */}
       <Menu className="headerForm" theme={theme}>
         <img
           alt="main"
