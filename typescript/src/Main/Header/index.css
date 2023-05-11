@@ -1,0 +1,7 @@
+.headerForm {
+  height: 70px;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
