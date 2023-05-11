@@ -1,19 +1,46 @@
-.divider{
-    border-color: black;
-    border-width: 3px;
-    margin : 0,
+.profile{
+  margin-right: 30%;
 }
 
 .profile-item {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
+}
+
+.divider{
+  border-color: black;
+  border-width: 3px;
+  margin : 0,
 }
 
 .edit-button{
-    width: 150px;
+    width: 130px;
+    border-color: #e0e0e0;
 }
+
 .edit-button:hover {
   color: red;
   border-color: red;
+}
+
+
+.item-name{
+width : 150px;
+
+}
+
+.item-content{
+
+}
+
+.item-button{
+  width: 150px;
+}
+
+.withdrawal{
+  margin-right: 32%;
+  display: flex;
+  justify-content: right;
+  align-items: right;
 }
