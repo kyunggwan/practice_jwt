@@ -1,9 +1,9 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useUserStore } from '../../stores';
+import { useUserStore } from "../../stores";
 import { Menu, Switch } from "antd";
-import './index.css';
+import "./index.css";
 import type { MenuTheme } from "antd";
 import {
   HomeOutlined,
@@ -15,36 +15,36 @@ import {
   AppstoreFilled,
 } from "@ant-design/icons";
 
-
-export default function SideMenu(props:{darkMode: boolean; setDarkMode: (darkMode: boolean) => void }) {
-  const location = useLocation()
+export default function SideMenu(props: {
+  darkMode: boolean; // 다크모드 상태
+  setDarkMode: (darkMode: boolean) => void; // 다크모드 상태 설정 함수
+}) {
+  const location = useLocation(); // 현재 경로 정보
   const navigate = useNavigate();
-  const [selectedKeys, setSelectedKeys] = useState<string>('/');
-  const [cookies, setCookies] = useCookies();
-  const { user, removeUser } = useUserStore();
-  const [theme, setTheme] = useState<MenuTheme>("dark");
-  const { darkMode, setDarkMode } = props;
+  const [selectedKeys, setSelectedKeys] = useState<string>("/"); // 선택된 메뉴 항목
+  const [cookies, setCookies] = useCookies(); // 쿠키 사용
+  const { user, removeUser } = useUserStore(); // 사용자 정보 및 관리
+  const [theme, setTheme] = useState<MenuTheme>("dark"); // 메뉴 테마 상태
+  const { darkMode, setDarkMode } = props; // 다크모드 상태 및 설정 함수
 
   useEffect(() => {
- const pathName = location.pathname
- setSelectedKeys(pathName)
-  }, [location.pathname])
-  
- 
+    setSelectedKeys(location.pathname); // 현재 경로에 따라 선택된 메뉴 항목 설정
+  }, [location.pathname]);
+
   // 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화
   const SignOutHandler = () => {
-    setCookies("accessToken", "", { expires: new Date() });
-    setCookies("refreshToken", "", { expires: new Date() });
-    setCookies("grantType", "", { expires: new Date() });
-    removeUser();
+    setCookies("accessToken", "", { expires: new Date() }); // 액세스 토큰 제거
+    setCookies("refreshToken", "", { expires: new Date() }); // 리프레시 토큰 제거
+    setCookies("grantType", "", { expires: new Date() }); // 권한 부여 유형 제거
+    removeUser(); // 사용자 정보 초기화
     console.log("로그아웃 success");
-    navigate('/api/home')
+    navigate("/api/home"); // 홈으로 이동
   };
 
   /* 다크모드 설정,  */
   const changeTheme = (value: boolean) => {
-    setTheme(value ? "dark" : "light");
-    setDarkMode(value);
+    setTheme(value ? "dark" : "light"); // 테마 상태 변경
+    setDarkMode(value); // 다크모드 상태 설정
   };
 
   return (
