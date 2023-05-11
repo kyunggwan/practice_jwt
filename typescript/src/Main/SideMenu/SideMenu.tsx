@@ -16,13 +16,14 @@ import {
 } from "@ant-design/icons";
 
 
-export default function SideMenu() {
+export default function SideMenu(props:{darkMode: boolean; setDarkMode: (darkMode: boolean) => void }) {
   const location = useLocation()
   const navigate = useNavigate();
   const [selectedKeys, setSelectedKeys] = useState<string>('/');
   const [cookies, setCookies] = useCookies();
   const { user, removeUser } = useUserStore();
   const [theme, setTheme] = useState<MenuTheme>("dark");
+  const { darkMode, setDarkMode } = props;
 
   useEffect(() => {
  const pathName = location.pathname
@@ -40,9 +41,10 @@ export default function SideMenu() {
     navigate('/api/home')
   };
 
-  // 다크모드 설정
+  /* 다크모드 설정,  */
   const changeTheme = (value: boolean) => {
     setTheme(value ? "dark" : "light");
+    setDarkMode(value);
   };
 
   return (
@@ -55,7 +57,6 @@ export default function SideMenu() {
           height: "100%",
         }}
       >
- 
         <Menu
           className="sideMenuVertical"
           mode="inline"
@@ -94,14 +95,14 @@ export default function SideMenu() {
           >
             {user ? "LogOut" : "LogIn"}
           </Menu.Item>
+          <Switch
+            checked={theme === "dark"}
+            onChange={changeTheme}
+            checkedChildren="Dark"
+            unCheckedChildren="Light"
+          />
         </Menu>
       </div>
-      <Switch
-        checked={theme === "dark"}
-        onChange={changeTheme}
-        checkedChildren="Dark"
-        unCheckedChildren="Light"
-      />
     </div>
   );
 }
