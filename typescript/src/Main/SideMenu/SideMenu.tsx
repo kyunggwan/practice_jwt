@@ -25,13 +25,13 @@ export default function SideMenu(props: {
   const [cookies, setCookies] = useCookies(); // 쿠키 사용
   const { user, removeUser } = useUserStore(); // 사용자 정보 및 관리
   const [theme, setTheme] = useState<MenuTheme>("dark"); // 메뉴 테마 상태
-  const { darkMode, setDarkMode } = props; // 다크모드 상태 및 설정 함수
+  const { setDarkMode } = props; // 다크모드 상태 및 설정 함수
 
   useEffect(() => {
     setSelectedKeys(location.pathname); // 현재 경로에 따라 선택된 메뉴 항목 설정
   }, [location.pathname]);
 
-  // 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화
+  /* 로그아웃 시, 토큰을 비우고, 유효시간 갱신해서 없애고, store를 초기화 */
   const SignOutHandler = () => {
     setCookies("accessToken", "", { expires: new Date() }); // 액세스 토큰 제거
     setCookies("refreshToken", "", { expires: new Date() }); // 리프레시 토큰 제거
@@ -41,11 +41,35 @@ export default function SideMenu(props: {
     navigate("/api/home"); // 홈으로 이동
   };
 
-  /* 다크모드 설정,  */
+  /* 다크모드 설정  */
   const changeTheme = (value: boolean) => {
     setTheme(value ? "dark" : "light"); // 테마 상태 변경
     setDarkMode(value); // 다크모드 상태 설정
   };
+
+  /* sideMenu 설정 */
+  const menuItems = [
+    { key: "/api/home", icon: <HomeOutlined />, label: "Home" },
+    { key: "/api/board", icon: <DashboardOutlined />, label: "Board" },
+    {
+      key: "/api/profile",
+      icon: <UnorderedListOutlined />,
+      label: "Profile",
+    },
+    {
+      key: "/api/shoppingBoard",
+      icon: <AppstoreFilled />,
+      label: "ShoppingBoard",
+    },
+    { key: "/api/inventory", icon: <ShopOutlined />, label: "Inventory" },
+    { key: "/api/orders", icon: <ShoppingCartOutlined />, label: "Orders" },
+    {
+      key: user ? "/api/signout" : "/api/login",
+      icon: <PoweroffOutlined />,
+      label: user ? "LogOut" : "LogIn",
+      onClick: SignOutHandler,
+    },
+  ];
 
   return (
     <div>
@@ -62,39 +86,16 @@ export default function SideMenu(props: {
           mode="inline"
           theme={theme}
           onClick={({ key }) => {
-            if (key === "signout") {
-            } else {
-              navigate(key);
-            }
+            if (key !== "signout") navigate(key);
           }}
           defaultSelectedKeys={[window.location.pathname]}
           selectedKeys={[selectedKeys]}
         >
-          <Menu.Item key="/api/home" icon={<HomeOutlined />}>
-            Home
-          </Menu.Item>
-          <Menu.Item key="/api/board" icon={<DashboardOutlined />}>
-            Board
-          </Menu.Item>
-          <Menu.Item key="/api/profile" icon={<UnorderedListOutlined />}>
-            Profile
-          </Menu.Item>
-          <Menu.Item key="/api/shoppingBoard" icon={<AppstoreFilled />}>
-            ShoppingBoard
-          </Menu.Item>
-          <Menu.Item key="/api/inventory" icon={<ShopOutlined />}>
-            Inventory
-          </Menu.Item>
-          <Menu.Item key="/api/orders" icon={<ShoppingCartOutlined />}>
-            Orders
-          </Menu.Item>
-          <Menu.Item
-            key={user ? "/api/signout" : "/api/login"}
-            icon={<PoweroffOutlined />}
-            onClick={SignOutHandler}
-          >
-            {user ? "LogOut" : "LogIn"}
-          </Menu.Item>
+          {menuItems.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon} onClick={item.onClick}>
+              {item.label}
+            </Menu.Item>
+          ))}
           <Switch
             checked={theme === "dark"}
             onChange={changeTheme}
