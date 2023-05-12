@@ -2,20 +2,14 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useUserStore } from "../../../stores";
 import { useNavigate } from "react-router-dom";
-import {
-  Card,
-  Input,
-  Table,
-  Divider,
-  Space,
-  List,
-  Typography,
-  Form,
-  Button,
-} from "antd";
+import { Input, Divider, List, Typography, Form, Button } from "antd";
 import { MailOutlined, LockOutlined, EditOutlined } from "@ant-design/icons";
-import { deleteUserApi, myInfoApi } from "../../../api/UserApi/UserApi";
-import './index.css';
+import {
+  deleteUserApi,
+  myInfoApi,
+  passwordEditApi,
+} from "../../../api/UserApi/UserApi";
+import "./index.css";
 const { Text } = Typography;
 
 interface Member {
@@ -30,12 +24,15 @@ export default function MyProfile() {
   const [myInfo, setMyInfo] = useState<Member>();
   const [cookies, setCookies] = useCookies();
   const { user, setUser, removeUser } = useUserStore();
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [passwordEditForm, setPasswordEditForm] = useState<boolean>(false);
   const [nicknameEditForm, setNicknameEditForm] = useState<boolean>(false);
+  const [currentPassword, setCurrentPassword] = useState<String>("");
   const [newPassword, setNewPassword] = useState<String>("");
+  const [confirmPassword, setConfirmPassword] = useState<String>("");
 
+  /* 개인 프로필 정보 불러오기 */
   useEffect(() => {
     const token = cookies.accessToken;
     if (token) getMyProfile(token);
@@ -51,7 +48,7 @@ export default function MyProfile() {
 
     const myInfoResponse = await myInfoApi(requestOption);
     if (!myInfoResponse) {
-      alert("MyProfile값이 없습니다.");
+      alert("MyProfile값이 없습니다.(토큰 만료))");
       return;
     } else {
       setMyInfo(myInfoResponse);
@@ -64,13 +61,48 @@ export default function MyProfile() {
     setPasswordEditForm(true);
   };
 
-  /* 확인 버튼 */
-  const passwordEditOk = () => {
-    // 비밀번호 수정 로직 추가
-    // setIsModalVisible(false);
+  /* 비밀번호 수정의 확인 버튼 */
+  const passwordEditOk = async () => {
+    if (newPassword !== confirmPassword) {
+      alert("새로운 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (currentPassword === newPassword) {
+      alert(
+        "현재 비밀번호와 새로운 비밀번호가 동일합니다. 다른 비밀번호를 선택해주세요."
+      );
+      return;
+    }
+
+    try {
+      const token = cookies.accessToken;
+
+      const requestOption = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const data = {
+        email: myInfo?.email,
+        exPassword: currentPassword,
+        newPassword: newPassword,
+      };
+
+      const passwordEditResponse = await passwordEditApi(data, requestOption);
+      if (!passwordEditResponse) {
+        alert("비밀번호 수정에 실패했습니다.");
+        return;
+      }
+      alert("비밀번호 수정 완료!");
+    } catch (error) {
+      console.error(error);
+      alert("비밀번호 수정 중 오류가 발생했습니다.");
+    }
   };
 
-  /* 취소 버튼 */
+  /* 비밀번호 수정의 취소 버튼 */
   const passwordEditCancel = () => {
     setPasswordEditForm(false);
   };
@@ -79,41 +111,29 @@ export default function MyProfile() {
   const nickNameEdit = () => {
     setNicknameEditForm(true);
   };
-  /* 확인 버튼 */
+  /* 닉네임 수정의 확인 버튼 */
   const nicknameEditOk = () => {
     // 비밀번호 수정 로직 추가
-
   };
 
-  /* 취소 버튼 */
+  /* 닉네임 수정의 취소 버튼 */
   const nicknameEditCancel = () => {
     setNicknameEditForm(false);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(event.target.value);
-  };
-
-  /* 회원 탈퇴 버튼누를 때*/
-const deleteUserEvent = async (id: number) => {
-   const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
-   if (!shouldDelete) {
-     // 삭제 취소
-     return;
-   }
-  try {
-    const token = cookies.accessToken;
-    const requestOption = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const userListResponse = await deleteUserApi(id, requestOption);
-    if (!userListResponse) {
+  /* 회원 탈퇴 버튼 */
+  const deleteUserEvent = async (id: number) => {
+    const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
+    if (!shouldDelete) {
+      // 삭제 취소
+      return;
+    }
+    const deleteUserResponse = await deleteUserApi(id);
+    if (!deleteUserResponse) {
       alert("리턴값이 없습니다.");
       return;
-    } alert("감사합니다." + userListResponse);
+    }
+    alert("감사합니다." + deleteUserResponse);
 
     // 회원 탈퇴 후 필요한 동작 수행
     // 토큰만료, zustand 삭제, rederiction
@@ -123,12 +143,8 @@ const deleteUserEvent = async (id: number) => {
     removeUser();
     console.log("회원탈퇴 success");
     navigate("/api/home");
+  };
 
-  } catch (error) {
-    console.error("회원 탈퇴 동작 중 오류 발생:", error);
-    // 오류 처리 필요
-  }
-};
   return (
     <div>
       <List className="profile">
@@ -167,16 +183,33 @@ const deleteUserEvent = async (id: number) => {
             {passwordEditForm && (
               <Form>
                 <Form.Item label="현재 비밀번호">
-                  <Input.Password placeholder="현재 비밀번호를 입력하세요" />
+                  <Input.Password
+                    placeholder="현재 비밀번호를 입력하세요"
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    allowClear
+                  />
                 </Form.Item>
                 <Form.Item label="새로운 비밀번호">
-                  <Input.Password placeholder="새로운 비밀번호를 입력하세요" />
+                  <Input.Password
+                    placeholder="새로운 비밀번호를 입력하세요"
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    allowClear
+                  />
                 </Form.Item>
                 <Form.Item label="새로운 비밀번호 확인">
-                  <Input.Password placeholder="새로운 비밀번호를 다시 입력하세요" />
+                  <Input.Password
+                    placeholder="새로운 비밀번호를 다시 입력하세요"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    allowClear
+                  />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" danger>
+                  <Button
+                    type="primary"
+                    onClick={() => passwordEditOk()}
+                    danger
+                    htmlType="submit"
+                  >
                     확인
                   </Button>
                   <Button
