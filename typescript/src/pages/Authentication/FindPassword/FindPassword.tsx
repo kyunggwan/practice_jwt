@@ -1,18 +1,19 @@
-import {useState, useEffect} from 'react'
-import { signInApi } from '../../../api/SignApi/SignApi';
+import React from 'react'
+import './index.css';
+import { useState, useEffect } from "react";
+import { signInApi } from "../../../api/SignApi/SignApi";
 import { useCookies } from "react-cookie";
-import { useUserStore } from '../../../stores';
+import { useUserStore } from "../../../stores";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Typography } from "antd";
-import './index.css';
+import "./index.css";
 import jwt_decode from "jwt-decode";
 const { Text } = Typography;
 interface Props {
   // setAuthView: (authView: boolean) => void;
   setAuthView: (authView: string) => void;
 }
-
-export default function SignIn(props: Props) {
+export default function FindPassword(props: Props) {
   const [email, setEmail] = useState<String>("");
   const [password, setPassword] = useState<String>("");
   // const [tokenInfo, setTokenInfo] = useState<object>();
@@ -57,7 +58,7 @@ export default function SignIn(props: Props) {
 
     // accessToken을 디코드
     var decoded: any = jwt_decode(accessToken);
-    
+
     // 알고리즘 확인 부분( 필요시 오픈 )
     // var decodedHeader = jwt_decode(accessToken, { header: true });
     // console.log(decodedHeader);
@@ -128,7 +129,7 @@ export default function SignIn(props: Props) {
           </Form.Item>
 
           <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>로그인 상태 유지</Checkbox>
+            <h1>넘어갔냐?</h1>
           </Form.Item>
 
           <Form.Item>
@@ -143,17 +144,17 @@ export default function SignIn(props: Props) {
               }}
               onClick={() => signInHandler()}
             >
-              로그인
+              다음
             </Button>
             <br />
             <div style={{ width: 400 }}>
-              <Text type="secondary"> 등록 하시겠습니까? </Text>
+              <Text type="secondary"> ? </Text>
               <Text strong onClick={() => setAuthView("signup")}>
-                회원가입
+                회원가입 하기
               </Text>
-              <Text type="secondary"> | </Text>
-              <Text strong onClick={() => setAuthView("findpassword")}>
-                비밀번호 찾기
+              <Text type="secondary">{' | '}</Text>
+              <Text strong onClick={() => setAuthView("signin")}>
+                로그인
               </Text>
             </div>
           </Form.Item>

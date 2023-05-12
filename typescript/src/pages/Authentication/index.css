@@ -1,0 +1,7 @@
+.loginForm {
+  border: solid 3px #eaeaea;
+  transition: border-color 0.2s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
+  width: 500px;
+}

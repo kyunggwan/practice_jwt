@@ -2,10 +2,12 @@ import {useState} from 'react'
 import { signUpApi } from '../../../api/SignApi/SignApi';
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
+import './index.css';
 const { Text } = Typography;
 
 interface Props {
-  setAuthView: (authView: boolean) => void;
+  // setAuthView: (authView: boolean) => void;
+  setAuthView: (authView: string) => void;
 }
 
 export default function SignUp(props: Props) {
@@ -44,7 +46,7 @@ export default function SignUp(props: Props) {
     }
     alert(signUpResponse.email+"님의 회원가입에 성공했습니다.");
 
-    setAuthView(false);
+    setAuthView("signin");
   };
 
   return (
@@ -228,12 +230,12 @@ export default function SignUp(props: Props) {
             회원가입
           </Button>
           <br />
-          <div style={{ display: "flex", justifyContent: "right" }}>
+         
             <Text type="secondary"> 이미 계정이 있으신가요? </Text>
-            <Text strong onClick={() => setAuthView(false)}>
+            <Text strong onClick={() => setAuthView("signin")}>
               로그인
             </Text>
-          </div>
+       
         </Form.Item>
       </Form>
     </div>
