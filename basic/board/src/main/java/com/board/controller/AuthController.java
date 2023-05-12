@@ -3,9 +3,11 @@ package com.board.controller;
 import com.board.dto.*;
 import com.board.entity.Authority;
 import com.board.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signUp")
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity<MemberResponseDto> signup(@Valid @RequestBody MemberRequestDto memberRequestDto,  Errors errors) {
         Authority authority = Authority.ROLE_USER; // 회원 권한 설정
         MemberResponseDto memberResponseDto = authService.signup(memberRequestDto, authority);
         return ResponseEntity.ok(memberResponseDto);
@@ -27,7 +29,7 @@ public class AuthController {
 
     //MemberRequestDto == 사용자가 로그인 시도한 ID / PW String
     @PostMapping("/signIn")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity<TokenDto> login(@Valid @RequestBody MemberRequestDto memberRequestDto,  Errors errors) {
         return ResponseEntity.ok(authService.login(memberRequestDto));
     }
 
