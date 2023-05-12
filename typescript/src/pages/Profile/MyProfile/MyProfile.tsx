@@ -32,21 +32,15 @@ export default function MyProfile() {
   const [newPassword, setNewPassword] = useState<String>("");
   const [confirmPassword, setConfirmPassword] = useState<String>("");
 
-  /* 개인 프로필 정보 불러오기 */
   useEffect(() => {
     const token = cookies.accessToken;
-    if (token) getMyProfile(token);
+    if (token) getMyProfile();
     else setMyInfo(undefined);
   }, [cookies.accessToken]);
-
-  const getMyProfile = async (token: any) => {
-    const requestOption = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const myInfoResponse = await myInfoApi(requestOption);
+  
+  /* 개인 프로필 정보 불러오기 */
+  const getMyProfile = async () => {
+    const myInfoResponse = await myInfoApi();
     if (!myInfoResponse) {
       alert("MyProfile값이 없습니다.(토큰 만료))");
       return;
