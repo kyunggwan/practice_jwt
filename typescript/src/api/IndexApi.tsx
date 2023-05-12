@@ -7,11 +7,13 @@ const BASE_URL = "http://localhost:4000/api";
 //비인가 통신
 const axiosAPI = (url: string, options?: any) => {
   const instance = axios.create({ baseURL: url, ...options });
+  
   return instance;
 };
 
 //인가 통신
-const AxiosAuthAPI = (url: string, accessToken?: string, options?: any) => {
+const AxiosAuthAPI = (url: string, accessToken?: any, options?: any) => {
+  const [cookies, setCookie] = useCookies(["accessToken", "refreshToken"]);
   const instance = axios.create({
     baseURL: url,
     headers: { Authorization: `Bearer ${accessToken}` }, 
@@ -32,8 +34,8 @@ const AxiosAuthAPI = (url: string, accessToken?: string, options?: any) => {
       const originalRequest = config;
 
       if (status === 401) {
-        const accessToken = sessionStorage.getItem("accessToken");
-        const refreshToken = sessionStorage.getItem("refreshToken");
+       const accessToken = cookies.accessToken;
+       const refreshToken = cookies.refreshToken;
 
         try {
           const { data } = await axios({
@@ -42,8 +44,8 @@ const AxiosAuthAPI = (url: string, accessToken?: string, options?: any) => {
             data: { accessToken: accessToken, refreshToken: refreshToken },
           });
           console.log(data);
-          const newAccessToken = data.accessToken;
-          const newRefreshToken = data.refreshToken;
+         const newAccessToken = data.accessToken;
+         const newRefreshToken = data.refreshToken;
 
           originalRequest.headers = {
             "Content-Type": "application/json",
@@ -72,7 +74,7 @@ const AuthInstance = () => {
       setAccessToken(cookies.accessToken);
     }
   }, [cookies.accessToken]);
-
+  console.log(accessToken);
   const authInstance = AxiosAuthAPI(BASE_URL, accessToken);
 
   return authInstance;

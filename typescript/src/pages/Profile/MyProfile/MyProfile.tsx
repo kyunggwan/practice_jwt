@@ -32,17 +32,39 @@ export default function MyProfile() {
   const [newPassword, setNewPassword] = useState<String>("");
   const [confirmPassword, setConfirmPassword] = useState<String>("");
 
+  // useEffect(() => {
+  //   const token = cookies.accessToken;
+  //   if (token) getMyProfile();
+  //   else setMyInfo(undefined);
+  // }, [cookies.accessToken]);
+
+  /* 개인 프로필 정보 불러오기 */
+  // const getMyProfile = async () => {
+  //   const myInfoResponse = await myInfoApi();
+  //   if (!myInfoResponse) {
+  //     alert("MyProfile값이 없습니다.(토큰 만료))");
+  //     return;
+  //   } else {
+  //     setMyInfo(myInfoResponse);
+  //   }
+  // };
+
   useEffect(() => {
     const token = cookies.accessToken;
-    if (token) getMyProfile();
+    if (token) getMyProfile(token);
     else setMyInfo(undefined);
   }, [cookies.accessToken]);
-  
-  /* 개인 프로필 정보 불러오기 */
-  const getMyProfile = async () => {
-    const myInfoResponse = await myInfoApi();
+
+  const getMyProfile = async (token: any) => {
+    const requestOption = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const myInfoResponse = await myInfoApi(requestOption);
     if (!myInfoResponse) {
-      alert("MyProfile값이 없습니다.(토큰 만료))");
+      alert("MyProfile값이 없습니다.");
       return;
     } else {
       setMyInfo(myInfoResponse);
@@ -116,27 +138,61 @@ export default function MyProfile() {
   };
 
   /* 회원 탈퇴 버튼 */
+  // const deleteUserEvent = async (id: number) => {
+  //   const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
+  //   if (!shouldDelete) {
+  //     // 삭제 취소
+  //     return;
+  //   }
+  //   const deleteUserResponse = await deleteUserApi(id);
+  //   if (!deleteUserResponse) {
+  //     alert("리턴값이 없습니다.");
+  //     return;
+  //   }
+  //   alert("감사합니다." + deleteUserResponse);
+
+  //   // 회원 탈퇴 후 필요한 동작 수행
+  //   // 토큰만료, zustand 삭제, rederiction
+  //   setCookies("accessToken", "", { expires: new Date() });
+  //   setCookies("refreshToken", "", { expires: new Date() });
+  //   setCookies("grantType", "", { expires: new Date() });
+  //   removeUser();
+  //   console.log("회원탈퇴 success");
+  //   navigate("/api/home");
+  // };
   const deleteUserEvent = async (id: number) => {
     const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
     if (!shouldDelete) {
       // 삭제 취소
       return;
     }
-    const deleteUserResponse = await deleteUserApi(id);
-    if (!deleteUserResponse) {
-      alert("리턴값이 없습니다.");
-      return;
-    }
-    alert("감사합니다." + deleteUserResponse);
+    try {
+      const token = cookies.accessToken;
+      const requestOption = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-    // 회원 탈퇴 후 필요한 동작 수행
-    // 토큰만료, zustand 삭제, rederiction
-    setCookies("accessToken", "", { expires: new Date() });
-    setCookies("refreshToken", "", { expires: new Date() });
-    setCookies("grantType", "", { expires: new Date() });
-    removeUser();
-    console.log("회원탈퇴 success");
-    navigate("/api/home");
+      const userListResponse = await deleteUserApi(id, requestOption);
+      if (!userListResponse) {
+        alert("리턴값이 없습니다.");
+        return;
+      }
+      alert("감사합니다." + userListResponse);
+
+      // 회원 탈퇴 후 필요한 동작 수행
+      // 토큰만료, zustand 삭제, rederiction
+      setCookies("accessToken", "", { expires: new Date() });
+      setCookies("refreshToken", "", { expires: new Date() });
+      setCookies("grantType", "", { expires: new Date() });
+      removeUser();
+      console.log("회원탈퇴 success");
+      navigate("/api/home");
+    } catch (error) {
+      console.error("회원 탈퇴 동작 중 오류 발생:", error);
+      // 오류 처리 필요
+    }
   };
 
   return (
@@ -187,9 +243,28 @@ export default function MyProfile() {
                   <Input.Password
                     placeholder="새로운 비밀번호를 입력하세요"
                     onChange={(e) => setNewPassword(e.target.value)}
+                    onBlur={() => {
+                      // 비밀번호 유효성 검사
+                      const passwordRegex =
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:'",.<>\/?])(?=.*[^\s]).{8,}$/;
+                      const isValidPassword = passwordRegex.test(
+                        newPassword as string
+                      );
+
+                      // 유효성 검사 결과에 따라 동작 수행
+                      if (isValidPassword) {
+                        // 유효한 비밀번호일 경우의 동작
+                        console.log("유효한 비밀번호입니다.");
+                      } else {
+                        // 유효하지 않은 비밀번호일 경우의 동작
+                        alert("유효하지 않은 비밀번호입니다. 최소 8자리로 대소문자, 숫자를 포함하여 공백없이 작성해주세요 ");
+                      
+                      }
+                    }}
                     allowClear
                   />
                 </Form.Item>
+
                 <Form.Item label="새로운 비밀번호 확인">
                   <Input.Password
                     placeholder="새로운 비밀번호를 다시 입력하세요"
@@ -203,6 +278,11 @@ export default function MyProfile() {
                     onClick={() => passwordEditOk()}
                     danger
                     htmlType="submit"
+                    disabled={
+                      currentPassword === "" ||
+                      newPassword === "" ||
+                      confirmPassword === ""
+                    }
                   >
                     확인
                   </Button>

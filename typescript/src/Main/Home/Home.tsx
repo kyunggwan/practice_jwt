@@ -19,12 +19,12 @@ export default function Home(props: Props) {
   return (
     <>
     
-      <div
+      {/* <div
         className="homeVideo"
         style={{
           position: "relative",
           paddingTop:
-            "56.25%" /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */,
+            "56.25%" ,
         }}
       >
         <ReactPlayer
@@ -37,7 +37,7 @@ export default function Home(props: Props) {
           height="100%"
           style={{ position: "absolute", top: "0", left: "0" }}
         />
-      </div>
+      </div> */}
 
       <p className="homeText">
         {text}
