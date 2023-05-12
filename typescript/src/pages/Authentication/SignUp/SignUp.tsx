@@ -67,7 +67,7 @@ export default function SignUp(props: Props) {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <Text className='description'> 이메일 </Text>
+        <Text className="description"> 이메일 </Text>
         <Form.Item
           // label="이메일 주소"
           name="username"
@@ -89,7 +89,7 @@ export default function SignUp(props: Props) {
           />
         </Form.Item>
 
-<Text className='description'>비밀번호</Text>
+        <Text className="description">비밀번호</Text>
         <Form.Item
           // label="비밀번호"
           name="password"
@@ -107,10 +107,27 @@ export default function SignUp(props: Props) {
             onChange={(e) => setPassword(e.target.value)}
             prefix={<LockOutlined />}
             placeholder={"비밀번호"}
+            onBlur={() => {
+              // 비밀번호 유효성 검사
+              const passwordRegex =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\\\|\[\]{};:'",.<>\/?])(?=.*[^\s]).{8,}$/;
+              const isValidPassword = passwordRegex.test(password as string);
+
+              // 유효성 검사 결과에 따라 동작 수행
+              if (isValidPassword) {
+                // 유효한 비밀번호일 경우의 동작
+                console.log("유효한 비밀번호입니다.");
+              } else {
+                // 유효하지 않은 비밀번호일 경우의 동작
+                alert(
+                  "유효하지 않은 비밀번호입니다. 최소 8자리로 대소문자, 숫자를 포함하여 공백없이 작성해주세요 "
+                );
+              }
+            }}
           />
         </Form.Item>
 
-        <Text className='description'>닉네임</Text>
+        <Text className="description">닉네임</Text>
         <Form.Item
           // label="닉네임"
           name="nickname"
@@ -128,7 +145,6 @@ export default function SignUp(props: Props) {
             onChange={(e) => setNickname(e.target.value)}
           />
         </Form.Item>
-        
 
         {/* <Form.Item
           label="비밀번호 확인"
