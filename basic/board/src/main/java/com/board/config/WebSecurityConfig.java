@@ -41,7 +41,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // OPTIONS 요청 허용
                 .requestMatchers("/api/auth/**", "/api/board/**").permitAll()   // token 없이 통과 가능
-                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/api/member/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()   // 나머지는 토큰이 있어야 함
                 .and()
