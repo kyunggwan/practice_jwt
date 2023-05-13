@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useUserStore } from "../../../stores";
 import { useNavigate } from "react-router-dom";
 import { Input, Divider, List, Typography, Form, Button } from "antd";
-import { MailOutlined, LockOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import {
   deleteUserApi,
   myInfoApi,
@@ -23,7 +23,7 @@ interface Member {
 export default function MyProfile() {
   const [myInfo, setMyInfo] = useState<Member>();
   const [cookies, setCookies] = useCookies();
-  const { user, setUser, removeUser } = useUserStore();
+  const { user, removeUser } = useUserStore();
   const navigate = useNavigate();
   // const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [passwordEditForm, setPasswordEditForm] = useState<boolean>(false);
@@ -257,8 +257,9 @@ export default function MyProfile() {
                         console.log("유효한 비밀번호입니다.");
                       } else {
                         // 유효하지 않은 비밀번호일 경우의 동작
-                        alert("유효하지 않은 비밀번호입니다. 최소 8자리로 대소문자, 숫자를 포함하여 공백없이 작성해주세요 ");
-                      
+                        alert(
+                          "유효하지 않은 비밀번호입니다. 최소 8자리로 대소문자, 숫자를 포함하여 공백없이 작성해주세요 "
+                        );
                       }
                     }}
                     allowClear

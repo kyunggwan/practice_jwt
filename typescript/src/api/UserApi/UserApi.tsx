@@ -64,16 +64,11 @@ export const deleteUserApi = async (id: number, data: any) => {
   if (!response) return null;
 
   const result = response.data;
-  // console.log("userapi")
-  // console.log(result);
   return result;
 };
 
 /* 비밀번호 변경 api */
 export const passwordEditApi = async (data: any, requestOption: any) => {
-  console.log(data);
-  console.log(requestOption);
-
   const response = await axios
     .put(`http://localhost:4000/api/member/password`, data, requestOption)
     .catch((error) => null);

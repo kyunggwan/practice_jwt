@@ -15,6 +15,7 @@ import Inventory from '../pages/Inventory/Inventory';
 import Orders from '../pages/Orders/Orders';
 import Login from '../pages/Login/Login';
 import Admin from '../pages/Admin/Admin';
+import PutNewPassword from '../pages/Authentication/FindPassword/PutNewPassword';
 
 export default function Main() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
@@ -42,6 +43,7 @@ export default function Main() {
             <Route path="/api/orders" element={<Orders />} />
             <Route path="/api/inventory" element={<Inventory />} />
             <Route path="/api/admin" element={<Admin />} />
+            <Route path="/api/putnewpassword" element={<PutNewPassword />} />
           </Routes>
         </div>
       </div>

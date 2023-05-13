@@ -1,24 +1,19 @@
-import React from 'react'
-import './index.css';
+import "./index.css";
 import { useState, useEffect } from "react";
-import { signInApi } from "../../../api/SignApi/SignApi";
-import { useCookies } from "react-cookie";
-import { useUserStore } from "../../../stores";
+import { useNavigate } from "react-router-dom";
+import { checkEmailApi, checkEmailApi1 } from "../../../api/SignApi/SignApi";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Typography } from "antd";
 import "./index.css";
-import jwt_decode from "jwt-decode";
 const { Text } = Typography;
 interface Props {
-  // setAuthView: (authView: boolean) => void;
   setAuthView: (authView: string) => void;
 }
+
 export default function FindPassword(props: Props) {
-  const [email, setEmail] = useState<String>("");
-  const [password, setPassword] = useState<String>("");
-  // const [tokenInfo, setTokenInfo] = useState<object>();
-  const [cookies, setCookies] = useCookies();
-  const { user, setUser } = useUserStore();
+  const [email, setEmail] = useState<string>("");
+
+  const navigate = useNavigate();
   const { setAuthView } = props;
 
   // 콘솔 출력용
@@ -29,47 +24,32 @@ export default function FindPassword(props: Props) {
     console.log("Failed:", errorInfo);
   };
 
-  // 로그인 버튼 클릭 시, 값 axios로 넘어가서 반응
-  const signInHandler = async () => {
-    const data = {
-      email,
-      password,
-    };
+  // 다음 버튼 클릭 시 email이 있는지 체크한다.
+  const checkEmailHandler = async () => {
+    try {
+      console.log(email);
 
-    const signInResponse = await signInApi(data);
-    console.log(signInResponse);
-    if (!signInResponse) {
-      alert("로그인에 실패했습니다.");
-      return;
+      const checkEmailResponse = await checkEmailApi1(email);
+      console.log(checkEmailResponse);
+      if (!checkEmailResponse) {
+        alert("잘못된 요청입니다. 관리자에게 문의하세요.");
+        return;
+      }
+      if (checkEmailResponse === true) {
+        navigate("api/putnewpassword");
+      }
+      if (checkEmailResponse === false) {
+        alert("회원 정보가 없습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("오류가 발생했습니다. 다시 시도해주세요.");
     }
-    alert("로그인에 성공했습니다.");
-
-    const { grantType, accessToken, refreshToken, accessTokenExpiresIn } =
-      signInResponse; // 쿠키에 토큰, exprTime을 저장하고, user정보를 저장한다.(리덕스, zustand등 많으며 이번엔 zustand)
-
-    // 쿠키에 토큰 정보 저장
-    const expires = new Date(); // 쿠키 옵션 세팅
-    expires.setMilliseconds(expires.getMilliseconds() + accessTokenExpiresIn);
-
-    setCookies("grantType", grantType);
-    setCookies("accessToken", accessToken, { expires });
-    setCookies("refreshToken", refreshToken, { expires });
-    // alert(cookies.accessToken); //쿠키에 들어갔는지 확인
-
-    // accessToken을 디코드
-    var decoded: any = jwt_decode(accessToken);
-
-    // 알고리즘 확인 부분( 필요시 오픈 )
-    // var decodedHeader = jwt_decode(accessToken, { header: true });
-    // console.log(decodedHeader);
-
-    // jwt를 디코드 해서 로그인된 정보 zustand 저장
-    setUser(decoded);
   };
 
   return (
     <>
-      <div className="signInForm">
+      <div className="findPasswordForm">
         <Form
           name="basic"
           labelCol={{
@@ -88,8 +68,10 @@ export default function FindPassword(props: Props) {
           onFinishFailed={onFinishFailed}
           autoComplete="on"
         >
+          <Text strong type="warning">
+            비밀번호를 찾고자하는 아이디를 입력해주세요.
+          </Text>
           <Form.Item
-            // label="ID"
             name="username"
             rules={[
               {
@@ -108,30 +90,6 @@ export default function FindPassword(props: Props) {
             />
           </Form.Item>
 
-          <Form.Item
-            // label="Password"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-          >
-            <Input.Password
-              prefix={[<LockOutlined />]}
-              placeholder="비밀번호"
-              allowClear
-              size="large"
-              style={{ width: 400 }}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Form.Item>
-
-          <Form.Item name="remember" valuePropName="checked">
-            <h1>넘어갔냐?</h1>
-          </Form.Item>
-
           <Form.Item>
             <Button
               type="primary"
@@ -142,19 +100,19 @@ export default function FindPassword(props: Props) {
                 fontSize: 20,
                 fontWeight: "bold",
               }}
-              onClick={() => signInHandler()}
+              onClick={checkEmailHandler}
             >
               다음
             </Button>
             <br />
             <div style={{ width: 400 }}>
-              <Text type="secondary"> ? </Text>
-              <Text strong onClick={() => setAuthView("signup")}>
-                회원가입 하기
-              </Text>
-              <Text type="secondary">{' | '}</Text>
+              <Text type="secondary"> 이미 계정이 있으신가요? </Text>
               <Text strong onClick={() => setAuthView("signin")}>
                 로그인
+              </Text>
+              <Text type="secondary">{" | "}</Text>
+              <Text strong onClick={() => setAuthView("signup")}>
+                회원가입 하기
               </Text>
             </div>
           </Form.Item>
