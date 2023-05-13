@@ -1,7 +1,7 @@
 import "./index.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkEmailApi, checkEmailApi1 } from "../../../api/SignApi/SignApi";
+import { checkEmailApi } from "../../../api/SignApi/SignApi";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Typography } from "antd";
 import "./index.css";
@@ -27,16 +27,14 @@ export default function FindPassword(props: Props) {
   // 다음 버튼 클릭 시 email이 있는지 체크한다.
   const checkEmailHandler = async () => {
     try {
-      console.log(email);
-
-      const checkEmailResponse = await checkEmailApi1(email);
+      const checkEmailResponse = await checkEmailApi(email);
       console.log(checkEmailResponse);
       if (!checkEmailResponse) {
         alert("잘못된 요청입니다. 관리자에게 문의하세요.");
         return;
       }
       if (checkEmailResponse === true) {
-        navigate("api/putnewpassword");
+        navigate("/api/login/api/login/putnewpassword");
       }
       if (checkEmailResponse === false) {
         alert("회원 정보가 없습니다.");

@@ -43,7 +43,10 @@ export default function Main() {
             <Route path="/api/orders" element={<Orders />} />
             <Route path="/api/inventory" element={<Inventory />} />
             <Route path="/api/admin" element={<Admin />} />
-            <Route path="/api/putnewpassword" element={<PutNewPassword />} />
+            <Route
+              path="api/login/api/login/putnewpassword"
+              element={<PutNewPassword />}
+            />
           </Routes>
         </div>
       </div>

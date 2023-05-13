@@ -87,4 +87,15 @@ public class AuthService { private final AuthenticationManagerBuilder authentica
         // 토큰 발급
         return tokenDto;
     }
+
+    @Transactional
+    public boolean emailCheck(String email) {
+        try {
+            return memberRepository.existsByEmail(email);
+        } catch (Exception e) {
+            // 예외 처리 코드
+            return false;
+        }
+    }
+
 }

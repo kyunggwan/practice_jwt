@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -38,6 +35,13 @@ public class AuthController {
     public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
         System.out.println(tokenRequestDto.getRefreshToken());
         return ResponseEntity.ok(authService.reissue(tokenRequestDto));
+    }
+
+    // 비밀번호 찾기에서 이메일이 있는지 확인
+    @GetMapping("/{email}")
+    public ResponseEntity<Boolean> emailCheck(@PathVariable String email){
+        System.out.println("비번 찾기 회원 검색");
+        return ResponseEntity.ok(authService.emailCheck(email));
     }
 
 }
