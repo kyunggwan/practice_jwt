@@ -6,6 +6,8 @@ import com.board.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
@@ -16,9 +18,9 @@ public class AdminController {
 
     // 권한 변경값이 dto 형태로 넘어오면 그것 대로 수정해줄 것
     @PutMapping("/updateuser")
-    public MemberEntity updateUser(@RequestBody AdminUpdateUserDto dto){
+    public List<MemberEntity> updateUser(@RequestBody List<AdminUpdateUserDto> dtoList){
         System.out.println("Admin Controller!!!!!");
-        return adminService.updateUser(dto);
+        return adminService.updateUser(dtoList);
 
     }
 
