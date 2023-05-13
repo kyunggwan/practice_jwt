@@ -59,7 +59,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.changeMemberNickname(memberRequestDto.getEmail(), memberRequestDto.getNickname()));
     }
 
-    @PostMapping("/password")
+    @PutMapping("/password")
     public ResponseEntity<MemberResponseDto> setMemberPassword(@RequestBody ChangePasswordRequestDto dto){
         System.out.println("실행은 되었냐 패스와드 변환");
         return ResponseEntity.ok(memberService.changeMemberPassword(dto.getEmail(), dto.getExPassword(), dto.getNewPassword()));
