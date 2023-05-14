@@ -18,14 +18,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 모든 회원목록을 호출
-    @GetMapping("/")
-    public List<MemberEntity> getUser() {
-        List<MemberEntity> result = memberService.getUser();
-        System.out.println("You are Looking Profile ");
-        return result;
-    }
-
     @GetMapping("/{keyword}")
     public List<MemberEntity> findUser(@PathVariable String keyword) {
         List<MemberEntity> result = memberService.findUser(keyword);

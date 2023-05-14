@@ -17,7 +17,6 @@ export default function Admin() {
   const navigate = useNavigate();
   const [userList, setUserList] = useState<User[]>([]);
   const [cookies] = useCookies();
-  const [requestUser, setRequestUser] = useState<User[]>();
   const { user } = useUserStore();
 
   useEffect(() => {

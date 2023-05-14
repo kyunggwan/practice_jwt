@@ -46,17 +46,6 @@ public class MemberService {
         return MemberResponseDto.of(memberRepo.save(member));
     }
 
-    // 모든 유저 출력
-    public List<MemberEntity> getUser() {
-        try {
-            List<MemberEntity> userList = memberRepo.findAll();
-            return userList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     // 검색 유저 출력
     public List<MemberEntity> findUser(String keyword) {
         try {

@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const userListApi = async (data: any) => {
   const response = await axios
-    .get("http://localhost:4000/api/member/", data)
+    .get("http://localhost:4000/api/admin/", data)
     .catch((error) => null);
   if (!response) return null;
 

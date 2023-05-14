@@ -17,6 +17,17 @@ public class AdminService {
 //    updateUser
     private final AdminRepository adminRepository;
 
+    // 모든 유저 출력
+    public List<MemberEntity> getUser() {
+        try {
+            List<MemberEntity> userList = adminRepository.findAll();
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public List<MemberEntity> updateUser(List<AdminUpdateUserDto> dtoList) {
         try {
             List<MemberEntity> updatedMembers = new ArrayList<>();
