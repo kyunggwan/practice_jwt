@@ -8,12 +8,11 @@ export const userListApi = async (data: any) => {
   if (!response) return null;
 
   const result = response.data;
-  // console.log("userapi")
-  // console.log(result);
   return result;
 };
 
 export const userUpdateApi = async (data: any) => {
+  console.log(data);
   const response = await axios
     .put("http://localhost:4000/api/admin/updateuser", data)
     .catch((error) => null);
@@ -38,24 +37,6 @@ export const myInfoApi = async (data: any) => {
   return result;
 };
 
-// export const myInfoApi = async () => {
-//   try {
-//     const { data } = await AuthInstance.get("/member/");
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-/* 회원 탈퇴 api */
-// export const deleteUserApi = async (id: number) => {
-//   try {
-//     const { data } = await AuthInstance().delete(`/member/${id}`);
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 /* 회원 탈퇴 api */
 export const deleteUserApi = async (id: number, data: any) => {
   const response = await axios
@@ -76,12 +57,3 @@ export const passwordEditApi = async (data: any, requestOption: any) => {
   return response.data;
 };
 
-// export const passwordEditApi = async (data: any, requestOption: any) => {
-//   try{
-//     const {data} = await AuthInstance().get("/member/password");
-//     return data;
-//   } catch(error){
-//     console.log(error);
-//   }
-
-// };
