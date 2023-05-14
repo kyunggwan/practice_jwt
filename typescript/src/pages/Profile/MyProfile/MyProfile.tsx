@@ -137,29 +137,6 @@ export default function MyProfile() {
     setNicknameEditForm(false);
   };
 
-  /* 회원 탈퇴 버튼 */
-  // const deleteUserEvent = async (id: number) => {
-  //   const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
-  //   if (!shouldDelete) {
-  //     // 삭제 취소
-  //     return;
-  //   }
-  //   const deleteUserResponse = await deleteUserApi(id);
-  //   if (!deleteUserResponse) {
-  //     alert("리턴값이 없습니다.");
-  //     return;
-  //   }
-  //   alert("감사합니다." + deleteUserResponse);
-
-  //   // 회원 탈퇴 후 필요한 동작 수행
-  //   // 토큰만료, zustand 삭제, rederiction
-  //   setCookies("accessToken", "", { expires: new Date() });
-  //   setCookies("refreshToken", "", { expires: new Date() });
-  //   setCookies("grantType", "", { expires: new Date() });
-  //   removeUser();
-  //   console.log("회원탈퇴 success");
-  //   navigate("/api/home");
-  // };
   const deleteUserEvent = async (id: number) => {
     const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
     if (!shouldDelete) {
