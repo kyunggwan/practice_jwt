@@ -12,11 +12,6 @@ const [authView, setAuthView] = useState<string>("signin");
   return (
     <div>
       <div className="loginForm">
-        {/* {authView ? (
-          <SignUp setAuthView={setAuthView} />
-        ) : (
-          <SignIn setAuthView={setAuthView} />
-        )} */}
         {authView === "signup" ? (
           <SignUp setAuthView={setAuthView} />
         ) : authView === "findpassword" ? (
