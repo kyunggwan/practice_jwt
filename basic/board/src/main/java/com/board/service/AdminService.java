@@ -28,6 +28,7 @@ public class AdminService {
         }
     }
 
+    // 유져 정보 변경(지금은 권한만)
     public List<MemberEntity> updateUser(List<AdminUpdateUserDto> dtoList) {
         try {
             List<MemberEntity> updatedMembers = new ArrayList<>();
