@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react'
-import { signInApi } from '../../../api/SignApi/SignApi';
+import { useState, useEffect } from "react";
+import { signInApi } from "../../../api/SignApi/SignApi";
 import { useCookies } from "react-cookie";
-import { useUserStore } from '../../../stores';
+import { useUserStore } from "../../../stores";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Typography } from "antd";
-import './index.css';
+import "./index.css";
 import jwt_decode from "jwt-decode";
 const { Text } = Typography;
 interface Props {
@@ -36,7 +36,7 @@ export default function SignIn(props: Props) {
     };
 
     const signInResponse = await signInApi(data);
-    console.log(signInResponse);
+    console.log("로그인 성공, 토큰 값: "+ signInResponse);
     if (!signInResponse) {
       alert("로그인에 실패했습니다.");
       return;
@@ -56,15 +56,22 @@ export default function SignIn(props: Props) {
     // alert(cookies.accessToken); //쿠키에 들어갔는지 확인
 
     // accessToken을 디코드
-    var decoded: any = jwt_decode(accessToken);
-    
-    // 알고리즘 확인 부분( 필요시 오픈 )
-    // var decodedHeader = jwt_decode(accessToken, { header: true });
-    // console.log(decodedHeader);
-
-    // jwt를 디코드 해서 로그인된 정보 zustand 저장
-    setUser(decoded);
+   
+      try {
+        // 토큰을 디코드해서 정보를 얻습니다. zustand 저장
+        const decodedToken = jwt_decode(accessToken);
+        setUser(decodedToken);
+        console.log(decodedToken);
+        console.log(user);
+      } catch (e) {
+        console.log(e);
+      }
+   
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   return (
     <>

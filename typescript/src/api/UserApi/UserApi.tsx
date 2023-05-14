@@ -11,19 +11,13 @@ export const userListApi = async (data: any) => {
   return result;
 };
 
-export const userUpdateApi = async (data: any) => {
-  console.log(data);
+/* 유저 정보 변경 */
+export const userUpdateApi = async (data: any, requestOption: any) => {
   const response = await axios
-    .put("http://localhost:4000/api/admin/updateuser", data)
+    .put("http://localhost:4000/api/admin/updateuser", data, requestOption)
     .catch((error) => null);
-  console.log(response);
   if (!response) return null;
-
-  const result = response.data;
-  console.log("userUpdateApi Response");
-
-  console.log(result);
-  return result;
+  return response;
 };
 
 // 로그인한 유저의 본인 정보 확인 api

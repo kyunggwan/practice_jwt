@@ -25,6 +25,7 @@ export default function Admin() {
     else setUserList([]);
   }, [cookies.accessToken]);
 
+  /* 모든 회원 정보 보기 */
   const getUser = async (token: any) => {
     const requestOption = {
       headers: {
@@ -76,6 +77,7 @@ export default function Admin() {
     },
   ];
 
+  /* 유저 정보 변경 저장 */
   const handleSave = async () => {
     const token = cookies.accessToken;
     if (token) {
@@ -83,12 +85,10 @@ export default function Admin() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: [userList],
       };
 
       try {
-        const response = await userUpdateApi(requestOption);
-        console.log("userUpdateApi response :  " + response);
+        const response = await userUpdateApi(userList, requestOption);
         alert("성공적으로 저장되었습니다.");
       } catch (error) {
         console.error(error);
@@ -110,7 +110,7 @@ export default function Admin() {
       </div>
       <Table className="adminTable" columns={columns} dataSource={userList} />
 
-      <Button type="primary" onClick={handleSave} >
+      <Button type="primary" onClick={handleSave}>
         권한변경저장
       </Button>
     </div>
