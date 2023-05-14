@@ -16,6 +16,8 @@ import Orders from '../pages/Orders/Orders';
 import Login from '../pages/Login/Login';
 import Admin from '../pages/Admin/Admin';
 import PutNewPassword from '../pages/Authentication/FindPassword/PutNewPassword';
+import AdminLayout from '../Layout/AdminLayout/AdminLayout';
+import MemberLayout from '../Layout/MemberLayout/MemberLayout';
 
 export default function Main() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
@@ -33,8 +35,10 @@ export default function Main() {
           <Routes>
             <Route path="/api/home" element={<Home />} />
             <Route path="/api/board" element={<Board />} />
-            <Route path="/api/boardDetail" element={<BoardDetail />} />
-            <Route path="/api/boardWrite" element={<BoardWrite />} />
+            <Route element={<MemberLayout />}>
+              <Route path="/api/boardDetail" element={<BoardDetail />} />
+              <Route path="/api/boardWrite" element={<BoardWrite />} />
+            </Route>
             <Route path="/api/boardContent" element={<BoardContent />} />
             <Route path="/api/profile" element={<Profile />} />
             <Route path="/api/signout" element={<Home />} />
@@ -42,7 +46,9 @@ export default function Main() {
             <Route path="/api/shoppingBoard" element={<ShoppingBoard />} />
             <Route path="/api/orders" element={<Orders />} />
             <Route path="/api/inventory" element={<Inventory />} />
-            <Route path="/api/admin" element={<Admin />} />
+            <Route element={<AdminLayout />}>
+              <Route path="/api/admin" element={<Admin />} />
+            </Route>
             <Route
               path="api/login/api/login/putnewpassword"
               element={<PutNewPassword />}
