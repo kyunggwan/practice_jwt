@@ -15,7 +15,6 @@ interface Props {
 export default function SignIn(props: Props) {
   const [email, setEmail] = useState<String>("");
   const [password, setPassword] = useState<String>("");
-  // const [tokenInfo, setTokenInfo] = useState<object>();
   const [cookies, setCookies] = useCookies();
   const { user, setUser } = useUserStore();
   const { setAuthView } = props;
@@ -53,10 +52,8 @@ export default function SignIn(props: Props) {
     setCookies("grantType", grantType);
     setCookies("accessToken", accessToken, { expires });
     setCookies("refreshToken", refreshToken, { expires });
-    // alert(cookies.accessToken); //쿠키에 들어갔는지 확인
 
     // accessToken을 디코드
-   
       try {
         // 토큰을 디코드해서 정보를 얻습니다. zustand 저장
         const decodedToken = jwt_decode(accessToken);
@@ -66,7 +63,6 @@ export default function SignIn(props: Props) {
       } catch (e) {
         console.log(e);
       }
-   
   };
 
   useEffect(() => {
