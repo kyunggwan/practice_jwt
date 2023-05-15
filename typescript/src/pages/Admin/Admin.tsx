@@ -35,7 +35,7 @@ export default function Admin() {
 
     const userListResponse = await userListApi(requestOption);
     if (!userListResponse) {
-      alert(" 리턴값이 없습니다.");
+      alert(" 다시 로그인 해주세요.");
       return;
     } else {
       setUserList(userListResponse);

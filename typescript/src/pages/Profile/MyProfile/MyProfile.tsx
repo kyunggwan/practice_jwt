@@ -32,23 +32,6 @@ export default function MyProfile() {
   const [newPassword, setNewPassword] = useState<String>("");
   const [confirmPassword, setConfirmPassword] = useState<String>("");
 
-  // useEffect(() => {
-  //   const token = cookies.accessToken;
-  //   if (token) getMyProfile();
-  //   else setMyInfo(undefined);
-  // }, [cookies.accessToken]);
-
-  /* 개인 프로필 정보 불러오기 */
-  // const getMyProfile = async () => {
-  //   const myInfoResponse = await myInfoApi();
-  //   if (!myInfoResponse) {
-  //     alert("MyProfile값이 없습니다.(토큰 만료))");
-  //     return;
-  //   } else {
-  //     setMyInfo(myInfoResponse);
-  //   }
-  // };
-
   useEffect(() => {
     const token = cookies.accessToken;
     if (token) getMyProfile(token);
@@ -62,9 +45,10 @@ export default function MyProfile() {
       },
     };
 
+    /* 개인 프로필 정보 불러오기 */
     const myInfoResponse = await myInfoApi(requestOption);
     if (!myInfoResponse) {
-      alert("MyProfile값이 없습니다.");
+      alert("MyProfile을 불러 올 수 없습니다. 다시 로그인 해주세요");
       return;
     } else {
       setMyInfo(myInfoResponse);
