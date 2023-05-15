@@ -25,12 +25,12 @@ export default function MyProfile() {
   const [cookies, setCookies] = useCookies();
   const { user, removeUser } = useUserStore();
   const navigate = useNavigate();
-  // const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [passwordEditForm, setPasswordEditForm] = useState<boolean>(false);
   const [nicknameEditForm, setNicknameEditForm] = useState<boolean>(false);
   const [currentPassword, setCurrentPassword] = useState<String>("");
   const [newPassword, setNewPassword] = useState<String>("");
   const [confirmPassword, setConfirmPassword] = useState<String>("");
+  const [newNickname, setNewNickname] = useState<String>("");
 
   useEffect(() => {
     const token = cookies.accessToken;
@@ -55,13 +55,13 @@ export default function MyProfile() {
     }
   };
 
-  /* 비밀번호 수정 버튼 클릭 */
+  /* 비밀번호 변경 버튼 클릭 */
   const passwordEdit = () => {
     /* Edit Form이 나오게 한다 */
     setPasswordEditForm(true);
   };
 
-  /* 비밀번호 수정의 확인 버튼 */
+  /* 비밀번호 변경의 확인 버튼 */
   const passwordEditOk = async () => {
     if (newPassword !== confirmPassword) {
       alert("새로운 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
@@ -103,25 +103,27 @@ export default function MyProfile() {
     }
   };
 
-  /* 비밀번호 수정의 취소 버튼 */
+  /* 비밀번호 변경의 취소 버튼 */
   const passwordEditCancel = () => {
     setPasswordEditForm(false);
   };
 
-  /* 닉네임 수정 버튼 클릭 */
+  /* 닉네임 변경 버튼 클릭 */
   const nickNameEdit = () => {
     setNicknameEditForm(true);
   };
-  /* 닉네임 수정의 확인 버튼 */
+
+  /* 닉네임 변경의 확인 버튼 */
   const nicknameEditOk = () => {
-    // 비밀번호 수정 로직 추가
+    // 닉네임 수정 로직 추가
   };
 
-  /* 닉네임 수정의 취소 버튼 */
+  /* 닉네임 변경의 취소 버튼 */
   const nicknameEditCancel = () => {
     setNicknameEditForm(false);
   };
 
+  /* 회원 탈퇴 버튼 */
   const deleteUserEvent = async (id: number) => {
     const shouldDelete = window.confirm("정말로 삭제하시겠습니까?");
     if (!shouldDelete) {
@@ -301,10 +303,13 @@ export default function MyProfile() {
                     },
                   ]}
                 >
-                  <Input placeholder="닉네임 입력(최대 15자)" />
+                  <Input
+                    placeholder="닉네임 입력(최대 15자)"
+                    onChange={(e) => setNewNickname(e.target.value)}
+                  />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" danger>
+                  <Button type="primary" danger onClick={() => nicknameEditOk()}>
                     확인
                   </Button>
                   <Button
