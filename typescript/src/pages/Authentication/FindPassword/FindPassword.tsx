@@ -28,16 +28,12 @@ export default function FindPassword(props: Props) {
   const checkEmailHandler = async () => {
     try {
       const checkEmailResponse = await checkEmailApi(email);
-      console.log(checkEmailResponse);
-      if (!checkEmailResponse) {
-        alert("잘못된 요청입니다. 관리자에게 문의하세요.");
-        return;
-      }
       if (checkEmailResponse === true) {
         navigate("/api/login/api/login/putnewpassword");
-      }
-      if (checkEmailResponse === false) {
+      } else if (checkEmailResponse === false) {
         alert("회원 정보가 없습니다.");
+      } else {
+        alert("잘못된 요청입니다. 관리자에게 문의하세요.");
       }
     } catch (error) {
       console.error(error);
