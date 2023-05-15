@@ -96,6 +96,7 @@ export default function MyProfile() {
         return;
       }
       alert("비밀번호 수정 완료!");
+      setPasswordEditForm(false);
     } catch (error) {
       console.error(error);
       alert("비밀번호 수정 중 오류가 발생했습니다.");
