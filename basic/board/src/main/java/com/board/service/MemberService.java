@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,19 @@ public class MemberService {
     // 닉네임 변경
     @Transactional
     public MemberResponseDto changeMemberNickname(String email, String nickname){
+        // 이모티콘 및 일부 특수문자 사용 제한
+        String specialCharsPattern = "[&<>()'/]";
+
+        // 중복 닉네임 확인
+        if (memberRepo.existsByNickname(nickname)) {
+            throw new RuntimeException("중복된 닉네임입니다.");
+        }
+
+        // 이모티콘 및 특수문자 사용 확인
+        if (Pattern.matches(specialCharsPattern, nickname)) {
+            throw new RuntimeException("이모티콘 및 일부 특수문자는 사용할 수 없습니다.");
+        }
+
         MemberEntity member = memberRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
         member.setNickname(nickname);
         return MemberResponseDto.of(memberRepo.save(member));
