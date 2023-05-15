@@ -51,3 +51,11 @@ export const passwordEditApi = async (data: any, requestOption: any) => {
   return response.data;
 };
 
+/* 닉네임 변경 api */
+export const nicknameEditApi = async (data: any, requestOption: any) => {
+  const response = await axios
+    .put(`http://localhost:4000/api/member/nickname`, data, requestOption)
+    .catch((error) => null);
+  if (!response) return null;
+  return response;
+};

@@ -8,6 +8,7 @@ import {
   deleteUserApi,
   myInfoApi,
   passwordEditApi,
+  nicknameEditApi,
 } from "../../../api/UserApi/UserApi";
 import "./index.css";
 const { Text } = Typography;
@@ -31,6 +32,7 @@ export default function MyProfile() {
   const [newPassword, setNewPassword] = useState<String>("");
   const [confirmPassword, setConfirmPassword] = useState<String>("");
   const [newNickname, setNewNickname] = useState<String>("");
+  const [nicknameError, setNicknameError] = useState<String>("");
 
   useEffect(() => {
     const token = cookies.accessToken;
@@ -114,8 +116,36 @@ export default function MyProfile() {
   };
 
   /* 닉네임 변경의 확인 버튼 */
-  const nicknameEditOk = () => {
-    // 닉네임 수정 로직 추가
+  const nicknameEditOk = async () => {
+    try {
+      const token = cookies.accessToken;
+      const requestOption = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const data = {
+        email: myInfo?.email,
+        nickname: newNickname,
+      };
+
+      const nicknameEditResponse = await nicknameEditApi(data, requestOption);
+      console.log(nicknameEditResponse);
+        if (nicknameEditResponse && nicknameEditResponse.data.success) {
+          alert("닉네임 수정 완료!");
+          setNicknameEditForm(false);
+        } else {
+          const errorResponse =
+            nicknameEditResponse && nicknameEditResponse.data.error;
+          const errorMessage = errorResponse
+            ? errorResponse
+            : "닉네임 수정에 실패했습니다.";
+          alert(errorMessage);
+        }
+    } catch (error) {
+      console.error(error);
+      alert("닉네임 수정 중 오류가 발생했습니다.");
+    }
   };
 
   /* 닉네임 변경의 취소 버튼 */
@@ -284,10 +314,6 @@ export default function MyProfile() {
             {nicknameEditForm && (
               <Form>
                 <List>
-                  <List.Item>
-                    이번달 수정 가능 횟수 4회(월 최대 4회까지만 변경
-                    가능합니다).
-                  </List.Item>
                   <List.Item>길이는 최대 15자 이내로 작성해주세요.</List.Item>
                   <List.Item>중복 닉네임 불가합니다.</List.Item>
                   <List.Item>
@@ -302,6 +328,8 @@ export default function MyProfile() {
                       message: "닉네임을 입력해주세요.",
                     },
                   ]}
+                  validateStatus={nicknameError ? "error" : ""}
+                  help={nicknameError}
                 >
                   <Input
                     placeholder="닉네임 입력(최대 15자)"
@@ -309,7 +337,7 @@ export default function MyProfile() {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" danger onClick={() => nicknameEditOk()}>
+                  <Button type="dashed" onClick={() => nicknameEditOk()}>
                     확인
                   </Button>
                   <Button
