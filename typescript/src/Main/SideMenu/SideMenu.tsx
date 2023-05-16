@@ -13,6 +13,7 @@ import {
   ShopOutlined,
   ShoppingCartOutlined,
   AppstoreFilled,
+  ContainerFilled,
 } from "@ant-design/icons";
 
 export default function SideMenu(props: {
@@ -68,6 +69,11 @@ export default function SideMenu(props: {
       icon: <PoweroffOutlined />,
       label: user ? "LogOut" : "LogIn",
       onClick: SignOutHandler,
+    },
+    {
+      key: "/api/practice",
+      icon: <ContainerFilled />,
+      label: "Practice",
     },
   ];
 

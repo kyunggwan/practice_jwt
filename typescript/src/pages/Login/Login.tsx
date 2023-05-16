@@ -1,5 +1,5 @@
 import { useUserStore } from "../../stores";
-import Home from '../../Main/Home/Home';
+import Home from '../Home/Home';
 import Authentication from '../Authentication/Authentication';
 
 export default function Login() {
