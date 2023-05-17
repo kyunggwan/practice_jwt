@@ -18,7 +18,7 @@ import Admin from '../pages/Admin/Admin';
 import PutNewPassword from '../pages/Authentication/FindPassword/PutNewPassword';
 import AdminLayout from '../Layout/AdminLayout/AdminLayout';
 import MemberLayout from '../Layout/MemberLayout/MemberLayout';
-import Practice from '../pages/Practice/Practice';
+import Drawing from '../pages/Drawing/Drawing';
 
 export default function Main() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
@@ -50,7 +50,7 @@ export default function Main() {
             <Route element={<AdminLayout />}>
               <Route path="/api/admin" element={<Admin />} />
             </Route>
-            <Route path="/api/practice" element={<Practice />} />
+            <Route path="/api/drawing" element={<Drawing />} />
             <Route
               path="api/login/api/login/putnewpassword"
               element={<PutNewPassword />}

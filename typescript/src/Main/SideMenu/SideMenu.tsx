@@ -71,9 +71,9 @@ export default function SideMenu(props: {
       onClick: SignOutHandler,
     },
     {
-      key: "/api/practice",
+      key: "/api/drawing",
       icon: <ContainerFilled />,
-      label: "Practice",
+      label: "Drawing",
     },
   ];
 
