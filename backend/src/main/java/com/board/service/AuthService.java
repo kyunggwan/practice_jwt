@@ -52,8 +52,6 @@ public class AuthService { private final AuthenticationManagerBuilder authentica
                 .build();
 
         refreshTokenRepository.save(refreshToken);
-        System.out.println("login proccess ");
-        System.out.println(tokenDto);
         // 5. 토큰 발급
         return tokenDto;
     }
