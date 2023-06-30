@@ -41,8 +41,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // OPTIONS 요청 허용
                 .requestMatchers("/api/auth/**", "/api/board/**").permitAll()   // token 없이 통과 가능
-                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/api/member/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")    // 해당 api는 admin 권한만 가능
+                .requestMatchers("/api/member/**").hasAnyRole("ADMIN", "USER")  // 해당 api는 admin, user권한 가능
                 .anyRequest().authenticated()   // 나머지는 토큰이 있어야 함
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));   // JwtSecurityConfig에 적용시킴(Spring Security)
